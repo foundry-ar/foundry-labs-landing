@@ -2,6 +2,16 @@
 
 A premium editorial landing page for a senior engineering consultancy. Built with Next.js 14 and Tailwind CSS, designed to communicate excellence, judgment, and seniority through restrained, sophisticated design.
 
+**Available in English and Spanish** - SEO-optimized internationalization with clean routing.
+
+## Internationalization
+
+- **English (default)**: `/` - Main landing page
+- **Spanish**: `/es` - Spanish version for LATAM clients
+- **Language switcher**: Clean "EN / ES" toggle in header
+- **SEO**: Proper hreflang tags, canonical URLs, and localized metadata
+- **Dictionary-based**: All copy managed through `/messages/en.ts` and `/messages/es.ts`
+
 ## Design System
 
 ### Typography

@@ -46,6 +46,13 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  alternates: {
+    canonical: 'https://foundrylabs.com',
+    languages: {
+      'en-US': 'https://foundrylabs.com',
+      'es-AR': 'https://foundrylabs.com/es',
+    },
+  },
 }
 
 export default function RootLayout({
