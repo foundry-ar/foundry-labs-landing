@@ -48,7 +48,7 @@ export function LandingPage({ messages, locale }: { messages: Messages; locale: 
             <div className="flex items-center gap-6">
               <LanguageSwitcher currentLocale={locale} />
               <a
-                href="mailto:labsfoundry@gmail.com"
+                href="mailto:contact@foundry.ar"
                 className="text-sm text-gray-600 hover:text-ink transition-colors px-4 py-2 rounded-full hover:bg-gray-100/50"
               >
                 {messages.nav.contact}
@@ -80,7 +80,7 @@ export function LandingPage({ messages, locale }: { messages: Messages; locale: 
                   {messages.hero.ctaPrimary}
                 </a>
                 <a
-                  href="mailto:labsfoundry@gmail.com"
+                  href="mailto:contact@foundry.ar"
                   className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-gray-700 hover:text-ink hover:bg-gray-100/50 transition-colors rounded-lg"
                 >
                   {messages.hero.ctaSecondary}
@@ -560,13 +560,13 @@ export function LandingPage({ messages, locale }: { messages: Messages; locale: 
           
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
             <a
-              href="mailto:labsfoundry@gmail.com"
+              href="mailto:contact@foundry.ar"
               className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-paper bg-ink hover:bg-gray-800 transition-colors rounded-lg"
             >
               {messages.cta.ctaPrimary}
             </a>
             <a
-              href="mailto:labsfoundry@gmail.com"
+              href="mailto:contact@foundry.ar"
               className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-gray-700 hover:text-ink hover:bg-gray-100/50 transition-colors rounded-lg"
             >
               {messages.cta.ctaSecondary}
@@ -600,7 +600,7 @@ export function LandingPage({ messages, locale }: { messages: Messages; locale: 
             <div className="text-sm text-gray-500">
               <div className="mb-1">
                 <a
-                  href="mailto:labsfoundry@gmail.com"
+                  href="mailto:contact@foundry.ar"
                   className="text-ink hover:text-gray-600 transition-colors"
                 >
                   {messages.footer.email}
