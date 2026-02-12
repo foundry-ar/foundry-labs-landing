@@ -18,14 +18,14 @@ export default function Home() {
         {m.skipLink}
       </a>
       <DotGrid />
-      <NavBar locale="en" messages={m} />
+      <NavBar messages={m} />
       <main id="main">
         <HeroSection messages={m} />
         <LogoBar messages={m} />
         <ServicesSection messages={m} />
         <CTASection messages={m} />
       </main>
-      <Footer messages={m} />
+      <Footer locale="en" messages={m} />
     </div>
   )
 }

@@ -1,8 +1,6 @@
-import { LanguageSwitcher } from './LanguageSwitcher'
-import type { Locale } from '@/lib/i18n'
 import type { Messages } from '@/messages'
 
-export function NavBar({ locale, messages: m }: { locale: Locale; messages: Messages }) {
+export function NavBar({ messages: m }: { messages: Messages }) {
   return (
     <nav className="fixed top-6 left-0 right-0 z-50 flex justify-center w-full px-4">
       <div className="flex items-center justify-between w-full max-w-5xl px-6 py-3 bg-white/70 backdrop-blur-xl border border-white/40 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
@@ -17,7 +15,6 @@ export function NavBar({ locale, messages: m }: { locale: Locale; messages: Mess
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
           <a href="#services" className="hover:text-black focus-visible:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 rounded-sm transition-colors">{m.nav.services}</a>
           <a href="#contact" className="hover:text-black focus-visible:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 rounded-sm transition-colors">{m.nav.contact}</a>
-          <LanguageSwitcher locale={locale} />
         </div>
 
         <div>

@@ -1,6 +1,8 @@
+import { LanguageSwitcher } from './LanguageSwitcher'
+import type { Locale } from '@/lib/i18n'
 import type { Messages } from '@/messages'
 
-export function Footer({ messages: m }: { messages: Messages }) {
+export function Footer({ locale, messages: m }: { locale: Locale; messages: Messages }) {
   return (
     <footer className="bg-surface px-6 pt-16 pb-10 relative z-20">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-300/40 to-transparent" />
@@ -35,7 +37,11 @@ export function Footer({ messages: m }: { messages: Messages }) {
 
         <div className="pt-6 border-t border-gray-200/60 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-gray-400">
           <span>{m.footer.copyright}</span>
-          <span>{m.footer.location}</span>
+          <div className="flex items-center gap-3">
+            <span>{m.footer.location}</span>
+            <span className="text-gray-300">·</span>
+            <LanguageSwitcher locale={locale} />
+          </div>
         </div>
       </div>
     </footer>
