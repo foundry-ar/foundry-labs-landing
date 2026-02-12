@@ -18,6 +18,8 @@ module.exports = {
       animation: {
         shimmer: 'shimmer 5s linear infinite',
         'bounce-slow': 'bounce-slow 2s infinite',
+        'slide-up-in': 'slide-up-in 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'slide-up-out': 'slide-up-out 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
       keyframes: {
         shimmer: {
@@ -28,6 +30,14 @@ module.exports = {
           '0%, 20%, 50%, 80%, 100%': { transform: 'translateY(0)' },
           '40%': { transform: 'translateY(-5px)' },
           '60%': { transform: 'translateY(-3px)' },
+        },
+        'slide-up-in': {
+          '0%': { opacity: '0', transform: 'translateY(60%)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'slide-up-out': {
+          '0%': { opacity: '1', transform: 'translateY(0)' },
+          '100%': { opacity: '0', transform: 'translateY(-60%)' },
         },
       },
     },

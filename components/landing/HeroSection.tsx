@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Card3D } from './Card3D'
 import { GradientText } from './GradientText'
 
@@ -13,16 +13,28 @@ const ROTATING_WORDS = [
   'Your Next Product.',
 ]
 
+type Phase = 'idle' | 'exiting' | 'entering'
+
 export function HeroSection() {
   const cardsContainerRef = useRef<HTMLDivElement>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [phase, setPhase] = useState<Phase>('idle')
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % ROTATING_WORDS.length)
+      setPhase((p) => (p === 'idle' ? 'exiting' : p))
     }, 3000)
     return () => clearInterval(interval)
   }, [])
+
+  const handleAnimationEnd = useCallback(() => {
+    if (phase === 'exiting') {
+      setCurrentIndex((prev) => (prev + 1) % ROTATING_WORDS.length)
+      setPhase('entering')
+    } else if (phase === 'entering') {
+      setPhase('idle')
+    }
+  }, [phase])
 
   useEffect(() => {
     const el = cardsContainerRef.current
@@ -52,6 +64,13 @@ export function HeroSection() {
     }
   }, [])
 
+  const animationClass =
+    phase === 'exiting'
+      ? 'animate-slide-up-out'
+      : phase === 'entering'
+        ? 'animate-slide-up-in'
+        : ''
+
   return (
     <header className="relative w-full h-screen flex flex-col justify-center overflow-hidden">
       <div className="absolute top-1/2 left-1/2 w-full h-screen -translate-x-1/2 -translate-y-1/2 overflow-hidden z-0 pointer-events-none" style={{ perspective: '1000px' }}>
@@ -75,25 +94,22 @@ export function HeroSection() {
             Boutique AI &amp; Software Studio
           </p>
 
-          <h1 className="text-6xl md:text-8xl font-medium tracking-tight leading-[1.1] mb-12 text-balance">
+          <h1 className="text-6xl md:text-8xl font-medium tracking-tight leading-[1.1] mb-12">
             Forging <br />
-            <span className="relative block min-h-[2.6em]">
-              {ROTATING_WORDS.map((word, index) => (
-                <span
-                  key={word}
-                  className="absolute left-0 top-0 transition-opacity duration-500 ease-in-out"
-                  style={{ opacity: index === currentIndex ? 1 : 0 }}
-                >
-                  <GradientText className="font-serif italic font-normal">
-                    {word}
-                  </GradientText>
-                </span>
-              ))}
+            <span className="relative block min-h-[2.4em] overflow-hidden text-5xl md:text-7xl">
+              <span
+                className={`inline-block ${animationClass}`}
+                onAnimationEnd={handleAnimationEnd}
+              >
+                <GradientText className="font-serif italic font-normal">
+                  {ROTATING_WORDS[currentIndex]}
+                </GradientText>
+              </span>
             </span>
           </h1>
 
           <p className="text-gray-600 text-lg leading-relaxed font-light max-w-xl mb-8">
-            You know AI can transform your workflow — you just need the right people to make it happen. Two senior engineers who work directly with founders. No project managers. No bloat. Just the people doing the work.
+            Senior engineers who embed directly with founders to design, build, and ship AI-driven products.
           </p>
 
           <a

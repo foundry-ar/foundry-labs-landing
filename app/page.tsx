@@ -1,12 +1,10 @@
 import {
   NavBar,
   HeroSection,
-  PhilosophySection,
   ServicesSection,
   Footer,
   DotGrid,
   LogoBar,
-  ProblemSection,
   CTASection,
 } from '@/components/landing'
 
@@ -21,8 +19,6 @@ export default function Home() {
       <main id="main">
         <HeroSection />
         <LogoBar />
-        <ProblemSection />
-        <PhilosophySection />
         <ServicesSection />
         <CTASection />
       </main>

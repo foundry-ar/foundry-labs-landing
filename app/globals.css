@@ -24,4 +24,9 @@
   .animate-bounce-slow {
     animation: none !important;
   }
+
+  .animate-slide-up-in,
+  .animate-slide-up-out {
+    animation: none !important;
+  }
 }
