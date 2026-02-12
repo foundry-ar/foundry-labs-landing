@@ -12,6 +12,9 @@ export function LogoBar() {
   return (
     <section className="py-16 px-6 bg-surface relative z-20">
       <div className="max-w-6xl mx-auto">
+        <p className="text-center text-xs uppercase tracking-widest text-gray-400 mb-8">
+          Work performed by founders in previous roles
+        </p>
         <div className="flex flex-wrap justify-center items-center gap-12 md:gap-16">
           {logos.map((logo) => (
             <div

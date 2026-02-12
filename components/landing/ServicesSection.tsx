@@ -27,9 +27,15 @@ export function ServicesSection() {
   return (
     <section id="services" className="py-24 px-6 bg-surface relative z-20">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-end mb-16">
-          <h2 className="text-3xl font-medium tracking-tight">What we build</h2>
-          <span className="text-sm uppercase tracking-widest text-gray-400">Systems over services.</span>
+        {/* Decorative section label */}
+        <div className="flex items-center gap-4 mb-12">
+          <div className="h-px w-12 bg-gradient-to-r from-purple-300 to-pink-300" />
+          <span className="text-xs uppercase tracking-widest text-gray-400">Services</span>
+        </div>
+
+        <div className="flex flex-col md:flex-row justify-between md:items-end mb-16 gap-4">
+          <h2 className="text-3xl md:text-4xl font-medium tracking-tight">What we build</h2>
+          <span className="text-sm uppercase tracking-widest text-gray-500">Systems over services.</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

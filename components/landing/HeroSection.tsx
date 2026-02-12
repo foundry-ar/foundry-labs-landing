@@ -71,13 +71,13 @@ export function HeroSection() {
 
       <div className="relative z-10 container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center pointer-events-none">
         <div className="max-w-2xl mt-12 pointer-events-auto">
-          <p className="text-sm uppercase tracking-wide text-gray-400 mb-4">
+          <p className="text-sm uppercase tracking-wide text-gray-500 mb-4">
             Boutique AI &amp; Software Studio
           </p>
 
-          <h1 className="text-6xl md:text-8xl font-medium tracking-tight leading-[1.1] mb-8 text-balance">
+          <h1 className="text-6xl md:text-8xl font-medium tracking-tight leading-[1.1] mb-12 text-balance">
             Forging <br />
-            <span className="relative block min-h-[1.2em]">
+            <span className="relative block min-h-[2.6em]">
               {ROTATING_WORDS.map((word, index) => (
                 <span
                   key={word}
@@ -92,27 +92,21 @@ export function HeroSection() {
             </span>
           </h1>
 
-          <p className="text-gray-400 text-lg leading-relaxed font-light max-w-xl mb-8">
+          <p className="text-gray-600 text-lg leading-relaxed font-light max-w-xl mb-8">
             You know AI can transform your workflow — you just need the right people to make it happen. Two senior engineers who work directly with founders. No project managers. No bloat. Just the people doing the work.
           </p>
 
           <a
             href="mailto:contact@foundry.ar"
-            className="inline-block px-8 py-3 text-sm font-medium tracking-wide uppercase border border-gray-300 rounded-full text-white hover:bg-white hover:text-black transition-colors duration-300"
+            className="inline-block px-8 py-3 text-sm font-medium tracking-wide uppercase border border-gray-400 rounded-full text-gray-700 hover:bg-black hover:text-white hover:border-black transition-colors duration-300"
           >
             Book a Call
           </a>
         </div>
 
-        <div className="self-end max-w-sm text-right mt-12 md:mt-0 md:absolute md:bottom-32 md:right-10 pointer-events-auto">
-          <div className="mt-6 flex justify-end gap-4 items-center">
-            <span className="text-sm font-medium tracking-wide">Iago & Diego</span>
-            <div className="h-px w-12 bg-gray-300" />
-          </div>
-        </div>
       </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-xs tracking-widest uppercase text-gray-400 opacity-80 pointer-events-none">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-xs tracking-widest uppercase text-gray-500 opacity-80 pointer-events-none">
         Scroll Down
         <div className="mt-2 w-5 h-5 border border-gray-300 rounded-full flex items-center justify-center animate-bounce-slow">
           <svg aria-hidden="true" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor">
