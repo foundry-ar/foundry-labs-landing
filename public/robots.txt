@@ -2,3 +2,4 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://foundrylabs.com/sitemap.xml

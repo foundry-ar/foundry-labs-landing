@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
-import './globals.css'
+import '../globals.css'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default function EnglishLayout({
   children,
 }: {
   children: React.ReactNode
@@ -76,4 +76,3 @@ export default function RootLayout({
     </html>
   )
 }
-

@@ -3,22 +3,18 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Card3D } from './Card3D'
 import { GradientText } from './GradientText'
+import type { Messages } from '@/messages'
 
 const CARD_INDICES = Array.from({ length: 40 }, (_, i) => i)
 
-const ROTATING_WORDS = [
-  'Intelligence.',
-  'Smarter Workflows.',
-  'Digital Experiences.',
-  'Your Next Product.',
-]
-
 type Phase = 'idle' | 'exiting' | 'entering'
 
-export function HeroSection() {
+export function HeroSection({ messages: m }: { messages: Messages }) {
   const cardsContainerRef = useRef<HTMLDivElement>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [phase, setPhase] = useState<Phase>('idle')
+
+  const words = m.hero.rotatingWords
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,12 +25,12 @@ export function HeroSection() {
 
   const handleAnimationEnd = useCallback(() => {
     if (phase === 'exiting') {
-      setCurrentIndex((prev) => (prev + 1) % ROTATING_WORDS.length)
+      setCurrentIndex((prev) => (prev + 1) % words.length)
       setPhase('entering')
     } else if (phase === 'entering') {
       setPhase('idle')
     }
-  }, [phase])
+  }, [phase, words.length])
 
   useEffect(() => {
     const el = cardsContainerRef.current
@@ -91,39 +87,39 @@ export function HeroSection() {
       <div className="relative z-10 container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center pointer-events-none">
         <div className="max-w-2xl mt-12 pointer-events-auto">
           <p className="text-sm uppercase tracking-wide text-gray-500 mb-4">
-            Boutique AI &amp; Software Studio
+            {m.hero.tagline}
           </p>
 
           <h1 className="text-6xl md:text-8xl font-medium tracking-tight leading-[1.1] mb-12">
-            Forging <br />
+            {m.hero.headingPrefix} <br />
             <span className="relative block min-h-[2.4em] overflow-hidden text-5xl md:text-7xl">
               <span
                 className={`inline-block ${animationClass}`}
                 onAnimationEnd={handleAnimationEnd}
               >
                 <GradientText className="font-serif italic font-normal">
-                  {ROTATING_WORDS[currentIndex]}
+                  {words[currentIndex]}
                 </GradientText>
               </span>
             </span>
           </h1>
 
           <p className="text-gray-600 text-lg leading-relaxed font-light max-w-xl mb-8">
-            Senior engineers who embed directly with founders to design, build, and ship AI-driven products.
+            {m.hero.description}
           </p>
 
           <a
             href="mailto:contact@foundry.ar"
             className="inline-block px-8 py-3 text-sm font-medium tracking-wide uppercase border border-gray-400 rounded-full text-gray-700 hover:bg-black hover:text-white hover:border-black transition-colors duration-300"
           >
-            Book a Call
+            {m.hero.cta}
           </a>
         </div>
 
       </div>
 
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-xs tracking-widest uppercase text-gray-500 opacity-80 pointer-events-none">
-        Scroll Down
+        {m.hero.scroll}
         <div className="mt-2 w-5 h-5 border border-gray-300 rounded-full flex items-center justify-center animate-bounce-slow">
           <svg aria-hidden="true" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor">
             <path d="M1 1L5 5L9 1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
