@@ -1,13 +1,28 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Card3D } from './Card3D'
 import { GradientText } from './GradientText'
 
 const CARD_INDICES = Array.from({ length: 40 }, (_, i) => i)
 
+const ROTATING_WORDS = [
+  'Intelligence.',
+  'Smarter Workflows.',
+  'Digital Experiences.',
+  'Your Next Product.',
+]
+
 export function HeroSection() {
   const cardsContainerRef = useRef<HTMLDivElement>(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % ROTATING_WORDS.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [])
 
   useEffect(() => {
     const el = cardsContainerRef.current
@@ -56,18 +71,40 @@ export function HeroSection() {
 
       <div className="relative z-10 container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center pointer-events-none">
         <div className="max-w-2xl mt-12 pointer-events-auto">
+          <p className="text-sm uppercase tracking-wide text-gray-400 mb-4">
+            Boutique AI &amp; Software Studio
+          </p>
+
           <h1 className="text-6xl md:text-8xl font-medium tracking-tight leading-[1.1] mb-8 text-balance">
-            Architecting <br />
-            <GradientText className="font-serif italic font-normal">
-              Intelligence
-            </GradientText>
+            Forging <br />
+            <span className="relative block min-h-[1.2em]">
+              {ROTATING_WORDS.map((word, index) => (
+                <span
+                  key={word}
+                  className="absolute left-0 top-0 transition-opacity duration-500 ease-in-out"
+                  style={{ opacity: index === currentIndex ? 1 : 0 }}
+                >
+                  <GradientText className="font-serif italic font-normal">
+                    {word}
+                  </GradientText>
+                </span>
+              ))}
+            </span>
           </h1>
+
+          <p className="text-gray-400 text-lg leading-relaxed font-light max-w-xl mb-8">
+            You know AI can transform your workflow — you just need the right people to make it happen. Two senior engineers who work directly with founders. No project managers. No bloat. Just the people doing the work.
+          </p>
+
+          <a
+            href="mailto:contact@foundry.ar"
+            className="inline-block px-8 py-3 text-sm font-medium tracking-wide uppercase border border-gray-300 rounded-full text-white hover:bg-white hover:text-black transition-colors duration-300"
+          >
+            Book a Call
+          </a>
         </div>
 
         <div className="self-end max-w-sm text-right mt-12 md:mt-0 md:absolute md:bottom-32 md:right-10 pointer-events-auto">
-          <p className="text-gray-500 text-lg leading-relaxed font-light">
-            We build bespoke AI systems for companies that value craft over commodity. Speed without sacrifice.
-          </p>
           <div className="mt-6 flex justify-end gap-4 items-center">
             <span className="text-sm font-medium tracking-wide">Iago & Diego</span>
             <div className="h-px w-12 bg-gray-300" />

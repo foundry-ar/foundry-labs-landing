@@ -5,6 +5,9 @@ import {
   ServicesSection,
   Footer,
   DotGrid,
+  LogoBar,
+  ProblemSection,
+  CTASection,
 } from '@/components/landing'
 
 export default function Home() {
@@ -17,8 +20,11 @@ export default function Home() {
       <NavBar />
       <main id="main">
         <HeroSection />
+        <LogoBar />
+        <ProblemSection />
         <PhilosophySection />
         <ServicesSection />
+        <CTASection />
       </main>
       <Footer />
     </div>

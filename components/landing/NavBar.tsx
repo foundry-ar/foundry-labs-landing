@@ -13,15 +13,16 @@ export function NavBar() {
 
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
           <a href="#services" className="hover:text-black focus-visible:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 rounded-sm transition-colors">Services</a>
-          <a href="#philosophy" className="hover:text-black focus-visible:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 rounded-sm transition-colors">Philosophy</a>
+          <a href="#approach" className="hover:text-black focus-visible:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 rounded-sm transition-colors">Approach</a>
+          <a href="#contact" className="hover:text-black focus-visible:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 rounded-sm transition-colors">Contact</a>
         </div>
 
         <div>
           <a
-            href="#contact"
+            href="mailto:contact@foundry.ar"
             className="bg-black text-white px-6 py-2.5 rounded-full text-sm font-medium transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2"
           >
-            Book a Consult
+            Book a Call
           </a>
         </div>
       </div>
