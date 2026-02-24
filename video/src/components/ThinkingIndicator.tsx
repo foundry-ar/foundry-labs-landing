@@ -7,7 +7,8 @@ const DOT_INDICES = [0, 1, 2] as const;
 export const ThinkingIndicator: React.FC<{
   enterFrame?: number;
   exitFrame?: number;
-}> = ({ enterFrame = 0, exitFrame = Infinity }) => {
+  label?: string;
+}> = ({ enterFrame = 0, exitFrame = Infinity, label = 'Searching files and emails…' }) => {
   const frame = useCurrentFrame();
 
   const appear = spring({
@@ -59,7 +60,7 @@ export const ThinkingIndicator: React.FC<{
         ))}
       </div>
       <span style={{ fontSize: 13, color: COLORS.muted, fontWeight: 500 }}>
-        Searching files and emails…
+        {label}
       </span>
     </div>
   );
