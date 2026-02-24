@@ -1,5 +1,5 @@
 # dependencies
-/node_modules
+node_modules/
 /.pnp
 .pnp.js
 
@@ -9,6 +9,9 @@
 # next.js
 /.next/
 /out/
+
+# video renders
+video/out/
 
 # production
 /build
