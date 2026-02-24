@@ -35,16 +35,16 @@ export const SHADOWS = {
 } as const;
 
 export const FPS = 30;
-export const DURATION_SECONDS = 37;
+export const DURATION_SECONDS = 44;
 export const DURATION_FRAMES = FPS * DURATION_SECONDS;
 export const WIDTH = 1920;
 export const HEIGHT = 1080;
 
 export const SCENE_TIMINGS = {
-  scene1: { start: 0, duration: 5 * FPS },
-  scene2: { start: 5 * FPS, duration: 15 * FPS },
-  scene3: { start: 20 * FPS, duration: 7 * FPS },
-  scene4: { start: 27 * FPS, duration: 10 * FPS },
+  scene1: { start: 0, duration: 6 * FPS },
+  scene2: { start: 6 * FPS, duration: 20 * FPS },
+  scene3: { start: 26 * FPS, duration: 8 * FPS },
+  scene4: { start: 34 * FPS, duration: 10 * FPS },
 } as const;
 
 export const FONT = {

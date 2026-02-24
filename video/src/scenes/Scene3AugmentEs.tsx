@@ -10,12 +10,12 @@ import { TypingCursor, useTypingText } from '../components/TypingCursor';
 import { ThinkingIndicator } from '../components/ThinkingIndicator';
 
 const QUESTION = '¿Cuál es la configuración estándar de turbinas para la Línea 4500?';
-const CPS = 1.7;
+const CPS = 1.53;
 const THINKING_LABEL = 'Buscando archivos y emails…';
 
 export const Scene3AugmentEs: React.FC = () => {
   const frame = useCurrentFrame();
-  const totalFrames = 7 * FPS;
+  const totalFrames = 8 * FPS;
 
   const fadeIn = interpolate(frame, [0, 10], [0, 1], {
     extrapolateLeft: 'clamp',
@@ -35,7 +35,7 @@ export const Scene3AugmentEs: React.FC = () => {
   const { text, isTyping, isDone } = useTypingText(QUESTION, 20, CPS);
   const typingDoneFrame = Math.ceil(QUESTION.length / CPS) + 20;
   const thinkingStart = typingDoneFrame + 3;
-  const answerStart = thinkingStart + 45;
+  const answerStart = thinkingStart + 50;
   const showAnswer = frame >= answerStart;
 
   return (
@@ -87,7 +87,17 @@ export const Scene3AugmentEs: React.FC = () => {
         </div>
       </div>
 
-      <ChatShell enterFrame={6}>
+      <ChatShell
+        enterFrame={6}
+        sidebarLabel="Recientes"
+        inputPlaceholder="Preguntale a Foundry..."
+        sidebarItems={[
+          { title: 'Atlas Steel — Línea 4500' },
+          { title: 'Nordic Metals — revisión capacidad' },
+          { title: 'Config. turbinas Línea 4500', active: true },
+          { title: 'Estándares de soldadura' },
+        ]}
+      >
         <UserMessage>
           <span>{text}</span>
           {isTyping && <TypingCursor />}

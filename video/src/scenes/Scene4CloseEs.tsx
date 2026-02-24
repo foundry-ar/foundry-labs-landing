@@ -96,7 +96,7 @@ export const Scene4CloseEs: React.FC = () => {
             letterSpacing: '-0.025em',
           }}
         >
-          Conservá el oficio.
+          Sin perder la experiencia.
         </div>
 
         <div

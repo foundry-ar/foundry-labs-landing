@@ -13,28 +13,25 @@ const Q1 =
 const Q2 =
   'Show other projects where housing length changed due to capacity increases.';
 
-const TOTAL_SECONDS = 15;
+const TOTAL_SECONDS = 20;
 
-// Phase 1
 const Q1_TYPE_START = 6;
-const Q1_CPS = 2.55;
+const Q1_CPS = 2.30;
 const Q1_TYPE_END = Math.ceil(Q1.length / Q1_CPS) + Q1_TYPE_START;
 const Q1_THINK_START = Q1_TYPE_END + 3;
-const Q1_ANSWER_START = Q1_THINK_START + 45;
+const Q1_ANSWER_START = Q1_THINK_START + 50;
 
-// Email panel interaction
-const CHIP_HIGHLIGHT_START = Q1_ANSWER_START + 70;
+const CHIP_HIGHLIGHT_START = Q1_ANSWER_START + 107;
 const EMAIL_PANEL_IN = CHIP_HIGHLIGHT_START + 10;
-const EMAIL_PANEL_OUT = EMAIL_PANEL_IN + 75;
+const EMAIL_PANEL_OUT = EMAIL_PANEL_IN + 143;
 
-// Phase 2 — after email panel closes
-const SCROLL_START = EMAIL_PANEL_OUT + 15;
+const SCROLL_START = EMAIL_PANEL_OUT + 17;
 const SCROLL_END = SCROLL_START + 20;
 const Q2_TYPE_START = SCROLL_START + 5;
-const Q2_CPS = 2.97;
+const Q2_CPS = 2.67;
 const Q2_TYPE_END = Math.ceil(Q2.length / Q2_CPS) + Q2_TYPE_START;
 const Q2_THINK_START = Q2_TYPE_END + 3;
-const Q2_ANSWER_START = Q2_THINK_START + 45;
+const Q2_ANSWER_START = Q2_THINK_START + 50;
 
 const MOCK_EMAILS = [
   {

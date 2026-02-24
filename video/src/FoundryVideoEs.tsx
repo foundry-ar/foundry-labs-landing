@@ -14,19 +14,19 @@ export const FoundryVideoEs: React.FC = () => {
         fontFamily: FONT.sans,
       }}
     >
-      <Sequence from={0} durationInFrames={5 * FPS} name="El Problema">
+      <Sequence from={0} durationInFrames={6 * FPS} name="El Problema">
         <Scene1ProblemEs />
       </Sequence>
 
-      <Sequence from={5 * FPS} durationInFrames={15 * FPS} name="Conversación">
+      <Sequence from={6 * FPS} durationInFrames={20 * FPS} name="Conversación">
         <Scene2ConversationEs />
       </Sequence>
 
-      <Sequence from={20 * FPS} durationInFrames={7 * FPS} name="Potenciá, no reemplaces">
+      <Sequence from={26 * FPS} durationInFrames={8 * FPS} name="Potenciá, no reemplaces">
         <Scene3AugmentEs />
       </Sequence>
 
-      <Sequence from={27 * FPS} durationInFrames={10 * FPS} name="Cierre Foundry">
+      <Sequence from={34 * FPS} durationInFrames={10 * FPS} name="Cierre Foundry">
         <Scene4CloseEs />
       </Sequence>
     </AbsoluteFill>

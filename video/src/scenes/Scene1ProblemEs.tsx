@@ -81,13 +81,13 @@ const OrbitChip: React.FC<{
   const scale = spring({
     frame: frame - delay,
     fps: FPS,
-    config: { damping: 12, stiffness: 200, mass: 0.4 },
+    config: { damping: 14, stiffness: 140, mass: 0.5 },
   });
 
   const opacity = spring({
     frame: frame - delay,
     fps: FPS,
-    config: { damping: 30, stiffness: 120, mass: 0.5 },
+    config: { damping: 32, stiffness: 100, mass: 0.6 },
   });
 
   const angle = START_ANGLE + (index / total) * Math.PI * 2;
@@ -130,7 +130,7 @@ const ChipShell: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 export const Scene1ProblemEs: React.FC = () => {
   const frame = useCurrentFrame();
-  const totalFrames = 5 * FPS;
+  const totalFrames = 6 * FPS;
 
   const fadeOut = interpolate(frame, [totalFrames - 12, totalFrames], [1, 0], {
     extrapolateLeft: 'clamp',
@@ -142,7 +142,7 @@ export const Scene1ProblemEs: React.FC = () => {
       <DotGrid />
 
       {ITEMS.map((item, i) => (
-        <OrbitChip key={i} index={i} total={ITEMS.length} delay={i * 3}>
+        <OrbitChip key={i} index={i} total={ITEMS.length} delay={i * 4}>
           <ChipShell>
             {item.type === 'file' ? (
               <>
@@ -205,7 +205,7 @@ export const Scene1ProblemEs: React.FC = () => {
               letterSpacing: '0.025em',
             }}
           >
-            Carpetas. Emails. Conocimiento tribal.
+            Carpetas. Emails. Experiencia que se va con la gente.
           </div>
         </FadeIn>
       </div>

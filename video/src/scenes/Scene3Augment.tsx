@@ -10,11 +10,11 @@ import { TypingCursor, useTypingText } from '../components/TypingCursor';
 import { ThinkingIndicator } from '../components/ThinkingIndicator';
 
 const QUESTION = "What's the standard turbine configuration for Line 4500?";
-const CPS = 1.7;
+const CPS = 1.53;
 
 export const Scene3Augment: React.FC = () => {
   const frame = useCurrentFrame();
-  const totalFrames = 7 * FPS;
+  const totalFrames = 8 * FPS;
 
   const fadeIn = interpolate(frame, [0, 10], [0, 1], {
     extrapolateLeft: 'clamp',
@@ -34,7 +34,7 @@ export const Scene3Augment: React.FC = () => {
   const { text, isTyping, isDone } = useTypingText(QUESTION, 20, CPS);
   const typingDoneFrame = Math.ceil(QUESTION.length / CPS) + 20;
   const thinkingStart = typingDoneFrame + 3;
-  const answerStart = thinkingStart + 45;
+  const answerStart = thinkingStart + 50;
   const showAnswer = frame >= answerStart;
 
   return (
@@ -86,7 +86,15 @@ export const Scene3Augment: React.FC = () => {
         </div>
       </div>
 
-      <ChatShell enterFrame={6}>
+      <ChatShell
+        enterFrame={6}
+        sidebarItems={[
+          { title: 'Atlas Steel — Line 4500' },
+          { title: 'Nordic Metals capacity review' },
+          { title: 'Turbine config Line 4500', active: true },
+          { title: 'Weld procedure standards' },
+        ]}
+      >
         <UserMessage>
           <span>{text}</span>
           {isTyping && <TypingCursor />}

@@ -5,6 +5,10 @@
   "scripts": {
     "studio": "remotion studio",
     "render": "remotion render FoundryVideo out/foundry-video.mp4",
+    "render:es": "remotion render FoundryVideoEs out/foundry-video-es.mp4",
+    "render:all": "npm run render:hq && npm run render:es:hq",
+    "render:hq": "remotion render FoundryVideo out/foundry-video.mp4 --codec h264 --crf 16 --scale 1",
+    "render:es:hq": "remotion render FoundryVideoEs out/foundry-video-es.mp4 --codec h264 --crf 16 --scale 1",
     "build": "remotion render FoundryVideo out/foundry-video.mp4"
   },
   "dependencies": {
