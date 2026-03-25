@@ -36,6 +36,7 @@ export function CalendlyButton({ className, children, onClick }: CalendlyButtonP
     script.src = 'https://assets.calendly.com/assets/external/widget.js'
     script.async = true
     document.head.appendChild(script)
+
   }, [])
 
   const handleClick = () => {

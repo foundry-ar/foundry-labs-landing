@@ -7,10 +7,9 @@ export function GradientText({
 }) {
   return (
     <span
-      className={`animate-shimmer bg-clip-text text-transparent ${className}`}
+      className={`bg-clip-text text-transparent ${className}`}
       style={{
         backgroundImage: 'var(--gradient-brand)',
-        backgroundSize: '200% auto',
         WebkitTextFillColor: 'transparent',
       }}
     >

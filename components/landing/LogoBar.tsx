@@ -11,7 +11,7 @@ const logos = [
 
 export function LogoBar({ messages: m }: { messages: Messages }) {
   return (
-    <section className="py-16 px-6 bg-surface relative z-20">
+    <section className="py-20 px-6 bg-surface relative z-20">
       <div className="max-w-6xl mx-auto">
         <p className="text-center text-xs uppercase tracking-widest text-gray-400 mb-8">
           {m.logoBar.title}
@@ -27,7 +27,8 @@ export function LogoBar({ messages: m }: { messages: Messages }) {
                 alt={logo.alt}
                 width={logo.width}
                 height={logo.height}
-                className="object-contain"
+                loading="lazy"
+                className="object-contain max-h-10"
               />
             </div>
           ))}

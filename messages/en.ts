@@ -5,6 +5,8 @@ export interface Messages {
     services: string
     contact: string
     cta: string
+    menuOpen: string
+    menuClose: string
   }
   hero: {
     tagline: string
@@ -28,6 +30,7 @@ export interface Messages {
     heading: string
     description: string
     button: string
+    email: string
   }
   languageSwitcher: {
     switchToEs: string
@@ -51,6 +54,8 @@ export const en: Messages = {
     services: 'Services',
     contact: 'Contact',
     cta: 'Book a Call',
+    menuOpen: 'Open menu',
+    menuClose: 'Close menu',
   },
   hero: {
     tagline: 'Boutique AI & Software Studio',
@@ -102,6 +107,7 @@ export const en: Messages = {
     description:
       'Have a system that needs to be built properly, or a process ready for AI? We should talk.',
     button: 'Book a Call',
+    email: 'contact@foundry.ar',
   },
   languageSwitcher: {
     switchToEs: 'Cambiar a español',
@@ -113,7 +119,7 @@ export const en: Messages = {
     studioLabel: 'Studio',
     services: 'Services',
     contactLabel: 'Contact',
-    copyright: '\u00A9 Foundry Labs 2026',
+    copyright: `\u00A9 Foundry Labs ${new Date().getFullYear()}`,
     location: 'Based in Argentina \u00B7 Working globally',
   },
 }

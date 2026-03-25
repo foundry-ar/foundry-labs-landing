@@ -25,7 +25,7 @@
 
 @layer components {
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-600 focus-visible:ring-offset-2;
   }
 }
 
@@ -34,7 +34,7 @@
     animation: none !important;
   }
 
-  .animate-bounce-slow {
+  .animate-float {
     animation: none !important;
   }
 
