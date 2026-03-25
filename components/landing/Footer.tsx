@@ -25,22 +25,22 @@ export function Footer({ locale, messages: m }: { locale: Locale; messages: Mess
           <div className="flex gap-12 md:gap-16 text-sm text-gray-500">
             <div className="flex flex-col gap-2">
               <span className="font-semibold text-gray-700 mb-1">{m.footer.studioLabel}</span>
-              <a href="#services" className="hover:text-purple-600 focus-visible:text-purple-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 rounded-sm transition-colors">{m.footer.services}</a>
+              <a href="#services" className="hover:text-purple-600 focus-visible:text-purple-600 focus-ring rounded-sm transition-colors duration-300 ease-out">{m.footer.services}</a>
             </div>
 
             <div className="flex flex-col gap-2">
               <span className="font-semibold text-gray-700 mb-1">{m.footer.contactLabel}</span>
-              <a href="mailto:contact@foundry.ar" className="hover:text-purple-600 focus-visible:text-purple-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 rounded-sm transition-colors">contact@foundry.ar</a>
+              <a href="mailto:contact@foundry.ar" className="hover:text-purple-600 focus-visible:text-purple-600 focus-ring rounded-sm transition-colors duration-300 ease-out">contact@foundry.ar</a>
             </div>
           </div>
         </div>
 
-        <div className="pt-6 border-t border-gray-200/60 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-gray-400">
+        <div className="pt-6 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-gray-400">
           <span>{m.footer.copyright}</span>
           <div className="flex items-center gap-3">
             <span>{m.footer.location}</span>
             <span className="text-gray-300">·</span>
-            <LanguageSwitcher locale={locale} />
+            <LanguageSwitcher locale={locale} messages={m} />
           </div>
         </div>
       </div>

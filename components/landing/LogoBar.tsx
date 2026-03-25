@@ -20,7 +20,7 @@ export function LogoBar({ messages: m }: { messages: Messages }) {
           {logos.map((logo) => (
             <div
               key={logo.src}
-              className="grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+              className="grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 ease-out"
             >
               <Image
                 src={logo.src}

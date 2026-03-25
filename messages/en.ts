@@ -29,6 +29,10 @@ export interface Messages {
     description: string
     button: string
   }
+  languageSwitcher: {
+    switchToEs: string
+    switchToEn: string
+  }
   footer: {
     brand: string
     tagline: string
@@ -98,6 +102,10 @@ export const en: Messages = {
     description:
       'Have a system that needs to be built properly, or a process ready for AI? We should talk.',
     button: 'Book a Call',
+  },
+  languageSwitcher: {
+    switchToEs: 'Cambiar a español',
+    switchToEn: 'Switch to English',
   },
   footer: {
     brand: 'Foundry Labs',

@@ -6,7 +6,7 @@ import { GradientText } from './GradientText'
 import { CalendlyButton } from './CalendlyButton'
 import type { Messages } from '@/messages'
 
-const CARD_INDICES = Array.from({ length: 40 }, (_, i) => i)
+const CARD_INDICES = Array.from({ length: 24 }, (_, i) => i)
 
 type Phase = 'idle' | 'exiting' | 'entering'
 
@@ -37,8 +37,8 @@ export function HeroSection({ messages: m }: { messages: Messages }) {
     const el = cardsContainerRef.current
     if (!el) return
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    if (prefersReducedMotion.matches) return
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (mql.matches) return
 
     const handleScroll = () => {
       const scrollX = window.scrollY * 0.5
@@ -48,16 +48,19 @@ export function HeroSection({ messages: m }: { messages: Messages }) {
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     const onChange = () => {
-      if (prefersReducedMotion.matches) {
+      if (mql.matches) {
         window.removeEventListener('scroll', handleScroll)
         el.style.transform = 'translate(-50%, -50%) rotateZ(-30deg) rotateY(20deg) translateX(0px)'
+      } else {
+        window.addEventListener('scroll', handleScroll, { passive: true })
+        handleScroll()
       }
     }
-    prefersReducedMotion.addEventListener('change', onChange)
+    mql.addEventListener('change', onChange)
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
-      prefersReducedMotion.removeEventListener('change', onChange)
+      mql.removeEventListener('change', onChange)
     }
   }, [])
 
@@ -70,7 +73,7 @@ export function HeroSection({ messages: m }: { messages: Messages }) {
 
   return (
     <header className="relative w-full h-screen flex flex-col justify-center overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 w-full h-screen -translate-x-1/2 -translate-y-1/2 overflow-hidden z-0 pointer-events-none" style={{ perspective: '1000px' }}>
+      <div aria-hidden="true" className="absolute top-1/2 left-1/2 w-full h-screen -translate-x-1/2 -translate-y-1/2 overflow-hidden z-0 pointer-events-none" style={{ perspective: '1000px' }}>
         <div
           ref={cardsContainerRef}
           className="absolute top-1/2 left-1/2 w-[400vw] flex justify-center gap-5"
@@ -85,8 +88,8 @@ export function HeroSection({ messages: m }: { messages: Messages }) {
         </div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center pointer-events-none">
-        <div className="max-w-2xl mt-12 pointer-events-auto">
+      <div className="relative z-10 container mx-auto px-6 max-w-6xl h-full flex flex-col justify-center">
+        <div className="max-w-2xl mt-12">
           <p className="text-sm uppercase tracking-wide text-gray-500 mb-4">
             {m.hero.tagline}
           </p>
@@ -105,12 +108,12 @@ export function HeroSection({ messages: m }: { messages: Messages }) {
             </span>
           </h1>
 
-          <p className="text-gray-600 text-lg leading-relaxed font-light max-w-xl mb-8">
+          <p className="text-gray-500 text-lg leading-relaxed font-light max-w-xl mb-8">
             {m.hero.description}
           </p>
 
           <CalendlyButton
-            className="inline-block px-8 py-3 text-sm font-medium tracking-wide uppercase border border-gray-400 rounded-full text-gray-700 hover:bg-black hover:text-white hover:border-black transition-colors duration-300"
+            className="inline-block bg-black text-white px-8 py-3 text-sm font-medium tracking-wide uppercase rounded-full transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)] focus-ring"
           >
             {m.hero.cta}
           </CalendlyButton>
@@ -118,9 +121,9 @@ export function HeroSection({ messages: m }: { messages: Messages }) {
 
       </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-xs tracking-widest uppercase text-gray-500 opacity-80 pointer-events-none">
+      <div aria-hidden="true" className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-xs tracking-widest uppercase text-gray-500 opacity-80">
         {m.hero.scroll}
-        <div className="mt-2 w-5 h-5 border border-gray-300 rounded-full flex items-center justify-center animate-bounce-slow">
+        <div className="mt-2 w-5 h-5 border border-gray-200 rounded-full flex items-center justify-center animate-bounce-slow">
           <svg aria-hidden="true" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor">
             <path d="M1 1L5 5L9 1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

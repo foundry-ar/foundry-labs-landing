@@ -59,6 +59,10 @@ export const es: Messages = {
       '¿Tenés un sistema que necesita ser construido correctamente, o un proceso listo para IA? Hablemos.',
     button: 'Agendar Llamada',
   },
+  languageSwitcher: {
+    switchToEs: 'Cambiar a español',
+    switchToEn: 'Switch to English',
+  },
   footer: {
     brand: 'Foundry Labs',
     tagline: 'Ingeniería Senior y Diseño de Sistemas',
