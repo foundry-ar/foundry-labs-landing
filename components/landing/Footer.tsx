@@ -5,7 +5,7 @@ import type { Messages } from '@/messages'
 export function Footer({ locale, messages: m }: { locale: Locale; messages: Messages }) {
   return (
     <footer className="bg-surface px-6 pt-16 pb-10 relative z-20">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-300/40 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px" style={{ backgroundImage: 'linear-gradient(to right, transparent, rgba(212, 149, 106, 0.4), transparent)' }} />
 
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start gap-10 mb-12">

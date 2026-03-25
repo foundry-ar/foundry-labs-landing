@@ -12,7 +12,7 @@ module.exports = {
         serif: ['var(--font-playfair)', 'Georgia', 'serif'],
       },
       colors: {
-        surface: '#F5F7FA',
+        surface: '#FAFBFC',
         ink: '#111111',
       },
       animation: {

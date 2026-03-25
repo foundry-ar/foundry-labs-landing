@@ -36,7 +36,7 @@ export function CTASection({ messages: m }: { messages: Messages }) {
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
-          backgroundImage: 'radial-gradient(ellipse at 50% 100%, var(--color-brand-purple), transparent 70%)',
+          backgroundImage: 'radial-gradient(ellipse at 50% 100%, var(--color-brand-navy), transparent 70%)',
         }}
       />
 
