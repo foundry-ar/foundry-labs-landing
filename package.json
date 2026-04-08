@@ -5,25 +5,30 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:worker": "opennextjs-cloudflare build",
+    "preview": "wrangler dev",
+    "deploy": "wrangler deploy",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@posthog/react": "^1.8.0",
-    "next": "^14.0.4",
+    "next": "^15.3.1",
     "posthog-js": "^1.353.0",
     "posthog-node": "^5.25.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "uuidv7": "^1.1.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.18.0",
     "@types/node": "^20.10.6",
-    "@types/react": "^18.2.46",
-    "@types/react-dom": "^18.2.18",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.4.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "wrangler": "^4.81.0"
   }
 }
