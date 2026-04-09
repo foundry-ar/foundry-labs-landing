@@ -1,34 +1,56 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 interface ServiceCardProps {
   title: string
   description: string
+  index?: number
 }
 
-export function ServiceCard({ title, description }: ServiceCardProps) {
-  const [isHovered, setIsHovered] = useState(false)
+export function ServiceCard({ title, description, index = 0 }: ServiceCardProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReduced) {
+      setVisible(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true)
+          observer.unobserve(el)
+        }
+      },
+      { threshold: 0.15 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <div
-      className="relative block p-8 rounded-xl backdrop-blur-[10px] border no-underline transition-[transform,background-color,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] overflow-hidden"
+      ref={ref}
+      className="group relative block rounded-xl backdrop-blur-[10px] border border-white/80 no-underline transition-[transform,background-color,box-shadow,border-color,opacity] duration-300 ease-out overflow-hidden bg-white/60 hover:-translate-y-[5px] hover:bg-white/90 hover:shadow-[0_15px_30px_rgba(0,0,0,0.05)] hover:border-[#ddd] p-8"
       style={{
-        transform: isHovered ? 'translateY(-5px)' : 'translateY(0)',
-        background: isHovered ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.6)',
-        boxShadow: isHovered ? '0 15px 30px rgba(0, 0, 0, 0.05)' : 'none',
-        borderColor: isHovered ? '#ddd' : 'rgba(255, 255, 255, 0.8)',
+        opacity: visible ? 1 : 0,
+        transform: visible ? undefined : 'translateY(16px)',
+        transitionDelay: visible ? `${index * 100}ms` : '0ms',
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Gradient top accent on hover */}
       <div
-        className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-purple-400 via-purple-500 to-pink-400 transition-opacity duration-300"
-        style={{ opacity: isHovered ? 1 : 0 }}
+        className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"
+        style={{ backgroundImage: 'var(--gradient-accent)' }}
       />
-      <h4 className="text-xl font-semibold mb-2 text-ink">{title}</h4>
-      <p className="text-gray-500 text-sm leading-relaxed mt-4">{description}</p>
+      <h3 className="font-semibold mb-2 text-ink text-xl">{title}</h3>
+      <p className="text-gray-500 leading-relaxed mt-4 text-sm">{description}</p>
     </div>
   )
 }

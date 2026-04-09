@@ -5,6 +5,7 @@ import '../globals.css'
 import { PHProvider } from '../providers'
 import { PostHogPageView } from '../PostHogPageView'
 import { getBootstrapData } from '../utils/getBootstrapData'
+import { ConsoleGreeting } from '@/components/ConsoleGreeting'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -21,7 +22,7 @@ const playfair = Playfair_Display({
 })
 
 export const viewport: Viewport = {
-  themeColor: '#F5F7FA',
+  themeColor: '#FAFBFC',
 }
 
 export const metadata: Metadata = {
@@ -81,6 +82,7 @@ export default async function SpanishLayout({
           <Suspense>
             <PostHogPageView />
           </Suspense>
+          <ConsoleGreeting />
           {children}
         </PHProvider>
       </body>

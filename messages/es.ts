@@ -7,6 +7,8 @@ export const es: Messages = {
     services: 'Servicios',
     contact: 'Contacto',
     cta: 'Agendar Llamada',
+    menuOpen: 'Abrir menú',
+    menuClose: 'Cerrar menú',
   },
   hero: {
     tagline: 'Estudio Boutique de IA y Software',
@@ -58,6 +60,11 @@ export const es: Messages = {
     description:
       '¿Tenés un sistema que necesita ser construido correctamente, o un proceso listo para IA? Hablemos.',
     button: 'Agendar Llamada',
+    email: 'contact@foundry.ar',
+  },
+  languageSwitcher: {
+    switchToEs: 'Cambiar a español',
+    switchToEn: 'Switch to English',
   },
   footer: {
     brand: 'Foundry Labs',
@@ -65,7 +72,7 @@ export const es: Messages = {
     studioLabel: 'Estudio',
     services: 'Servicios',
     contactLabel: 'Contacto',
-    copyright: '\u00A9 Foundry Labs 2026',
+    copyright: `\u00A9 Foundry Labs ${new Date().getFullYear()}`,
     location: 'Con base en Argentina \u00B7 Trabajando globalmente',
   },
 }

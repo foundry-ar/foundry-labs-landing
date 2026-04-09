@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-brand-navy: #1B3A5C;
+    --gradient-brand: linear-gradient(90deg, #3D6A96 0%, #1B3A5C 50%, #B8632E 100%);
+    --gradient-accent: linear-gradient(to right, #D4956A, #B8632E, #0F2440);
+    --gradient-accent-subtle: linear-gradient(to right, #D4DDE8, #D4956A, #E8D8C8);
+  }
+
   html {
     @apply scroll-smooth;
   }
@@ -12,7 +19,15 @@
   }
 
   ::selection {
-    @apply bg-purple-200 text-purple-900;
+    background-color: #E8D8C8;
+    color: #0F2440;
+  }
+}
+
+@layer components {
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    --tw-ring-color: #1B3A5C;
   }
 }
 
@@ -21,7 +36,7 @@
     animation: none !important;
   }
 
-  .animate-bounce-slow {
+  .animate-float {
     animation: none !important;
   }
 

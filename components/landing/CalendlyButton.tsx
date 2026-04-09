@@ -13,6 +13,8 @@ declare global {
 const CALENDLY_URL =
   'https://calendly.com/contact-foundry/30min?hide_event_type_details=1&hide_gdpr_banner=1&background_color=f5f7fa&text_color=111111&primary_color=111111'
 
+const CALENDLY_FALLBACK_URL = 'https://calendly.com/contact-foundry/30min'
+
 interface CalendlyButtonProps {
   className?: string
   children: React.ReactNode
@@ -34,11 +36,16 @@ export function CalendlyButton({ className, children, onClick }: CalendlyButtonP
     script.src = 'https://assets.calendly.com/assets/external/widget.js'
     script.async = true
     document.head.appendChild(script)
+
   }, [])
 
   const handleClick = () => {
     onClick?.()
-    window.Calendly?.initPopupWidget({ url: CALENDLY_URL })
+    if (window.Calendly) {
+      window.Calendly.initPopupWidget({ url: CALENDLY_URL })
+    } else {
+      window.open(CALENDLY_FALLBACK_URL, '_blank', 'noopener,noreferrer')
+    }
   }
 
   return (
