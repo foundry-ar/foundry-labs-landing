@@ -1,7 +1,12 @@
 import { ServiceCard } from './ServiceCard'
 import type { Messages } from '@/messages'
 
-export function ServicesSection({ messages: m }: { messages: Messages }) {
+interface Props {
+  messages: Messages
+  locale?: 'en' | 'es'
+}
+
+export function ServicesSection({ messages: m, locale = 'es' }: Props) {
   return (
     <section id="services" aria-labelledby="services-heading" className="py-32 px-6 bg-surface relative z-20">
       <div className="max-w-6xl mx-auto">
@@ -16,9 +21,21 @@ export function ServicesSection({ messages: m }: { messages: Messages }) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {m.services.cards.map((service, i) => (
-            <ServiceCard key={service.title} title={service.title} description={service.description} index={i} />
-          ))}
+          {m.services.cards.map((service, i) => {
+            const href = locale === 'es'
+              ? `/servicios/${service.slug}`
+              : `/en/services/${service.slug}`
+            return (
+              <ServiceCard
+                key={service.title}
+                title={service.title}
+                description={service.description}
+                slug={service.slug}
+                href={href}
+                index={i}
+              />
+            )
+          })}
         </div>
       </div>
     </section>

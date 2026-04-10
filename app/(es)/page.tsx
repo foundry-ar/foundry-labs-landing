@@ -25,7 +25,7 @@ export default function SpanishHome() {
         <HeroSection messages={m} />
         <LogoBar messages={m} />
         <AudienceSection messages={m} />
-        <ServicesSection messages={m} />
+        <ServicesSection messages={m} locale="es" />
         <ProcessSection messages={m} />
         <CTASection messages={m} />
       </main>

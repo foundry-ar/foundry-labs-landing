@@ -25,7 +25,7 @@ export default function Home() {
         <HeroSection messages={m} />
         <LogoBar messages={m} />
         <AudienceSection messages={m} />
-        <ServicesSection messages={m} />
+        <ServicesSection messages={m} locale="en" />
         <ProcessSection messages={m} />
         <CTASection messages={m} />
       </main>

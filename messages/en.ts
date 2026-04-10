@@ -29,7 +29,18 @@ export interface Messages {
     label: string
     heading: string
     tagline: string
-    cards: readonly { title: string; description: string }[]
+    cards: readonly { title: string; description: string; slug: string }[]
+  }
+  serviceOverviews: {
+    backLabel: string
+    items: readonly {
+      slug: string
+      heading: string
+      subtitle: string
+      problem: { heading: string; description: string }
+      solution: { heading: string; description: string }
+      deliverable: { heading: string; description: string }
+    }[]
   }
   process: {
     label: string
@@ -103,18 +114,77 @@ export const en: Messages = {
     cards: [
       {
         title: 'AI Agents for WhatsApp',
+        slug: 'whatsapp-agents',
         description:
           'We automate your WhatsApp conversations with artificial intelligence. Support, sales, internal communication — the agent understands, responds, and acts without human intervention.',
       },
       {
         title: 'Systems Engineering',
+        slug: 'systems-engineering',
         description:
           'We analyze how your company operates and build the systems you need to grow without depending on key people. Every solution is designed to last, scale, and be delegated from day one.',
       },
       {
         title: 'Enterprise AI',
+        slug: 'enterprise-ai',
         description:
           'We power artificial intelligence with your company\'s knowledge. The result is an internal knowledge base that answers with your business context, not generic information.',
+      },
+    ],
+  },
+  serviceOverviews: {
+    backLabel: '\u2190 Back to services',
+    items: [
+      {
+        slug: 'whatsapp-agents',
+        heading: 'AI Agents for WhatsApp',
+        subtitle: 'Your business, always available. AI that understands, responds, and resolves \u2014 24/7 on WhatsApp.',
+        problem: {
+          heading: 'The problem',
+          description: 'Your team spends hours answering the same questions on WhatsApp. Customers wait, conversations get lost, and there\u2019s no traceability of what was said or promised.',
+        },
+        solution: {
+          heading: 'What we build',
+          description: 'An AI agent connected to your systems that answers on WhatsApp with real data: order status, prices, availability, support. It understands context, handles follow-ups, and knows when to escalate to a human.',
+        },
+        deliverable: {
+          heading: 'What you get',
+          description: 'A WhatsApp channel that operates autonomously. Fewer tickets, faster response times, and a complete log of every interaction for your team to review.',
+        },
+      },
+      {
+        slug: 'systems-engineering',
+        heading: 'Systems Engineering',
+        subtitle: 'We turn fragile, people-dependent processes into systems that scale and can be delegated.',
+        problem: {
+          heading: 'The problem',
+          description: 'Critical processes run on spreadsheets, verbal agreements, and key people. When someone leaves or gets sick, the operation breaks.',
+        },
+        solution: {
+          heading: 'What we build',
+          description: 'Custom software that digitizes and automates your core workflows. From quoting to production to delivery \u2014 every step is traceable, measurable, and operable by anyone on your team.',
+        },
+        deliverable: {
+          heading: 'What you get',
+          description: 'A system that runs your operation independently of specific individuals. Documented, tested, and ready for your team to own from day one.',
+        },
+      },
+      {
+        slug: 'enterprise-ai',
+        heading: 'Enterprise AI',
+        subtitle: 'Artificial intelligence powered by your company\u2019s knowledge \u2014 not generic information.',
+        problem: {
+          heading: 'The problem',
+          description: 'Your company\u2019s knowledge lives scattered across documents, emails, and people\u2019s heads. Finding the right answer takes hours and depends on who you ask.',
+        },
+        solution: {
+          heading: 'What we build',
+          description: 'An internal AI assistant trained on your company\u2019s documents, policies, and history. It answers questions with your business context and cites its sources.',
+        },
+        deliverable: {
+          heading: 'What you get',
+          description: 'A knowledge base that any team member can query in natural language. Faster onboarding, consistent answers, and institutional knowledge that doesn\u2019t walk out the door.',
+        },
       },
     ],
   },

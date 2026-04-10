@@ -23,6 +23,6 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "video"]
+  "exclude": ["node_modules", "video/remotion.config.ts", "video/src/Root.tsx", "video/src/index.ts", "video/src/FoundryVideo.tsx", "video/src/FoundryVideoEs.tsx", "video/src/scenes"]
 }
 
