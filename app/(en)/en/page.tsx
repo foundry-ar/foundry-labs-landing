@@ -1,7 +1,6 @@
 import {
   NavBar,
   HeroSection,
-  AudienceSection,
   ServicesSection,
   ProcessSection,
   Footer,
@@ -24,7 +23,6 @@ export default function Home() {
       <main id="main">
         <HeroSection messages={m} />
         <LogoBar messages={m} />
-        <AudienceSection messages={m} />
         <ServicesSection messages={m} locale="en" />
         <ProcessSection messages={m} />
         <CTASection messages={m} />

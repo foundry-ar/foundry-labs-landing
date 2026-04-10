@@ -5,25 +5,27 @@ import { useCallback, useEffect, useState } from 'react'
 import type { ComponentType } from 'react'
 
 const compositions: Record<string, () => Promise<{ default: ComponentType }>> = {
+  // EN slugs → EN videos
   'whatsapp-agents': () =>
-    import('@/video/src/services/WhatsAppAgentVideo').then((m) => ({
-      default: m.WhatsAppAgentVideo as ComponentType,
+    import('@/video/src/services/WhatsAppAgentVideoEn').then((m) => ({
+      default: m.WhatsAppAgentVideoEn as ComponentType,
     })),
+  'systems-engineering': () =>
+    import('@/video/src/services/SystemsEngineeringVideoEn').then((m) => ({
+      default: m.SystemsEngineeringVideoEn as ComponentType,
+    })),
+  'enterprise-ai': () =>
+    import('@/video/src/services/EnterpriseAIVideoEn').then((m) => ({
+      default: m.EnterpriseAIVideoEn as ComponentType,
+    })),
+  // ES slugs → ES videos
   'agentes-whatsapp': () =>
     import('@/video/src/services/WhatsAppAgentVideo').then((m) => ({
       default: m.WhatsAppAgentVideo as ComponentType,
     })),
-  'systems-engineering': () =>
-    import('@/video/src/services/SystemsEngineeringVideo').then((m) => ({
-      default: m.SystemsEngineeringVideo as ComponentType,
-    })),
   'ingenieria-de-sistemas': () =>
     import('@/video/src/services/SystemsEngineeringVideo').then((m) => ({
       default: m.SystemsEngineeringVideo as ComponentType,
-    })),
-  'enterprise-ai': () =>
-    import('@/video/src/services/EnterpriseAIVideo').then((m) => ({
-      default: m.EnterpriseAIVideo as ComponentType,
     })),
   'ia-empresarial': () =>
     import('@/video/src/services/EnterpriseAIVideo').then((m) => ({
