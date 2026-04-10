@@ -1,9 +1,10 @@
 import React from 'react';
-import { AbsoluteFill, Sequence, spring, useCurrentFrame, interpolate } from 'remotion';
+import { AbsoluteFill, Sequence, spring, useCurrentFrame } from 'remotion';
 import { COLORS, FONT, FPS, SHADOWS } from '../theme';
 import { DotGrid } from '../components/DotGrid';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
+import { FoundryClose } from './FoundryClose';
 
 /* ── Before/After flow visualization ── */
 
@@ -150,140 +151,154 @@ const PhaseLabel: React.FC<{
 };
 
 /* ── Composition ── */
+// Content ends ~310, hold tagline 60 frames, close at 370 for 120 frames = 490 total (~16.3s)
+const CLOSE_START = 370;
+const CLOSE_DURATION = 120;
+
+export const SYSTEMS_DURATION = CLOSE_START + CLOSE_DURATION; // 490
 
 export const SystemsEngineeringVideo: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
       <DotGrid opacity={0.08} />
 
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 100,
-          padding: '0 100px',
-        }}
-      >
-        {/* ── Left column: BEFORE ── */}
-        <div style={{ width: 440, flexShrink: 0 }}>
-          <Sequence from={5} layout="none">
-            <PhaseLabel label="Antes" variant="before" enterFrame={0} />
-          </Sequence>
+      <Sequence from={0} durationInFrames={CLOSE_START} layout="none">
+        <AbsoluteFill>
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 100,
+              padding: '0 100px',
+            }}
+          >
+            {/* ── Left column: BEFORE ── */}
+            <div style={{ width: 440, flexShrink: 0 }}>
+              <Sequence from={8} layout="none">
+                <PhaseLabel label="Antes" variant="before" enterFrame={0} />
+              </Sequence>
 
-          <Sequence from={15} layout="none">
-            <ProcessCard
-              title="Cotización"
-              items={['Excel compartido por email', 'El gerente aprueba por WhatsApp', '3-5 días para cerrar']}
-              status={{ label: 'Manual', color: '#dc2626', bg: 'rgba(220,38,38,0.08)' }}
-              enterFrame={0}
-            />
-          </Sequence>
+              <Sequence from={22} layout="none">
+                <ProcessCard
+                  title="Cotización"
+                  items={['Excel compartido por email', 'El gerente aprueba por WhatsApp', '3-5 días para cerrar']}
+                  status={{ label: 'Manual', color: '#dc2626', bg: 'rgba(220,38,38,0.08)' }}
+                  enterFrame={0}
+                />
+              </Sequence>
 
-          <Sequence from={30} layout="none">
-            <ArrowDown enterFrame={0} />
-          </Sequence>
+              <Sequence from={45} layout="none">
+                <ArrowDown enterFrame={0} />
+              </Sequence>
 
-          <Sequence from={35} layout="none">
-            <ProcessCard
-              title="Producción"
-              items={['Orden verbal al piso', 'Sin trazabilidad de materiales', 'Depende de 1 persona']}
-              status={{ label: 'Frágil', color: '#d97706', bg: 'rgba(217,119,6,0.08)' }}
-              enterFrame={0}
-            />
-          </Sequence>
+              <Sequence from={52} layout="none">
+                <ProcessCard
+                  title="Producción"
+                  items={['Orden verbal al piso', 'Sin trazabilidad de materiales', 'Depende de 1 persona']}
+                  status={{ label: 'Frágil', color: '#d97706', bg: 'rgba(217,119,6,0.08)' }}
+                  enterFrame={0}
+                />
+              </Sequence>
 
-          <Sequence from={50} layout="none">
-            <ArrowDown enterFrame={0} />
-          </Sequence>
+              <Sequence from={75} layout="none">
+                <ArrowDown enterFrame={0} />
+              </Sequence>
 
-          <Sequence from={55} layout="none">
-            <ProcessCard
-              title="Entrega"
-              items={['Sin seguimiento post-venta', 'Reclamos por teléfono', 'Sin datos para mejorar']}
-              status={{ label: 'Opaco', color: '#dc2626', bg: 'rgba(220,38,38,0.08)' }}
-              enterFrame={0}
-            />
-          </Sequence>
-        </div>
+              <Sequence from={82} layout="none">
+                <ProcessCard
+                  title="Entrega"
+                  items={['Sin seguimiento post-venta', 'Reclamos por teléfono', 'Sin datos para mejorar']}
+                  status={{ label: 'Opaco', color: '#dc2626', bg: 'rgba(220,38,38,0.08)' }}
+                  enterFrame={0}
+                />
+              </Sequence>
+            </div>
 
-        {/* ── Right column: AFTER ── */}
-        <div style={{ width: 440, flexShrink: 0 }}>
-          <Sequence from={100} layout="none">
-            <PhaseLabel label="Después" variant="after" enterFrame={0} />
-          </Sequence>
+            {/* ── Right column: AFTER ── */}
+            <div style={{ width: 440, flexShrink: 0 }}>
+              <Sequence from={140} layout="none">
+                <PhaseLabel label="Después" variant="after" enterFrame={0} />
+              </Sequence>
 
-          <Sequence from={110} layout="none">
-            <ProcessCard
-              title="Cotización"
-              items={[
-                'Formulario web → cotización automática',
-                'Aprobación digital con firma',
-                'Cerrado en horas, no días',
-              ]}
-              status={{ label: 'Automático', color: COLORS.accent, bg: COLORS.accentMuted }}
-              enterFrame={0}
-              highlight
-            />
-          </Sequence>
+              <Sequence from={155} layout="none">
+                <ProcessCard
+                  title="Cotización"
+                  items={[
+                    'Formulario web → cotización automática',
+                    'Aprobación digital con firma',
+                    'Cerrado en horas, no días',
+                  ]}
+                  status={{ label: 'Automático', color: COLORS.accent, bg: COLORS.accentMuted }}
+                  enterFrame={0}
+                  highlight
+                />
+              </Sequence>
 
-          <Sequence from={125} layout="none">
-            <ArrowDown enterFrame={0} />
-          </Sequence>
+              <Sequence from={178} layout="none">
+                <ArrowDown enterFrame={0} />
+              </Sequence>
 
-          <Sequence from={130} layout="none">
-            <ProcessCard
-              title="Producción"
-              items={[
-                'Orden generada al sistema',
-                'Trazabilidad completa de materiales',
-                'Cualquiera del equipo puede operar',
-              ]}
-              status={{ label: 'Delegable', color: COLORS.accent, bg: COLORS.accentMuted }}
-              enterFrame={0}
-              highlight
-            />
-          </Sequence>
+              <Sequence from={185} layout="none">
+                <ProcessCard
+                  title="Producción"
+                  items={[
+                    'Orden generada al sistema',
+                    'Trazabilidad completa de materiales',
+                    'Cualquiera del equipo puede operar',
+                  ]}
+                  status={{ label: 'Delegable', color: COLORS.accent, bg: COLORS.accentMuted }}
+                  enterFrame={0}
+                  highlight
+                />
+              </Sequence>
 
-          <Sequence from={145} layout="none">
-            <ArrowDown enterFrame={0} />
-          </Sequence>
+              <Sequence from={208} layout="none">
+                <ArrowDown enterFrame={0} />
+              </Sequence>
 
-          <Sequence from={150} layout="none">
-            <ProcessCard
-              title="Entrega"
-              items={[
-                'Tracking automático al cliente',
-                'Encuesta post-entrega',
-                'Dashboard de métricas en tiempo real',
-              ]}
-              status={{ label: 'Medible', color: COLORS.accent, bg: COLORS.accentMuted }}
-              enterFrame={0}
-              highlight
-            />
-          </Sequence>
+              <Sequence from={215} layout="none">
+                <ProcessCard
+                  title="Entrega"
+                  items={[
+                    'Tracking automático al cliente',
+                    'Encuesta post-entrega',
+                    'Dashboard de métricas en tiempo real',
+                  ]}
+                  status={{ label: 'Medible', color: COLORS.accent, bg: COLORS.accentMuted }}
+                  enterFrame={0}
+                  highlight
+                />
+              </Sequence>
 
-          <Sequence from={220} layout="none">
-            <FadeIn enterFrame={0}>
-              <div
-                style={{
-                  marginTop: 20,
-                  padding: '16px 20px',
-                  borderRadius: 12,
-                  background: 'rgba(118, 75, 162, 0.06)',
-                  border: `1px solid rgba(118, 75, 162, 0.15)`,
-                }}
-              >
-                <GradientText fontSize={20} fontWeight={600}>
-                  Tu empresa opera sin depender de vos.
-                </GradientText>
-              </div>
-            </FadeIn>
-          </Sequence>
-        </div>
-      </div>
+              <Sequence from={290} layout="none">
+                <FadeIn enterFrame={0}>
+                  <div
+                    style={{
+                      marginTop: 20,
+                      padding: '16px 20px',
+                      borderRadius: 12,
+                      background: 'rgba(118, 75, 162, 0.06)',
+                      border: `1px solid rgba(118, 75, 162, 0.15)`,
+                    }}
+                  >
+                    <GradientText fontSize={20} fontWeight={600}>
+                      Tu empresa opera sin depender de vos.
+                    </GradientText>
+                  </div>
+                </FadeIn>
+              </Sequence>
+            </div>
+          </div>
+        </AbsoluteFill>
+      </Sequence>
+
+      {/* Foundry close */}
+      <Sequence from={CLOSE_START} durationInFrames={CLOSE_DURATION}>
+        <FoundryClose />
+      </Sequence>
     </AbsoluteFill>
   );
 };

@@ -2,9 +2,9 @@ import React from 'react';
 import { Composition } from 'remotion';
 import { FoundryVideo } from './FoundryVideo';
 import { FoundryVideoEs } from './FoundryVideoEs';
-import { WhatsAppAgentVideo } from './services/WhatsAppAgentVideo';
-import { SystemsEngineeringVideo } from './services/SystemsEngineeringVideo';
-import { EnterpriseAIVideo } from './services/EnterpriseAIVideo';
+import { WhatsAppAgentVideo, WHATSAPP_DURATION } from './services/WhatsAppAgentVideo';
+import { SystemsEngineeringVideo, SYSTEMS_DURATION } from './services/SystemsEngineeringVideo';
+import { EnterpriseAIVideo, ENTERPRISE_DURATION } from './services/EnterpriseAIVideo';
 import { FPS, DURATION_FRAMES, WIDTH, HEIGHT } from './theme';
 
 const SERVICE_FPS = 30;
@@ -33,7 +33,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="WhatsAppAgent"
         component={WhatsAppAgentVideo}
-        durationInFrames={10 * SERVICE_FPS}
+        durationInFrames={WHATSAPP_DURATION}
         fps={SERVICE_FPS}
         width={SERVICE_W}
         height={SERVICE_H}
@@ -41,7 +41,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="SystemsEngineering"
         component={SystemsEngineeringVideo}
-        durationInFrames={9 * SERVICE_FPS}
+        durationInFrames={SYSTEMS_DURATION}
         fps={SERVICE_FPS}
         width={SERVICE_W}
         height={SERVICE_H}
@@ -49,7 +49,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="EnterpriseAI"
         component={EnterpriseAIVideo}
-        durationInFrames={9 * SERVICE_FPS}
+        durationInFrames={ENTERPRISE_DURATION}
         fps={SERVICE_FPS}
         width={SERVICE_W}
         height={SERVICE_H}

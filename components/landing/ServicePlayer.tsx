@@ -32,12 +32,12 @@ const compositions: Record<string, () => Promise<{ default: ComponentType }>> = 
 }
 
 const durations: Record<string, number> = {
-  'whatsapp-agents': 10 * 30,
-  'agentes-whatsapp': 10 * 30,
-  'systems-engineering': 9 * 30,
-  'ingenieria-de-sistemas': 9 * 30,
-  'enterprise-ai': 9 * 30,
-  'ia-empresarial': 9 * 30,
+  'whatsapp-agents': 560,
+  'agentes-whatsapp': 560,
+  'systems-engineering': 490,
+  'ingenieria-de-sistemas': 490,
+  'enterprise-ai': 490,
+  'ia-empresarial': 490,
 }
 
 export function ServicePlayer({ slug }: { slug: string }) {

@@ -4,6 +4,7 @@ import { COLORS, FONT, FPS, SHADOWS } from '../theme';
 import { DotGrid } from '../components/DotGrid';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
+import { FoundryClose } from './FoundryClose';
 
 /* ── WhatsApp-style chat simulation ── */
 
@@ -202,143 +203,6 @@ const PhoneFrame: React.FC<{ children: React.ReactNode; enterFrame?: number }> =
   );
 };
 
-/* ── Main composition ── */
-
-export const WhatsAppAgentVideo: React.FC = () => {
-  return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
-      <DotGrid opacity={0.08} />
-
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 80,
-          padding: '0 80px',
-        }}
-      >
-        {/* Left: phone */}
-        <PhoneFrame enterFrame={0}>
-          <Sequence from={10} layout="none">
-            <WaMessage
-              from="customer"
-              text="Hola, compré una notebook ayer y no me llegó el código de seguimiento"
-              time="10:23"
-              enterFrame={0}
-            />
-          </Sequence>
-
-          <Sequence from={40} layout="none">
-            <TypingBubble enterFrame={0} exitFrame={35} />
-          </Sequence>
-
-          <Sequence from={75} layout="none">
-            <WaMessage
-              from="agent"
-              text="¡Hola! Encontré tu pedido #4821. Tu notebook ya fue despachada. El código de seguimiento es AR-29481-TX. 📦"
-              time="10:23"
-              enterFrame={0}
-            />
-          </Sequence>
-
-          <Sequence from={140} layout="none">
-            <WaMessage
-              from="customer"
-              text="¿Cuándo llega?"
-              time="10:24"
-              enterFrame={0}
-            />
-          </Sequence>
-
-          <Sequence from={165} layout="none">
-            <TypingBubble enterFrame={0} exitFrame={30} />
-          </Sequence>
-
-          <Sequence from={195} layout="none">
-            <WaMessage
-              from="agent"
-              text="Según el tracking, la entrega estimada es el jueves 12 entre las 9 y 14 hs. ¿Necesitás algo más?"
-              time="10:24"
-              enterFrame={0}
-            />
-          </Sequence>
-        </PhoneFrame>
-
-        {/* Right: context panel */}
-        <div style={{ maxWidth: 520 }}>
-          <Sequence from={75} layout="none">
-            <FadeIn enterFrame={0}>
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  color: COLORS.muted,
-                  textTransform: 'uppercase',
-                  letterSpacing: 1.5,
-                  marginBottom: 16,
-                }}
-              >
-                Lo que hace el agente
-              </div>
-            </FadeIn>
-          </Sequence>
-
-          <Sequence from={85} layout="none">
-            <FadeIn enterFrame={0} delay={0}>
-              <AgentStep
-                number="01"
-                label="Identifica al cliente"
-                detail="Cruza el número de WhatsApp con la base de datos de pedidos"
-              />
-            </FadeIn>
-          </Sequence>
-
-          <Sequence from={95} layout="none">
-            <FadeIn enterFrame={0} delay={0}>
-              <AgentStep
-                number="02"
-                label="Busca la información"
-                detail="Consulta el sistema de despacho y obtiene el tracking en tiempo real"
-              />
-            </FadeIn>
-          </Sequence>
-
-          <Sequence from={195} layout="none">
-            <FadeIn enterFrame={0} delay={0}>
-              <AgentStep
-                number="03"
-                label="Resuelve sin escalar"
-                detail="Responde con datos precisos — sin intervención humana"
-              />
-            </FadeIn>
-          </Sequence>
-
-          <Sequence from={260} layout="none">
-            <FadeIn enterFrame={0}>
-              <div
-                style={{
-                  marginTop: 28,
-                  padding: '16px 20px',
-                  borderRadius: 12,
-                  background: 'rgba(118, 75, 162, 0.06)',
-                  border: `1px solid rgba(118, 75, 162, 0.15)`,
-                }}
-              >
-                <GradientText fontSize={20} fontWeight={600}>
-                  Soporte 24/7, sin equipo extra.
-                </GradientText>
-              </div>
-            </FadeIn>
-          </Sequence>
-        </div>
-      </div>
-    </AbsoluteFill>
-  );
-};
-
 const AgentStep: React.FC<{ number: string; label: string; detail: string }> = ({
   number,
   label,
@@ -364,3 +228,154 @@ const AgentStep: React.FC<{ number: string; label: string; detail: string }> = (
     </div>
   </div>
 );
+
+/* ── Main composition ── */
+// Content ends ~380, hold tagline 60 frames, close at 440 for 120 frames = 560 total (~18.7s)
+const CLOSE_START = 440;
+const CLOSE_DURATION = 120;
+
+export const WHATSAPP_DURATION = CLOSE_START + CLOSE_DURATION; // 560
+
+export const WhatsAppAgentVideo: React.FC = () => {
+  return (
+    <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
+      <DotGrid opacity={0.08} />
+
+      <Sequence from={0} durationInFrames={CLOSE_START} layout="none">
+        <AbsoluteFill>
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 80,
+              padding: '0 80px',
+            }}
+          >
+            {/* Left: phone */}
+            <PhoneFrame enterFrame={0}>
+              <Sequence from={15} layout="none">
+                <WaMessage
+                  from="customer"
+                  text="Hola, compré una notebook ayer y no me llegó el código de seguimiento"
+                  time="10:23"
+                  enterFrame={0}
+                />
+              </Sequence>
+
+              <Sequence from={60} layout="none">
+                <TypingBubble enterFrame={0} exitFrame={50} />
+              </Sequence>
+
+              <Sequence from={110} layout="none">
+                <WaMessage
+                  from="agent"
+                  text="¡Hola! Encontré tu pedido #4821. Tu notebook ya fue despachada. El código de seguimiento es AR-29481-TX. 📦"
+                  time="10:23"
+                  enterFrame={0}
+                />
+              </Sequence>
+
+              <Sequence from={195} layout="none">
+                <WaMessage
+                  from="customer"
+                  text="¿Cuándo llega?"
+                  time="10:24"
+                  enterFrame={0}
+                />
+              </Sequence>
+
+              <Sequence from={230} layout="none">
+                <TypingBubble enterFrame={0} exitFrame={40} />
+              </Sequence>
+
+              <Sequence from={270} layout="none">
+                <WaMessage
+                  from="agent"
+                  text="Según el tracking, la entrega estimada es el jueves 12 entre las 9 y 14 hs. ¿Necesitás algo más?"
+                  time="10:24"
+                  enterFrame={0}
+                />
+              </Sequence>
+            </PhoneFrame>
+
+            {/* Right: context panel */}
+            <div style={{ maxWidth: 520 }}>
+              <Sequence from={110} layout="none">
+                <FadeIn enterFrame={0}>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: COLORS.muted,
+                      textTransform: 'uppercase',
+                      letterSpacing: 1.5,
+                      marginBottom: 16,
+                    }}
+                  >
+                    Lo que hace el agente
+                  </div>
+                </FadeIn>
+              </Sequence>
+
+              <Sequence from={125} layout="none">
+                <FadeIn enterFrame={0}>
+                  <AgentStep
+                    number="01"
+                    label="Identifica al cliente"
+                    detail="Cruza el número de WhatsApp con la base de datos de pedidos"
+                  />
+                </FadeIn>
+              </Sequence>
+
+              <Sequence from={140} layout="none">
+                <FadeIn enterFrame={0}>
+                  <AgentStep
+                    number="02"
+                    label="Busca la información"
+                    detail="Consulta el sistema de despacho y obtiene el tracking en tiempo real"
+                  />
+                </FadeIn>
+              </Sequence>
+
+              <Sequence from={270} layout="none">
+                <FadeIn enterFrame={0}>
+                  <AgentStep
+                    number="03"
+                    label="Resuelve sin escalar"
+                    detail="Responde con datos precisos — sin intervención humana"
+                  />
+                </FadeIn>
+              </Sequence>
+
+              <Sequence from={340} layout="none">
+                <FadeIn enterFrame={0}>
+                  <div
+                    style={{
+                      marginTop: 28,
+                      padding: '16px 20px',
+                      borderRadius: 12,
+                      background: 'rgba(118, 75, 162, 0.06)',
+                      border: `1px solid rgba(118, 75, 162, 0.15)`,
+                    }}
+                  >
+                    <GradientText fontSize={20} fontWeight={600}>
+                      Soporte 24/7, sin equipo extra.
+                    </GradientText>
+                  </div>
+                </FadeIn>
+              </Sequence>
+            </div>
+          </div>
+        </AbsoluteFill>
+      </Sequence>
+
+      {/* Foundry close */}
+      <Sequence from={CLOSE_START} durationInFrames={CLOSE_DURATION}>
+        <FoundryClose />
+      </Sequence>
+    </AbsoluteFill>
+  );
+};
