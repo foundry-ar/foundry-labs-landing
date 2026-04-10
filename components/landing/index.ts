@@ -1,6 +1,8 @@
 export { NavBar } from './NavBar'
 export { HeroSection } from './HeroSection'
+export { AudienceSection } from './AudienceSection'
 export { ServicesSection } from './ServicesSection'
+export { ProcessSection } from './ProcessSection'
 export { Footer } from './Footer'
 export { DotGrid } from './DotGrid'
 export { GradientText } from './GradientText'

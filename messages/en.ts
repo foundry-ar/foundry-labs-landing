@@ -19,11 +19,22 @@ export interface Messages {
   logoBar: {
     title: string
   }
+  audience: {
+    label: string
+    heading: string
+    subtitle: string
+    items: readonly string[]
+  }
   services: {
     label: string
     heading: string
     tagline: string
     cards: readonly { title: string; description: string }[]
+  }
+  process: {
+    label: string
+    heading: string
+    steps: readonly { title: string; description: string }[]
   }
   cta: {
     label: string
@@ -67,18 +78,34 @@ export const en: Messages = {
       'Your Next Product.',
     ],
     description:
-      'We turn complex processes into concrete solutions. Software and artificial intelligence for companies that can\'t afford to fall behind.',
+      'Systems, not services. We turn complex processes into concrete solutions for companies that can\'t afford to fall behind.',
     cta: 'Book a Call',
     scroll: 'Scroll Down',
   },
   logoBar: {
     title: 'Previously at',
   },
+  audience: {
+    label: 'Who we work with',
+    heading: 'Who do we work with?',
+    subtitle: 'We don\u2019t work with everyone. We work well with companies that:',
+    items: [
+      'Have between 50 and 500 employees and operate in Latin America',
+      'Have critical processes that depend on key people or fragile systems',
+      'Want to incorporate artificial intelligence without replacing their team',
+      'Need concrete results, not endless diagnostics or roadmaps',
+    ],
+  },
   services: {
     label: 'Services',
     heading: 'What we build',
     tagline: 'Systems over services.',
     cards: [
+      {
+        title: 'AI Agents for WhatsApp',
+        description:
+          'We automate your WhatsApp conversations with artificial intelligence. Support, sales, internal communication — the agent understands, responds, and acts without human intervention.',
+      },
       {
         title: 'Systems Engineering',
         description:
@@ -89,10 +116,23 @@ export const en: Messages = {
         description:
           'We power artificial intelligence with your company\'s knowledge. The result is an internal knowledge base that answers with your business context, not generic information.',
       },
+    ],
+  },
+  process: {
+    label: 'Process',
+    heading: 'How we work',
+    steps: [
       {
-        title: 'AI Agents for WhatsApp',
-        description:
-          'We automate your WhatsApp conversations with artificial intelligence. Support, sales, internal communication — the agent understands, responds, and acts without human intervention.',
+        title: 'Diagnosis',
+        description: 'We sit down with you, understand how your company operates, and map the real problem.',
+      },
+      {
+        title: 'Build',
+        description: 'We design and build the solution. No bureaucracy, no middlemen, focused on delivering.',
+      },
+      {
+        title: 'Handoff',
+        description: 'We leave the system running, documented, and in your team\u2019s hands. You can operate without depending on us.',
       },
     ],
   },

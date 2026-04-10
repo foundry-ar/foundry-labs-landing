@@ -1,7 +1,9 @@
 import {
   NavBar,
   HeroSection,
+  AudienceSection,
   ServicesSection,
+  ProcessSection,
   Footer,
   DotGrid,
   LogoBar,
@@ -22,7 +24,9 @@ export default function SpanishHome() {
       <main id="main">
         <HeroSection messages={m} />
         <LogoBar messages={m} />
+        <AudienceSection messages={m} />
         <ServicesSection messages={m} />
+        <ProcessSection messages={m} />
         <CTASection messages={m} />
       </main>
       <Footer locale="es" messages={m} />

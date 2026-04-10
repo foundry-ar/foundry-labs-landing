@@ -20,18 +20,34 @@ export const es: Messages = {
       'Tu Próximo Producto.',
     ],
     description:
-      'Transformamos procesos complejos en soluciones concretas. Software e inteligencia artificial para empresas que no pueden permitirse quedarse atrás.',
+      'Sistemas, no servicios. Transformamos procesos complejos en soluciones concretas para empresas que no pueden permitirse quedarse atrás.',
     cta: 'Agendar Llamada',
     scroll: 'Desplazar',
   },
   logoBar: {
     title: 'Anteriormente en',
   },
+  audience: {
+    label: '¿Para quién?',
+    heading: '¿Para quién trabajamos?',
+    subtitle: 'No trabajamos con todos. Trabajamos bien con empresas que:',
+    items: [
+      'Tienen entre 50 y 500 empleados y operan en Latinoamérica',
+      'Tienen procesos críticos que dependen de personas clave o sistemas frágiles',
+      'Quieren incorporar inteligencia artificial sin reemplazar a su equipo',
+      'Necesitan resultados concretos, no diagnósticos ni roadmaps interminables',
+    ],
+  },
   services: {
     label: 'Servicios',
     heading: 'Lo que construimos',
     tagline: 'Sistemas, no servicios.',
     cards: [
+      {
+        title: 'Agentes IA para WhatsApp',
+        description:
+          'Automatizamos tus conversaciones de WhatsApp con inteligencia artificial. Soporte, ventas, comunicación interna — el agente entiende, responde y actúa sin intervención humana.',
+      },
       {
         title: 'Ingeniería de Sistemas',
         description:
@@ -42,10 +58,23 @@ export const es: Messages = {
         description:
           'Potenciamos la inteligencia artificial con el conocimiento de tu empresa. El resultado es una fuente de consulta interna que responde con el contexto de tu negocio, no con información genérica.',
       },
+    ],
+  },
+  process: {
+    label: 'Proceso',
+    heading: 'Cómo trabajamos',
+    steps: [
       {
-        title: 'Agentes IA para WhatsApp',
-        description:
-          'Automatizamos tus conversaciones de WhatsApp con inteligencia artificial. Soporte, ventas, comunicación interna — el agente entiende, responde y actúa sin intervención humana.',
+        title: 'Diagnóstico',
+        description: 'Nos sentamos con vos, entendemos cómo opera tu empresa y mapeamos el problema real.',
+      },
+      {
+        title: 'Construcción',
+        description: 'Diseñamos y construimos la solución. Sin burocracia, sin intermediarios, con foco en entregar.',
+      },
+      {
+        title: 'Entrega',
+        description: 'Dejamos el sistema funcionando, documentado y en manos de tu equipo. Podés operar sin depender de nosotros.',
       },
     ],
   },
