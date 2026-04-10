@@ -67,7 +67,7 @@ export const en: Messages = {
       'Your Next Product.',
     ],
     description:
-      'Senior engineers who embed directly with founders to design, build, and ship AI-driven products.',
+      'We turn complex processes into concrete solutions. Software and artificial intelligence for companies that can\'t afford to fall behind.',
     cta: 'Book a Call',
     scroll: 'Scroll Down',
   },
@@ -80,24 +80,19 @@ export const en: Messages = {
     tagline: 'Systems over services.',
     cards: [
       {
-        title: 'AI Integration',
+        title: 'Systems Engineering',
         description:
-          'Modernize your existing tools and workflows with AI that actually fits. We augment your team — not replace them.',
+          'We analyze how your company operates and build the systems you need to grow without depending on key people. Every solution is designed to last, scale, and be delegated from day one.',
       },
       {
-        title: 'Web & Landing Pages',
+        title: 'Enterprise AI',
         description:
-          'High-performance, conversion-focused web experiences. Design, motion, and code — all in-house.',
+          'We power artificial intelligence with your company\'s knowledge. The result is an internal knowledge base that answers with your business context, not generic information.',
       },
       {
-        title: 'Software Architecture',
+        title: 'AI Agents for WhatsApp',
         description:
-          'Scalable, maintainable systems for companies that need to build right the first time. From MVPs to production infrastructure.',
-      },
-      {
-        title: 'Workflow Automation',
-        description:
-          'Automate the grunt work. We connect your tools, kill the repetitive tasks, and free your team to do real work.',
+          'We automate your WhatsApp conversations with artificial intelligence. Support, sales, internal communication — the agent understands, responds, and acts without human intervention.',
       },
     ],
   },
@@ -105,7 +100,7 @@ export const en: Messages = {
     label: 'Get in touch',
     heading: 'Let\u2019s talk.',
     description:
-      'Have a system that needs to be built properly, or a process ready for AI? We should talk.',
+      'If your company has critical processes that deserve better technology, it\'s time to talk.',
     button: 'Book a Call',
     email: 'contact@foundry.ar',
   },

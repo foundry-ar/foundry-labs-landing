@@ -20,7 +20,7 @@ export const es: Messages = {
       'Tu Próximo Producto.',
     ],
     description:
-      'Ingenieros senior que se integran directamente con founders para diseñar, construir y lanzar productos impulsados por IA.',
+      'Transformamos procesos complejos en soluciones concretas. Software e inteligencia artificial para empresas que no pueden permitirse quedarse atrás.',
     cta: 'Agendar Llamada',
     scroll: 'Desplazar',
   },
@@ -33,24 +33,19 @@ export const es: Messages = {
     tagline: 'Sistemas, no servicios.',
     cards: [
       {
-        title: 'Integración de IA',
+        title: 'Ingeniería de Sistemas',
         description:
-          'Modernizá tus herramientas y flujos de trabajo con IA que realmente encaja. Potenciamos tu equipo — no lo reemplazamos.',
+          'Analizamos cómo opera tu empresa y construimos los sistemas que necesitás para crecer sin depender de personas clave. Cada solución se diseña para durar, escalar y poder delegarse desde el primer día.',
       },
       {
-        title: 'Web & Landing Pages',
+        title: 'IA Empresarial',
         description:
-          'Experiencias web de alto rendimiento enfocadas en conversión. Diseño, motion y código — todo in-house.',
+          'Potenciamos la inteligencia artificial con el conocimiento de tu empresa. El resultado es una fuente de consulta interna que responde con el contexto de tu negocio, no con información genérica.',
       },
       {
-        title: 'Arquitectura de Software',
+        title: 'Agentes IA para WhatsApp',
         description:
-          'Sistemas escalables y mantenibles para empresas que necesitan construir bien desde el inicio. Desde MVPs hasta infraestructura productiva.',
-      },
-      {
-        title: 'Automatización de Procesos',
-        description:
-          'Automatizá el trabajo repetitivo. Conectamos tus herramientas, eliminamos tareas manuales y liberamos a tu equipo para hacer trabajo real.',
+          'Automatizamos tus conversaciones de WhatsApp con inteligencia artificial. Soporte, ventas, comunicación interna — el agente entiende, responde y actúa sin intervención humana.',
       },
     ],
   },
@@ -58,7 +53,7 @@ export const es: Messages = {
     label: 'Contacto',
     heading: 'Hablemos.',
     description:
-      '¿Tenés un sistema que necesita ser construido correctamente, o un proceso listo para IA? Hablemos.',
+      'Si tu empresa tiene procesos críticos que merecen mejor tecnología, es el momento de hablar.',
     button: 'Agendar Llamada',
     email: 'contact@foundry.ar',
   },

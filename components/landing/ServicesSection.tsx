@@ -15,7 +15,7 @@ export function ServicesSection({ messages: m }: { messages: Messages }) {
           <span className="text-sm uppercase tracking-widest text-gray-500">{m.services.tagline}</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {m.services.cards.map((service, i) => (
             <ServiceCard key={service.title} title={service.title} description={service.description} index={i} />
           ))}
