@@ -160,7 +160,7 @@ export function HeroSection({ messages: m }: { messages: Messages }) {
             </span>
           </div>
 
-          <p className="text-gray-500 text-lg leading-relaxed font-light max-w-xl mb-8">
+          <p className="text-gray-600 text-lg leading-relaxed font-normal max-w-xl mb-8">
             {m.hero.description}
           </p>
 

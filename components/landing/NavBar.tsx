@@ -131,9 +131,20 @@ export function NavBar({ messages: m }: { messages: Messages }) {
       <div
         ref={menuRef}
         id="mobile-menu"
-        className={`md:hidden fixed inset-0 top-0 z-40 flex flex-col items-center justify-center gap-8 bg-white/90 backdrop-blur-xl transition-opacity duration-300 ease-out ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`md:hidden fixed inset-0 top-0 z-40 flex flex-col items-center justify-center gap-8 bg-white/90 backdrop-blur-xl transition-opacity duration-300 ease-out overscroll-none touch-none ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         aria-hidden={!menuOpen}
       >
+        <button
+          type="button"
+          className="absolute top-8 right-6 flex items-center justify-center w-11 h-11 rounded-full text-gray-700 hover:text-black focus-ring transition-colors"
+          aria-label={m.nav.menuClose}
+          onClick={closeMenu}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="6" y1="6" x2="18" y2="18" />
+            <line x1="6" y1="18" x2="18" y2="6" />
+          </svg>
+        </button>
         <a
           href="#services"
           className="text-2xl font-medium text-gray-800 hover:text-black transition-colors"
