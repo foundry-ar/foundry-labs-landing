@@ -87,7 +87,7 @@ export function NavBar({ messages: m, locale = 'es' }: { messages: Messages; loc
           <a href="#services" className="hover:text-black focus-visible:text-black focus-ring rounded-sm transition-colors duration-300 ease-out">{m.nav.services}</a>
           <a href="#contact" className="hover:text-black focus-visible:text-black focus-ring rounded-sm transition-colors duration-300 ease-out">{m.nav.contact}</a>
           <a
-            href={locale === 'es' ? '/en' : '/'}
+            href={locale === 'es' ? '/en' : '/?lang=es'}
             hrefLang={locale === 'es' ? 'en' : 'es'}
             className="hover:text-black focus-visible:text-black focus-ring rounded-sm transition-colors duration-300 ease-out uppercase"
             aria-label={locale === 'es' ? m.languageSwitcher.switchToEn : m.languageSwitcher.switchToEs}
@@ -178,7 +178,7 @@ export function NavBar({ messages: m, locale = 'es' }: { messages: Messages; loc
           {m.nav.cta}
         </CalendlyButton>
         <a
-          href={locale === 'es' ? '/en' : '/'}
+          href={locale === 'es' ? '/en' : '/?lang=es'}
           hrefLang={locale === 'es' ? 'en' : 'es'}
           className="text-lg text-gray-500 hover:text-black transition-colors uppercase tracking-widest"
           aria-label={locale === 'es' ? m.languageSwitcher.switchToEn : m.languageSwitcher.switchToEs}
