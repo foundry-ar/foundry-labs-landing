@@ -42,7 +42,7 @@ export function ServiceOverview({ slug, locale, messages: m }: Props) {
         </div>
 
         {/* Video */}
-        <div className="mb-20">
+        <div className="mb-10 md:mb-20">
           <ServicePlayer slug={slug} />
         </div>
 
@@ -51,8 +51,12 @@ export function ServiceOverview({ slug, locale, messages: m }: Props) {
           {sections.map((section, i) => (
             <div
               key={section.heading}
-              className="rounded-xl backdrop-blur-[10px] border border-white/80 bg-white/60 p-8"
+              className="group relative rounded-xl backdrop-blur-[10px] border border-gray-200/80 bg-white/80 p-8 overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
             >
+              <div
+                className="absolute top-0 left-0 right-0 h-[2px]"
+                style={{ backgroundImage: 'var(--gradient-accent)' }}
+              />
               <span className="text-xs uppercase tracking-widest text-gray-400 mb-4 block">
                 {String(i + 1).padStart(2, '0')}
               </span>

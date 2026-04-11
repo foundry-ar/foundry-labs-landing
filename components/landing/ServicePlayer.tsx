@@ -4,8 +4,7 @@ import { Player, type PlayerRef } from '@remotion/player'
 import { useEffect, useRef, useState } from 'react'
 import type { ComponentType } from 'react'
 
-const compositions: Record<string, () => Promise<{ default: ComponentType }>> = {
-  // EN slugs → EN videos
+const desktopCompositions: Record<string, () => Promise<{ default: ComponentType }>> = {
   'whatsapp-agents': () =>
     import('@/video/src/services/WhatsAppAgentVideoEn').then((m) => ({
       default: m.WhatsAppAgentVideoEn as ComponentType,
@@ -18,7 +17,6 @@ const compositions: Record<string, () => Promise<{ default: ComponentType }>> = 
     import('@/video/src/services/EnterpriseAIVideoEn').then((m) => ({
       default: m.EnterpriseAIVideoEn as ComponentType,
     })),
-  // ES slugs → ES videos
   'agentes-whatsapp': () =>
     import('@/video/src/services/WhatsAppAgentVideo').then((m) => ({
       default: m.WhatsAppAgentVideo as ComponentType,
@@ -33,6 +31,33 @@ const compositions: Record<string, () => Promise<{ default: ComponentType }>> = 
     })),
 }
 
+const mobileCompositions: Record<string, () => Promise<{ default: ComponentType }>> = {
+  'whatsapp-agents': () =>
+    import('@/video/src/services/WhatsAppAgentVideoMobileEn').then((m) => ({
+      default: m.WhatsAppAgentVideoMobileEn as ComponentType,
+    })),
+  'agentes-whatsapp': () =>
+    import('@/video/src/services/WhatsAppAgentVideoMobile').then((m) => ({
+      default: m.WhatsAppAgentVideoMobile as ComponentType,
+    })),
+  'systems-engineering': () =>
+    import('@/video/src/services/SystemsEngineeringVideoMobileEn').then((m) => ({
+      default: m.SystemsEngineeringVideoMobileEn as ComponentType,
+    })),
+  'ingenieria-de-sistemas': () =>
+    import('@/video/src/services/SystemsEngineeringVideoMobile').then((m) => ({
+      default: m.SystemsEngineeringVideoMobile as ComponentType,
+    })),
+  'enterprise-ai': () =>
+    import('@/video/src/services/EnterpriseAIVideoMobileEn').then((m) => ({
+      default: m.EnterpriseAIVideoMobileEn as ComponentType,
+    })),
+  'ia-empresarial': () =>
+    import('@/video/src/services/EnterpriseAIVideoMobile').then((m) => ({
+      default: m.EnterpriseAIVideoMobile as ComponentType,
+    })),
+}
+
 const durations: Record<string, number> = {
   'whatsapp-agents': 440,
   'agentes-whatsapp': 440,
@@ -42,21 +67,38 @@ const durations: Record<string, number> = {
   'ia-empresarial': 370,
 }
 
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false)
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 767px)')
+    setMobile(mql.matches)
+    const onChange = () => setMobile(mql.matches)
+    mql.addEventListener('change', onChange)
+    return () => mql.removeEventListener('change', onChange)
+  }, [])
+  return mobile
+}
+
 export function ServicePlayer({ slug }: { slug: string }) {
   const [Component, setComponent] = useState<ComponentType | null>(null)
   const playerRef = useRef<PlayerRef>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
 
-  const loader = compositions[slug]
   const durationInFrames = durations[slug] ?? 370
+  const isEnterpriseAI = slug === 'enterprise-ai' || slug === 'ia-empresarial'
+
+  const compositionWidth = isMobile ? 1080 : 1920
+  const compositionHeight = isMobile ? 1920 : 1080
 
   useEffect(() => {
+    const mobileLoader = isMobile ? mobileCompositions[slug] : undefined
+    const loader = mobileLoader || desktopCompositions[slug]
     if (!loader) return
     loader().then((m) => setComponent(() => m.default))
-  }, [loader])
+  }, [slug, isMobile])
 
   // Play when visible, respecting prefers-reduced-motion
-  // When done, pause on last frame so it stays visible forever
   useEffect(() => {
     const container = containerRef.current
     const player = playerRef.current
@@ -71,7 +113,6 @@ export function ServicePlayer({ slug }: { slug: string }) {
       return
     }
 
-    // Pause on last frame when animation ends
     let ended = false
     const onEnded = () => {
       if (ended) return
@@ -99,17 +140,20 @@ export function ServicePlayer({ slug }: { slug: string }) {
 
   if (!Component) {
     return (
-      <div className="w-full aspect-video rounded-xl bg-white/60 backdrop-blur-[10px] border border-white/80 animate-pulse" />
+      <div className={`w-full rounded-xl bg-white/60 backdrop-blur-[10px] border border-white/80 animate-pulse ${isMobile ? 'aspect-[3/5] mx-auto' : 'aspect-video'}`} />
     )
   }
 
   return (
-    <div ref={containerRef} className="w-full aspect-video rounded-xl overflow-hidden">
+    <div
+      ref={containerRef}
+      className={`w-full rounded-xl overflow-hidden ${isMobile ? `aspect-[3/5] mx-auto ${isEnterpriseAI ? '' : '-mb-[15%]'}` : 'aspect-video'}`}
+    >
       <Player
         ref={playerRef}
         component={Component}
-        compositionWidth={1920}
-        compositionHeight={1080}
+        compositionWidth={compositionWidth}
+        compositionHeight={compositionHeight}
         durationInFrames={durationInFrames}
         fps={30}
         style={{ width: '100%', height: '100%' }}
