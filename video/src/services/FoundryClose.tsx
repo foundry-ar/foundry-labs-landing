@@ -14,7 +14,7 @@ export const FoundryClose: React.FC = () => {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
-  const brandY = interpolate(frame, [10, 30], [20, 0], {
+  const brandY = interpolate(frame, [10, 30], [8, 0], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
@@ -23,7 +23,7 @@ export const FoundryClose: React.FC = () => {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
-  const taglineY = interpolate(frame, [35, 55], [24, 0], {
+  const taglineY = interpolate(frame, [35, 55], [8, 0], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });

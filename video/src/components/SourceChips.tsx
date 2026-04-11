@@ -30,14 +30,14 @@ export const SourceChip: React.FC<{
         borderRadius: 20,
         padding: '7px 14px',
         opacity: progress,
-        transform: `scale(${0.92 + progress * 0.08})`,
+        transform: `scale(${0.97 + progress * 0.03})`,
         fontFamily: FONT.sans,
       }}
     >
-      {icon && <span style={{ fontSize: 13 }}>{icon}</span>}
+      {icon && <span style={{ fontSize: 15 }}>{icon}</span>}
       <span
         style={{
-          fontSize: 12,
+          fontSize: 15,
           fontWeight: 500,
           color: isAction ? COLORS.accent : COLORS.secondary,
         }}

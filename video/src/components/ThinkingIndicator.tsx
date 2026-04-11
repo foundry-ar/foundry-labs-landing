@@ -40,7 +40,7 @@ export const ThinkingIndicator: React.FC<{
         alignItems: 'center',
         gap: 10,
         opacity: appear * fadeOut,
-        transform: `translateY(${(1 - appear) * 10}px)`,
+        transform: `translateY(${(1 - appear) * 3}px)`,
         fontFamily: FONT.sans,
         padding: '6px 0',
       }}
@@ -59,7 +59,7 @@ export const ThinkingIndicator: React.FC<{
           />
         ))}
       </div>
-      <span style={{ fontSize: 13, color: COLORS.muted, fontWeight: 500 }}>
+      <span style={{ fontSize: 16, color: COLORS.muted, fontWeight: 500 }}>
         {label}
       </span>
     </div>

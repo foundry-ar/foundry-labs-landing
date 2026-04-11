@@ -14,7 +14,7 @@ export const FadeIn: React.FC<{
   enterFrame = 0,
   delay = 0,
   direction = 'up',
-  distance = 20,
+  distance = 6,
   style,
 }) => {
   const frame = useCurrentFrame();

@@ -83,7 +83,7 @@ export const ChatShell: React.FC<{
         alignItems: 'center',
         fontFamily: FONT.sans,
         opacity: progress,
-        transform: `translateY(${(1 - progress) * 24}px)`,
+        transform: `translateY(${(1 - progress) * 6}px)`,
       }}
     >
       <div
@@ -154,7 +154,7 @@ export const ChatShell: React.FC<{
                 borderRadius: 8,
                 background: item.active ? '#2a2a2a' : 'transparent',
                 color: item.active ? '#ececec' : '#888',
-                fontSize: 13,
+                fontSize: 16,
                 fontWeight: item.active ? 500 : 400,
               }}
             >
@@ -192,7 +192,7 @@ export const ChatShell: React.FC<{
               gap: 5,
             }}
           >
-            <span style={{ fontSize: 15, fontWeight: 600, color: '#111' }}>
+            <span style={{ fontSize: 18, fontWeight: 600, color: '#111' }}>
               Foundry
             </span>
             <svg
@@ -230,7 +230,7 @@ export const ChatShell: React.FC<{
                 alignItems: 'center',
               }}
             >
-              <span style={{ fontSize: 14, color: '#aaa', fontWeight: 400 }}>
+              <span style={{ fontSize: 17, color: '#aaa', fontWeight: 400 }}>
                 {inputPlaceholder}
               </span>
               <div
@@ -267,7 +267,7 @@ export const UserMessage: React.FC<{
         padding: '12px 18px',
         maxWidth: '80%',
         color: '#111',
-        fontSize: 16,
+        fontSize: 19,
         lineHeight: 1.5,
         fontWeight: 400,
         fontFamily: FONT.sans,
@@ -296,13 +296,13 @@ export const SystemMessage: React.FC<{
         marginTop: 2,
       }}
     >
-      <span style={{ color: '#fff', fontSize: 12, fontWeight: 700 }}>F</span>
+      <span style={{ color: '#fff', fontSize: 14, fontWeight: 700 }}>F</span>
     </div>
     <div style={{ flex: 1 }}>
       {label && (
         <div
           style={{
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: 600,
             color: COLORS.accent,
             textTransform: 'uppercase',

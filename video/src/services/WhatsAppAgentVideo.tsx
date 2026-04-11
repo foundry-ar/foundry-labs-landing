@@ -32,7 +32,7 @@ const WaMessage: React.FC<{
         justifyContent: isCustomer ? 'flex-start' : 'flex-end',
         marginBottom: 8,
         opacity: progress,
-        transform: `translateY(${(1 - progress) * 14}px)`,
+        transform: `translateY(${(1 - progress) * 4}px)`,
       }}
     >
       <div
@@ -45,12 +45,12 @@ const WaMessage: React.FC<{
           fontFamily: FONT.sans,
         }}
       >
-        <span style={{ fontSize: 14.5, color: '#111', lineHeight: 1.45, display: 'block' }}>
+        <span style={{ fontSize: 17, color: '#111', lineHeight: 1.45, display: 'block' }}>
           {text}
         </span>
         <span
           style={{
-            fontSize: 10.5,
+            fontSize: 12,
             color: '#999',
             display: 'block',
             textAlign: 'right',
@@ -149,7 +149,7 @@ const PhoneFrame: React.FC<{ children: React.ReactNode; enterFrame?: number }> =
         display: 'flex',
         flexDirection: 'column',
         opacity: progress,
-        transform: `scale(${0.92 + progress * 0.08})`,
+        transform: `scale(${0.97 + progress * 0.03})`,
       }}
     >
       {/* WhatsApp header */}
@@ -176,7 +176,7 @@ const PhoneFrame: React.FC<{ children: React.ReactNode; enterFrame?: number }> =
           <span style={{ color: '#fff', fontSize: 14, fontWeight: 700 }}>F</span>
         </div>
         <div>
-          <div style={{ color: '#fff', fontSize: 15, fontWeight: 600, fontFamily: FONT.sans }}>
+          <div style={{ color: '#fff', fontSize: 18, fontWeight: 600, fontFamily: FONT.sans }}>
             TechStore Soporte
           </div>
           <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12, fontFamily: FONT.sans }}>
@@ -211,20 +211,20 @@ const AgentStep: React.FC<{ number: string; label: string; detail: string }> = (
   <div style={{ display: 'flex', gap: 14, marginBottom: 18 }}>
     <span
       style={{
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: 700,
         color: COLORS.accent,
         fontFamily: FONT.sans,
-        minWidth: 24,
+        minWidth: 28,
       }}
     >
       {number}
     </span>
     <div>
-      <div style={{ fontSize: 17, fontWeight: 600, color: COLORS.text, marginBottom: 4 }}>
+      <div style={{ fontSize: 20, fontWeight: 600, color: COLORS.text, marginBottom: 4 }}>
         {label}
       </div>
-      <div style={{ fontSize: 14, color: COLORS.secondary, lineHeight: 1.5 }}>{detail}</div>
+      <div style={{ fontSize: 17, color: COLORS.secondary, lineHeight: 1.5 }}>{detail}</div>
     </div>
   </div>
 );
@@ -243,6 +243,7 @@ export const WhatsAppAgentVideo: React.FC = () => {
 
       <Sequence from={0} durationInFrames={CLOSE_START} layout="none">
         <AbsoluteFill>
+          {/* Phone — always centered */}
           <div
             style={{
               position: 'absolute',
@@ -250,11 +251,8 @@ export const WhatsAppAgentVideo: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 80,
-              padding: '0 80px',
             }}
           >
-            {/* Left: phone */}
             <PhoneFrame enterFrame={0}>
               <Sequence from={15} layout="none">
                 <WaMessage
@@ -300,14 +298,22 @@ export const WhatsAppAgentVideo: React.FC = () => {
                 />
               </Sequence>
             </PhoneFrame>
+          </div>
 
-            {/* Right: context panel */}
-            <div style={{ maxWidth: 520 }}>
+          {/* Right: context panel — absolutely positioned so phone stays centered */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 160,
+              right: 80,
+              width: 480,
+            }}
+          >
               <Sequence from={110} layout="none">
                 <FadeIn enterFrame={0}>
                   <div
                     style={{
-                      fontSize: 11,
+                      fontSize: 13,
                       fontWeight: 600,
                       color: COLORS.muted,
                       textTransform: 'uppercase',
@@ -361,13 +367,12 @@ export const WhatsAppAgentVideo: React.FC = () => {
                       border: `1px solid rgba(118, 75, 162, 0.15)`,
                     }}
                   >
-                    <GradientText fontSize={20} fontWeight={600}>
+                    <GradientText fontSize={24} fontWeight={600}>
                       Soporte 24/7, sin equipo extra.
                     </GradientText>
                   </div>
                 </FadeIn>
               </Sequence>
-            </div>
           </div>
         </AbsoluteFill>
       </Sequence>

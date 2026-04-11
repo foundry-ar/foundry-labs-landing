@@ -53,7 +53,7 @@ const ProcessCard: React.FC<{
           : `1px solid ${COLORS.panelBorderSubtle}`,
         padding: '16px 20px',
         opacity: progress,
-        transform: `translateY(${(1 - progress) * 14}px)`,
+        transform: `translateY(${(1 - progress) * 4}px)`,
         boxShadow: highlight ? SHADOWS.card : SHADOWS.panel,
         fontFamily: FONT.sans,
       }}
@@ -169,10 +169,10 @@ export const SystemsEngineeringVideo: React.FC = () => {
               position: 'absolute',
               inset: 0,
               display: 'flex',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               justifyContent: 'center',
               gap: 100,
-              padding: '0 100px',
+              padding: '100px 100px 0',
             }}
           >
             {/* ── Left column: BEFORE ── */}

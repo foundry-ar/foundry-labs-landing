@@ -29,7 +29,7 @@ export const AnswerCard: React.FC<{
         border: `1px solid ${COLORS.panelBorderSubtle}`,
         padding: '18px 22px',
         opacity: progress,
-        transform: `translateY(${(1 - progress) * 12}px)`,
+        transform: `translateY(${(1 - progress) * 4}px)`,
         fontFamily: FONT.sans,
         boxShadow: SHADOWS.panel,
       }}
@@ -46,12 +46,12 @@ export const AnswerCard: React.FC<{
         >
           <span
             style={{
-              fontSize: 11,
+              fontSize: 13,
               fontWeight: 600,
               color: COLORS.muted,
               textTransform: 'uppercase',
               letterSpacing: 1.2,
-              minWidth: 80,
+              minWidth: 90,
               flexShrink: 0,
             }}
           >
@@ -59,7 +59,7 @@ export const AnswerCard: React.FC<{
           </span>
           <span
             style={{
-              fontSize: 16,
+              fontSize: 19,
               color: field.highlight ? COLORS.accent : COLORS.text,
               fontWeight: field.highlight ? 600 : 400,
               lineHeight: 1.5,
@@ -98,13 +98,13 @@ export const ProjectRow: React.FC<{
         border: `1px solid ${COLORS.panelBorderSubtle}`,
         padding: '12px 18px',
         opacity: progress,
-        transform: `translateX(${(1 - progress) * 16}px)`,
+        transform: `translateX(${(1 - progress) * 4}px)`,
         fontFamily: FONT.sans,
         boxShadow: SHADOWS.panel,
       }}
     >
-      <span style={{ fontSize: 16, color: COLORS.text, fontWeight: 500 }}>{name}</span>
-      <span style={{ fontSize: 14, color: COLORS.muted }}>{year}</span>
+      <span style={{ fontSize: 19, color: COLORS.text, fontWeight: 500 }}>{name}</span>
+      <span style={{ fontSize: 16, color: COLORS.muted }}>{year}</span>
     </div>
   );
 };
