@@ -56,17 +56,30 @@ export function ServicePlayer({ slug }: { slug: string }) {
   }, [loader])
 
   // Play when visible, respecting prefers-reduced-motion
+  // When done, pause on last frame so it stays visible forever
   useEffect(() => {
     const container = containerRef.current
     const player = playerRef.current
     if (!container || !player) return
 
+    const lastFrame = durationInFrames - 1
+
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) {
-      // Jump to last frame for reduced motion
-      player.seekTo(durationInFrames - 1)
+      player.seekTo(lastFrame)
+      player.pause()
       return
     }
+
+    // Pause on last frame when animation ends
+    let ended = false
+    const onEnded = () => {
+      if (ended) return
+      ended = true
+      player.pause()
+      player.seekTo(lastFrame)
+    }
+    player.addEventListener('ended', onEnded)
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -78,7 +91,10 @@ export function ServicePlayer({ slug }: { slug: string }) {
       { threshold: 0.3 }
     )
     observer.observe(container)
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      player.removeEventListener('ended', onEnded)
+    }
   }, [Component, durationInFrames])
 
   if (!Component) {

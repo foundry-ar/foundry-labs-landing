@@ -1,6 +1,7 @@
 import React from 'react';
-import { spring, useCurrentFrame } from 'remotion';
+import { spring, useCurrentFrame, interpolate } from 'remotion';
 import { COLORS, FONT, FPS } from '../theme';
+import { TypingCursor, useTypingText } from './TypingCursor';
 
 const SIDEBAR_W = 260;
 
@@ -40,11 +41,11 @@ const PencilIcon: React.FC = () => (
   </svg>
 );
 
-const SendArrowIcon: React.FC = () => (
+const SendArrowIcon: React.FC<{ color?: string }> = ({ color = '#b0b0b0' }) => (
   <svg width={16} height={16} viewBox="0 0 24 24" fill="none">
     <path
       d="M12 19V5m0 0l-7 7m7-7l7 7"
-      stroke="#b0b0b0"
+      stroke={color}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -52,18 +53,74 @@ const SendArrowIcon: React.FC = () => (
   </svg>
 );
 
+const InputBar: React.FC<{
+  placeholder: string;
+  typingText?: string;
+  typingStart: number;
+  typingEnd: number;
+}> = ({ placeholder, typingText, typingStart, typingEnd }) => {
+  const frame = useCurrentFrame();
+  const typing = typingText ? useTypingText(typingText, typingStart, 1.2) : null;
+  const sentAlready = frame >= typingEnd;
+
+  // After "sending", show placeholder again
+  const showTyping = typing && !sentAlready && frame >= typingStart;
+  const displayText = showTyping ? typing.text : null;
+  const isActive = showTyping && typing.isTyping;
+
+  return (
+    <div
+      style={{
+        background: isActive ? '#fff' : '#f4f4f4',
+        border: `1px solid ${isActive ? '#ccc' : '#e0e0e0'}`,
+        borderRadius: 24,
+        padding: '14px 16px 14px 20px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        transition: 'background 0.2s, border-color 0.2s',
+      }}
+    >
+      <span style={{ fontSize: 17, color: displayText ? '#111' : '#aaa', fontWeight: 400, fontFamily: FONT.sans }}>
+        {displayText || placeholder}
+        {isActive && <TypingCursor color="#111" />}
+      </span>
+      <div
+        style={{
+          width: 30,
+          height: 30,
+          borderRadius: '50%',
+          background: displayText && !isActive ? '#111' : '#e5e5e5',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'background 0.2s',
+        }}
+      >
+        <SendArrowIcon color={displayText && !isActive ? '#fff' : '#b0b0b0'} />
+      </div>
+    </div>
+  );
+};
+
 export const ChatShell: React.FC<{
   children: React.ReactNode;
   enterFrame?: number;
   sidebarItems?: SidebarItem[];
   sidebarLabel?: string;
   inputPlaceholder?: string;
+  inputTypingText?: string;
+  inputTypingStart?: number;
+  inputTypingEnd?: number;
 }> = ({
   children,
   enterFrame = 0,
   sidebarItems = DEFAULT_SIDEBAR_ITEMS,
   sidebarLabel = 'Recent',
   inputPlaceholder = 'Ask Foundry...',
+  inputTypingText,
+  inputTypingStart = 0,
+  inputTypingEnd = Infinity,
 }) => {
   const frame = useCurrentFrame();
 
@@ -219,34 +276,12 @@ export const ChatShell: React.FC<{
 
           {/* Input bar */}
           <div style={{ padding: '6px 72px 18px' }}>
-            <div
-              style={{
-                background: '#f4f4f4',
-                border: '1px solid #e0e0e0',
-                borderRadius: 24,
-                padding: '14px 16px 14px 20px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <span style={{ fontSize: 17, color: '#aaa', fontWeight: 400 }}>
-                {inputPlaceholder}
-              </span>
-              <div
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: '50%',
-                  background: '#e5e5e5',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <SendArrowIcon />
-              </div>
-            </div>
+            <InputBar
+              placeholder={inputPlaceholder}
+              typingText={inputTypingText}
+              typingStart={inputTypingStart}
+              typingEnd={inputTypingEnd}
+            />
           </div>
         </div>
       </div>

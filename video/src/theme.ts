@@ -1,5 +1,5 @@
 export const COLORS = {
-  bg: '#F5F7FA',
+  bg: '#FAFBFC',
   panel: 'rgba(255, 255, 255, 0.65)',
   panelHover: 'rgba(255, 255, 255, 0.9)',
   panelBorder: 'rgba(255, 255, 255, 0.8)',

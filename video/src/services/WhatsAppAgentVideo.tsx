@@ -210,20 +210,20 @@ const AgentStep: React.FC<{ number: string; label: string; detail: string }> = (
   <div style={{ display: 'flex', gap: 14, marginBottom: 18 }}>
     <span
       style={{
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: 700,
         color: COLORS.accent,
         fontFamily: FONT.sans,
-        minWidth: 28,
+        minWidth: 30,
       }}
     >
       {number}
     </span>
     <div>
-      <div style={{ fontSize: 20, fontWeight: 600, color: COLORS.text, marginBottom: 4 }}>
+      <div style={{ fontSize: 24, fontWeight: 600, color: COLORS.text, marginBottom: 6 }}>
         {label}
       </div>
-      <div style={{ fontSize: 17, color: COLORS.secondary, lineHeight: 1.5 }}>{detail}</div>
+      <div style={{ fontSize: 19, color: COLORS.secondary, lineHeight: 1.5 }}>{detail}</div>
     </div>
   </div>
 );
@@ -308,7 +308,7 @@ export const WhatsAppAgentVideo: React.FC = () => {
                 <FadeIn enterFrame={0}>
                   <div
                     style={{
-                      fontSize: 13,
+                      fontSize: 15,
                       fontWeight: 600,
                       color: COLORS.muted,
                       textTransform: 'uppercase',

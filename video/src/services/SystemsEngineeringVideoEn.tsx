@@ -12,7 +12,7 @@ const StatusBadge: React.FC<{
 }> = ({ label, color, bg }) => (
   <span
     style={{
-      fontSize: 10,
+      fontSize: 16,
       fontWeight: 600,
       color,
       background: bg,
@@ -63,14 +63,14 @@ const ProcessCard: React.FC<{
           marginBottom: 12,
         }}
       >
-        <span style={{ fontSize: 15, fontWeight: 600, color: COLORS.text }}>{title}</span>
+        <span style={{ fontSize: 22, fontWeight: 600, color: COLORS.text }}>{title}</span>
         <StatusBadge {...status} />
       </div>
       {items.map((item, i) => (
         <div
           key={i}
           style={{
-            fontSize: 13,
+            fontSize: 19,
             color: COLORS.secondary,
             lineHeight: 1.6,
             display: 'flex',
@@ -132,7 +132,7 @@ const PhaseLabel: React.FC<{
   return (
     <div
       style={{
-        fontSize: 11,
+        fontSize: 14,
         fontWeight: 700,
         textTransform: 'uppercase',
         letterSpacing: 2,
@@ -275,7 +275,7 @@ export const SystemsEngineeringVideoEn: React.FC = () => {
                       border: `1px solid rgba(118, 75, 162, 0.15)`,
                     }}
                   >
-                    <GradientText fontSize={20} fontWeight={600}>
+                    <GradientText fontSize={24} fontWeight={600}>
                       Your company runs without depending on you.
                     </GradientText>
                   </div>

@@ -22,7 +22,7 @@ export const FadeIn: React.FC<{
   const progress = spring({
     frame: frame - enterFrame - delay,
     fps: FPS,
-    config: { damping: 26, stiffness: 100, mass: 0.8 },
+    config: { damping: 30, stiffness: 60, mass: 1 },
   });
 
   const transforms: Record<string, string> = {

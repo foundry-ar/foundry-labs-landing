@@ -9,6 +9,8 @@ import { SourceChipRow } from '../components/SourceChips';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
 
+const USER_QUESTION = 'What is the return policy for enterprise clients with an annual contract?';
+
 export const ENTERPRISE_EN_DURATION = 370;
 
 export const EnterpriseAIVideoEn: React.FC = () => {
@@ -27,23 +29,29 @@ export const EnterpriseAIVideoEn: React.FC = () => {
             ]}
             sidebarLabel="Recent queries"
             inputPlaceholder="Ask your company..."
+            inputTypingText={USER_QUESTION}
+            inputTypingStart={5}
+            inputTypingEnd={45}
           >
-            <Sequence from={20} layout="none">
+            {/* User message appears after "sending" */}
+            <Sequence from={45} layout="none">
               <UserMessage>
-                What is the return policy for enterprise clients with an annual contract?
+                {USER_QUESTION}
               </UserMessage>
             </Sequence>
 
-            <Sequence from={65} layout="none">
+            {/* Thinking — disappears before the answer */}
+            <Sequence from={75} durationInFrames={55} layout="none">
               <SystemMessage>
                 <ThinkingIndicator
                   enterFrame={0}
-                  exitFrame={65}
+                  exitFrame={50}
                   label="Searching internal documents…"
                 />
               </SystemMessage>
             </Sequence>
 
+            {/* Answer */}
             <Sequence from={130} layout="none">
               <SystemMessage label="Answer with sources">
                 <AnswerCard
@@ -83,6 +91,7 @@ export const EnterpriseAIVideoEn: React.FC = () => {
               </SystemMessage>
             </Sequence>
 
+            {/* Tagline */}
             <Sequence from={280} layout="none">
               <FadeIn enterFrame={0}>
                 <div
@@ -94,7 +103,7 @@ export const EnterpriseAIVideoEn: React.FC = () => {
                     border: `1px solid rgba(118, 75, 162, 0.15)`,
                   }}
                 >
-                  <GradientText fontSize={18} fontWeight={600}>
+                  <GradientText fontSize={24} fontWeight={600}>
                     Your company answers with its own knowledge.
                   </GradientText>
                 </div>

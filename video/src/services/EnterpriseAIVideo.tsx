@@ -10,7 +10,15 @@ import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
 
 /* ── Enterprise AI: internal knowledge base demo ── */
-// Tagline appears at 280, hold for ~3s = 370 frames total (~12.3s)
+// Timeline:
+// 0-5: ChatShell appears
+// 5-45: User types in input bar
+// 45: Message sent (input clears, user message appears)
+// 75-125: Thinking indicator
+// 130+: Answer with sources
+// 280+: Tagline
+const USER_QUESTION = '¿Cuál es la política de devoluciones para clientes enterprise con contrato anual?';
+
 export const ENTERPRISE_DURATION = 370;
 
 export const EnterpriseAIVideo: React.FC = () => {
@@ -29,20 +37,23 @@ export const EnterpriseAIVideo: React.FC = () => {
             ]}
             sidebarLabel="Consultas recientes"
             inputPlaceholder="Preguntale a tu empresa..."
+            inputTypingText={USER_QUESTION}
+            inputTypingStart={5}
+            inputTypingEnd={45}
           >
-            {/* User asks a question */}
-            <Sequence from={20} layout="none">
+            {/* User message appears after "sending" */}
+            <Sequence from={45} layout="none">
               <UserMessage>
-                ¿Cuál es la política de devoluciones para clientes enterprise con contrato anual?
+                {USER_QUESTION}
               </UserMessage>
             </Sequence>
 
-            {/* Thinking */}
-            <Sequence from={65} layout="none">
+            {/* Thinking — disappears before the answer */}
+            <Sequence from={75} durationInFrames={55} layout="none">
               <SystemMessage>
                 <ThinkingIndicator
                   enterFrame={0}
-                  exitFrame={65}
+                  exitFrame={50}
                   label="Buscando en documentos internos…"
                 />
               </SystemMessage>
@@ -100,7 +111,7 @@ export const EnterpriseAIVideo: React.FC = () => {
                     border: `1px solid rgba(118, 75, 162, 0.15)`,
                   }}
                 >
-                  <GradientText fontSize={18} fontWeight={600}>
+                  <GradientText fontSize={24} fontWeight={600}>
                     Tu empresa responde con su propio conocimiento.
                   </GradientText>
                 </div>
