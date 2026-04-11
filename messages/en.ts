@@ -29,6 +29,7 @@ export interface Messages {
     label: string
     heading: string
     tagline: string
+    cta: string
     cards: readonly { title: string; description: string; slug: string }[]
   }
   serviceOverviews: {
@@ -111,6 +112,7 @@ export const en: Messages = {
     label: 'Services',
     heading: 'What we build',
     tagline: 'Systems over services.',
+    cta: 'Learn more',
     cards: [
       {
         title: 'AI Agents for WhatsApp',

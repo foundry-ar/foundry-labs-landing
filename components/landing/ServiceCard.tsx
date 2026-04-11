@@ -9,12 +9,15 @@ interface ServiceCardProps {
   slug?: string
   href?: string
   index?: number
+  ctaLabel?: string
 }
 
-export function ServiceCard({ title, description, slug, href, index = 0 }: ServiceCardProps) {
+export function ServiceCard({ title, description, slug, href, index = 0, ctaLabel }: ServiceCardProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
+  const [nearCenter, setNearCenter] = useState(false)
 
+  // Entrance animation
   useEffect(() => {
     const el = ref.current
     if (!el) return
@@ -38,17 +41,41 @@ export function ServiceCard({ title, description, slug, href, index = 0 }: Servi
     return () => observer.disconnect()
   }, [])
 
+  // Mobile: detect card closest to viewport center for border-top
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setNearCenter(entry.isIntersecting)
+      },
+      { rootMargin: '-40% 0px -40% 0px', threshold: 0 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   const cardContent = (
     <>
       <div
-        className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"
+        className={`absolute top-0 left-0 right-0 h-[2px] transition-opacity duration-300 ease-out ${
+          nearCenter ? 'opacity-100' : 'opacity-0'
+        } md:opacity-0 md:group-hover:opacity-100`}
         style={{ backgroundImage: 'var(--gradient-accent)' }}
       />
       <h3 className="font-semibold mb-2 text-ink text-xl">{title}</h3>
       <p className="text-gray-500 leading-relaxed mt-4 text-sm">{description}</p>
-      {href && (
-        <span className="inline-block mt-6 text-xs uppercase tracking-widest text-gray-400 group-hover:text-gray-600 transition-colors">
-          Ver más →
+      {href && ctaLabel && (
+        <span className="inline-flex items-center gap-1.5 mt-6 text-xs uppercase tracking-widest text-[#B8632E] group-hover:text-[#9A4F1E] transition-colors">
+          {ctaLabel}
+          <span
+            className={`inline-block ${
+              nearCenter ? 'animate-nudge' : ''
+            } md:animate-none md:group-hover:animate-nudge`}
+          >
+            &rarr;
+          </span>
         </span>
       )}
     </>

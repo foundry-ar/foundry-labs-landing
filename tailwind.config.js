@@ -20,6 +20,7 @@ module.exports = {
         float: 'float 2.5s cubic-bezier(0.37, 0, 0.63, 1) infinite',
         'slide-up-in': 'slide-up-in 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'slide-up-out': 'slide-up-out 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        nudge: 'nudge 2s ease-in-out infinite',
       },
       keyframes: {
         shimmer: {
@@ -37,6 +38,10 @@ module.exports = {
         'slide-up-out': {
           '0%': { opacity: '1', transform: 'translateY(0)' },
           '100%': { opacity: '0', transform: 'translateY(-60%)' },
+        },
+        nudge: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '50%': { transform: 'translateX(3px)' },
         },
       },
     },

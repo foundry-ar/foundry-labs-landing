@@ -44,4 +44,8 @@
   .animate-slide-up-out {
     animation: none !important;
   }
+
+  .animate-nudge {
+    animation: none !important;
+  }
 }

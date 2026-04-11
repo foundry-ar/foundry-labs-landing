@@ -33,6 +33,7 @@ export function ServicesSection({ messages: m, locale = 'es' }: Props) {
                 slug={service.slug}
                 href={href}
                 index={i}
+                ctaLabel={m.services.cta}
               />
             )
           })}

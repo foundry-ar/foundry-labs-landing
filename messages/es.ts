@@ -42,6 +42,7 @@ export const es: Messages = {
     label: 'Servicios',
     heading: 'Lo que construimos',
     tagline: 'Sistemas, no servicios.',
+    cta: 'Ver más',
     cards: [
       {
         title: 'Agentes IA para WhatsApp',
