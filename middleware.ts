@@ -39,6 +39,21 @@ export function middleware(request: NextRequest) {
     return response
   }
 
+  // Explicit locale switch via ?lang= param (from language switcher)
+  const langParam = request.nextUrl.searchParams.get('lang')
+  if (langParam === 'es' && pathname === '/') {
+    const clean = new URL('/', request.url)
+    const response = NextResponse.redirect(clean)
+    response.cookies.set(LOCALE_COOKIE, 'es', { path: '/', maxAge: 60 * 60 * 24 * 365 })
+    return response
+  }
+  if (langParam === 'en') {
+    const clean = new URL('/en', request.url)
+    const response = NextResponse.redirect(clean)
+    response.cookies.set(LOCALE_COOKIE, 'en', { path: '/', maxAge: 60 * 60 * 24 * 365 })
+    return response
+  }
+
   // Root path — check cookie first, then Accept-Language
   if (pathname === '/') {
     const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value as Locale | undefined

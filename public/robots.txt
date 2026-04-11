@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://foundrylabs.com/sitemap.xml
+Sitemap: https://foundry.ar/sitemap.xml

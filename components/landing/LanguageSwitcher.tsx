@@ -9,7 +9,7 @@ export function LanguageSwitcher({ locale, messages: m }: { locale: Locale; mess
           <span className="font-semibold text-black inline-flex items-center justify-center min-w-[44px] min-h-[44px]" lang="en">EN</span>
           <span aria-hidden="true">/</span>
           <a
-            href="/"
+            href="/?lang=es"
             hrefLang="es"
             lang="es"
             aria-label={m.languageSwitcher.switchToEs}
