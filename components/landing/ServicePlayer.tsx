@@ -1,7 +1,7 @@
 'use client'
 
-import { Player } from '@remotion/player'
-import { useCallback, useEffect, useState } from 'react'
+import { Player, type PlayerRef } from '@remotion/player'
+import { useEffect, useRef, useState } from 'react'
 import type { ComponentType } from 'react'
 
 const compositions: Record<string, () => Promise<{ default: ComponentType }>> = {
@@ -34,34 +34,52 @@ const compositions: Record<string, () => Promise<{ default: ComponentType }>> = 
 }
 
 const durations: Record<string, number> = {
-  'whatsapp-agents': 560,
-  'agentes-whatsapp': 560,
-  'systems-engineering': 490,
-  'ingenieria-de-sistemas': 490,
-  'enterprise-ai': 490,
-  'ia-empresarial': 490,
+  'whatsapp-agents': 440,
+  'agentes-whatsapp': 440,
+  'systems-engineering': 370,
+  'ingenieria-de-sistemas': 370,
+  'enterprise-ai': 370,
+  'ia-empresarial': 370,
 }
 
 export function ServicePlayer({ slug }: { slug: string }) {
   const [Component, setComponent] = useState<ComponentType | null>(null)
+  const playerRef = useRef<PlayerRef>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const loader = compositions[slug]
-  const durationInFrames = durations[slug] ?? 270
+  const durationInFrames = durations[slug] ?? 370
 
   useEffect(() => {
     if (!loader) return
     loader().then((m) => setComponent(() => m.default))
   }, [loader])
 
-  // Respect prefers-reduced-motion
-  const [reducedMotion, setReducedMotion] = useState(false)
+  // Play when visible, respecting prefers-reduced-motion
   useEffect(() => {
-    const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setReducedMotion(mql.matches)
-    const onChange = () => setReducedMotion(mql.matches)
-    mql.addEventListener('change', onChange)
-    return () => mql.removeEventListener('change', onChange)
-  }, [])
+    const container = containerRef.current
+    const player = playerRef.current
+    if (!container || !player) return
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReduced) {
+      // Jump to last frame for reduced motion
+      player.seekTo(durationInFrames - 1)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          player.play()
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [Component, durationInFrames])
 
   if (!Component) {
     return (
@@ -70,17 +88,18 @@ export function ServicePlayer({ slug }: { slug: string }) {
   }
 
   return (
-    <div className="w-full aspect-video rounded-xl overflow-hidden shadow-[0_15px_30px_rgba(0,0,0,0.08)] border border-white/80">
+    <div ref={containerRef} className="w-full aspect-video rounded-xl overflow-hidden">
       <Player
+        ref={playerRef}
         component={Component}
         compositionWidth={1920}
         compositionHeight={1080}
         durationInFrames={durationInFrames}
         fps={30}
         style={{ width: '100%', height: '100%' }}
-        autoPlay={!reducedMotion}
-        loop
-        controls
+        controls={false}
+        showVolumeControls={false}
+        clickToPlay={false}
       />
     </div>
   )

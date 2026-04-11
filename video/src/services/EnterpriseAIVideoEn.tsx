@@ -8,20 +8,15 @@ import { ThinkingIndicator } from '../components/ThinkingIndicator';
 import { SourceChipRow } from '../components/SourceChips';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
-import { FoundryClose } from './FoundryClose';
 
-const CLOSE_START = 370;
-const CLOSE_DURATION = 120;
-
-export const ENTERPRISE_EN_DURATION = CLOSE_START + CLOSE_DURATION;
+export const ENTERPRISE_EN_DURATION = 370;
 
 export const EnterpriseAIVideoEn: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
       <DotGrid opacity={0.08} />
 
-      <Sequence from={0} durationInFrames={CLOSE_START} layout="none">
-        <AbsoluteFill>
+      <AbsoluteFill>
           <ChatShell
             enterFrame={0}
             sidebarItems={[
@@ -107,11 +102,6 @@ export const EnterpriseAIVideoEn: React.FC = () => {
             </Sequence>
           </ChatShell>
         </AbsoluteFill>
-      </Sequence>
-
-      <Sequence from={CLOSE_START} durationInFrames={CLOSE_DURATION}>
-        <FoundryClose />
-      </Sequence>
     </AbsoluteFill>
   );
 };

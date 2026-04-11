@@ -4,7 +4,6 @@ import { COLORS, FONT, FPS, SHADOWS } from '../theme';
 import { DotGrid } from '../components/DotGrid';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
-import { FoundryClose } from './FoundryClose';
 
 /* ── Before/After flow visualization ── */
 
@@ -151,19 +150,15 @@ const PhaseLabel: React.FC<{
 };
 
 /* ── Composition ── */
-// Content ends ~310, hold tagline 60 frames, close at 370 for 120 frames = 490 total (~16.3s)
-const CLOSE_START = 370;
-const CLOSE_DURATION = 120;
-
-export const SYSTEMS_DURATION = CLOSE_START + CLOSE_DURATION; // 490
+// Tagline appears at 290, hold for ~2.5s = 370 frames total (~12.3s)
+export const SYSTEMS_DURATION = 370;
 
 export const SystemsEngineeringVideo: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
       <DotGrid opacity={0.08} />
 
-      <Sequence from={0} durationInFrames={CLOSE_START} layout="none">
-        <AbsoluteFill>
+      <AbsoluteFill>
           <div
             style={{
               position: 'absolute',
@@ -292,13 +287,7 @@ export const SystemsEngineeringVideo: React.FC = () => {
               </Sequence>
             </div>
           </div>
-        </AbsoluteFill>
-      </Sequence>
-
-      {/* Foundry close */}
-      <Sequence from={CLOSE_START} durationInFrames={CLOSE_DURATION}>
-        <FoundryClose />
-      </Sequence>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

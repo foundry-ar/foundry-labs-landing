@@ -8,22 +8,17 @@ import { ThinkingIndicator } from '../components/ThinkingIndicator';
 import { SourceChipRow } from '../components/SourceChips';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
-import { FoundryClose } from './FoundryClose';
 
 /* ── Enterprise AI: internal knowledge base demo ── */
-// Content ends ~310, hold tagline 60 frames, close at 370 for 120 frames = 490 total (~16.3s)
-const CLOSE_START = 370;
-const CLOSE_DURATION = 120;
-
-export const ENTERPRISE_DURATION = CLOSE_START + CLOSE_DURATION; // 490
+// Tagline appears at 280, hold for ~3s = 370 frames total (~12.3s)
+export const ENTERPRISE_DURATION = 370;
 
 export const EnterpriseAIVideo: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
       <DotGrid opacity={0.08} />
 
-      <Sequence from={0} durationInFrames={CLOSE_START} layout="none">
-        <AbsoluteFill>
+      <AbsoluteFill>
           <ChatShell
             enterFrame={0}
             sidebarItems={[
@@ -113,12 +108,6 @@ export const EnterpriseAIVideo: React.FC = () => {
             </Sequence>
           </ChatShell>
         </AbsoluteFill>
-      </Sequence>
-
-      {/* Foundry close */}
-      <Sequence from={CLOSE_START} durationInFrames={CLOSE_DURATION}>
-        <FoundryClose />
-      </Sequence>
     </AbsoluteFill>
   );
 };

@@ -4,7 +4,6 @@ import { COLORS, FONT, FPS, SHADOWS } from '../theme';
 import { DotGrid } from '../components/DotGrid';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
-import { FoundryClose } from './FoundryClose';
 
 /* ── WhatsApp-style chat simulation ── */
 
@@ -230,19 +229,15 @@ const AgentStep: React.FC<{ number: string; label: string; detail: string }> = (
 );
 
 /* ── Main composition ── */
-// Content ends ~380, hold tagline 60 frames, close at 440 for 120 frames = 560 total (~18.7s)
-const CLOSE_START = 440;
-const CLOSE_DURATION = 120;
-
-export const WHATSAPP_DURATION = CLOSE_START + CLOSE_DURATION; // 560
+// Tagline appears at 340, hold for ~3s = 440 frames total (~14.7s)
+export const WHATSAPP_DURATION = 440;
 
 export const WhatsAppAgentVideo: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
       <DotGrid opacity={0.08} />
 
-      <Sequence from={0} durationInFrames={CLOSE_START} layout="none">
-        <AbsoluteFill>
+      <AbsoluteFill>
           {/* Phone — always centered */}
           <div
             style={{
@@ -374,13 +369,7 @@ export const WhatsAppAgentVideo: React.FC = () => {
                 </FadeIn>
               </Sequence>
           </div>
-        </AbsoluteFill>
-      </Sequence>
-
-      {/* Foundry close */}
-      <Sequence from={CLOSE_START} durationInFrames={CLOSE_DURATION}>
-        <FoundryClose />
-      </Sequence>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

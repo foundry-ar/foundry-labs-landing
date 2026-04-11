@@ -4,7 +4,6 @@ import { COLORS, FONT, FPS, SHADOWS } from '../theme';
 import { DotGrid } from '../components/DotGrid';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
-import { FoundryClose } from './FoundryClose';
 
 const PHONE_W = 420;
 const PHONE_H = 760;
@@ -225,18 +224,14 @@ const AgentStep: React.FC<{ number: string; label: string; detail: string }> = (
   </div>
 );
 
-const CLOSE_START = 440;
-const CLOSE_DURATION = 120;
-
-export const WHATSAPP_EN_DURATION = CLOSE_START + CLOSE_DURATION;
+export const WHATSAPP_EN_DURATION = 440;
 
 export const WhatsAppAgentVideoEn: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
       <DotGrid opacity={0.08} />
 
-      <Sequence from={0} durationInFrames={CLOSE_START} layout="none">
-        <AbsoluteFill>
+      <AbsoluteFill>
           {/* Phone — always centered */}
           <div
             style={{
@@ -368,12 +363,7 @@ export const WhatsAppAgentVideoEn: React.FC = () => {
                 </FadeIn>
               </Sequence>
           </div>
-        </AbsoluteFill>
-      </Sequence>
-
-      <Sequence from={CLOSE_START} durationInFrames={CLOSE_DURATION}>
-        <FoundryClose />
-      </Sequence>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

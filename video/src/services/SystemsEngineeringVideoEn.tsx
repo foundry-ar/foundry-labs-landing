@@ -4,7 +4,6 @@ import { COLORS, FONT, FPS, SHADOWS } from '../theme';
 import { DotGrid } from '../components/DotGrid';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
-import { FoundryClose } from './FoundryClose';
 
 const StatusBadge: React.FC<{
   label: string;
@@ -148,18 +147,14 @@ const PhaseLabel: React.FC<{
   );
 };
 
-const CLOSE_START = 370;
-const CLOSE_DURATION = 120;
-
-export const SYSTEMS_EN_DURATION = CLOSE_START + CLOSE_DURATION;
+export const SYSTEMS_EN_DURATION = 370;
 
 export const SystemsEngineeringVideoEn: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
       <DotGrid opacity={0.08} />
 
-      <Sequence from={0} durationInFrames={CLOSE_START} layout="none">
-        <AbsoluteFill>
+      <AbsoluteFill>
           <div
             style={{
               position: 'absolute',
@@ -288,12 +283,7 @@ export const SystemsEngineeringVideoEn: React.FC = () => {
               </Sequence>
             </div>
           </div>
-        </AbsoluteFill>
-      </Sequence>
-
-      <Sequence from={CLOSE_START} durationInFrames={CLOSE_DURATION}>
-        <FoundryClose />
-      </Sequence>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
