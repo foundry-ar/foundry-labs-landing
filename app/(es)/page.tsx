@@ -19,7 +19,7 @@ export default function SpanishHome() {
         {m.skipLink}
       </a>
       <DotGrid />
-      <NavBar messages={m} />
+      <NavBar messages={m} locale="es" />
       <main id="main">
         <HeroSection messages={m} />
         <LogoBar messages={m} />

@@ -19,7 +19,7 @@ export default function Home() {
         {m.skipLink}
       </a>
       <DotGrid />
-      <NavBar messages={m} />
+      <NavBar messages={m} locale="en" />
       <main id="main">
         <HeroSection messages={m} />
         <LogoBar messages={m} />

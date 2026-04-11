@@ -30,7 +30,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         {m.skipLink}
       </a>
       <DotGrid />
-      <NavBar messages={m} />
+      <NavBar messages={m} locale="es" />
       <main id="main">
         <ServiceOverview slug={slug} locale="es" messages={m} />
         <CTASection messages={m} />

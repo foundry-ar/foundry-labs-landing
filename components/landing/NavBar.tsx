@@ -4,8 +4,9 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { usePostHog } from '@posthog/react'
 import type { Messages } from '@/messages'
 import { CalendlyButton } from './CalendlyButton'
+import type { Locale } from '@/lib/i18n'
 
-export function NavBar({ messages: m }: { messages: Messages }) {
+export function NavBar({ messages: m, locale = 'es' }: { messages: Messages; locale?: Locale }) {
   const posthog = usePostHog()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -85,6 +86,14 @@ export function NavBar({ messages: m }: { messages: Messages }) {
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
           <a href="#services" className="hover:text-black focus-visible:text-black focus-ring rounded-sm transition-colors duration-300 ease-out">{m.nav.services}</a>
           <a href="#contact" className="hover:text-black focus-visible:text-black focus-ring rounded-sm transition-colors duration-300 ease-out">{m.nav.contact}</a>
+          <a
+            href={locale === 'es' ? '/en' : '/'}
+            hrefLang={locale === 'es' ? 'en' : 'es'}
+            className="hover:text-black focus-visible:text-black focus-ring rounded-sm transition-colors duration-300 ease-out uppercase"
+            aria-label={locale === 'es' ? m.languageSwitcher.switchToEn : m.languageSwitcher.switchToEs}
+          >
+            {locale === 'es' ? 'EN' : 'ES'}
+          </a>
         </div>
 
         <CalendlyButton
@@ -168,6 +177,15 @@ export function NavBar({ messages: m }: { messages: Messages }) {
         >
           {m.nav.cta}
         </CalendlyButton>
+        <a
+          href={locale === 'es' ? '/en' : '/'}
+          hrefLang={locale === 'es' ? 'en' : 'es'}
+          className="text-lg text-gray-500 hover:text-black transition-colors uppercase tracking-widest"
+          aria-label={locale === 'es' ? m.languageSwitcher.switchToEn : m.languageSwitcher.switchToEs}
+          onClick={closeMenu}
+        >
+          {locale === 'es' ? 'English' : 'Español'}
+        </a>
       </div>
     </nav>
   )
