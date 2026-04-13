@@ -42,7 +42,12 @@ function ScrollIndicator({ label }: { label: string }) {
 }
 
 function useIsMobile() {
-  const [mobile, setMobile] = useState(false)
+  const [mobile, setMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(max-width: 767px)').matches
+    }
+    return false
+  })
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 767px)')
     setMobile(mql.matches)

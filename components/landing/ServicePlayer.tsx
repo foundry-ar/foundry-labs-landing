@@ -68,7 +68,12 @@ const durations: Record<string, number> = {
 }
 
 function useIsMobile() {
-  const [mobile, setMobile] = useState(false)
+  const [mobile, setMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(max-width: 767px)').matches
+    }
+    return false
+  })
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 767px)')
     setMobile(mql.matches)
@@ -92,10 +97,15 @@ export function ServicePlayer({ slug }: { slug: string }) {
   const compositionHeight = isMobile ? 1920 : 1080
 
   useEffect(() => {
+    setComponent(null) // Reset while loading correct composition
+    let cancelled = false
     const mobileLoader = isMobile ? mobileCompositions[slug] : undefined
     const loader = mobileLoader || desktopCompositions[slug]
     if (!loader) return
-    loader().then((m) => setComponent(() => m.default))
+    loader().then((m) => {
+      if (!cancelled) setComponent(() => m.default)
+    })
+    return () => { cancelled = true }
   }, [slug, isMobile])
 
   // Play when visible, respecting prefers-reduced-motion
