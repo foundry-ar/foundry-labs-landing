@@ -73,7 +73,7 @@ export function NavBar({ messages: m, locale = 'es' }: { messages: Messages; loc
 
   return (
     <nav className="fixed top-6 left-0 right-0 z-50 flex justify-center w-full px-3 sm:px-4">
-      <div className={`flex items-center justify-between w-full max-w-5xl px-6 py-3 backdrop-blur-xl border border-white/40 rounded-full transition-[background-color,box-shadow] duration-500 ease-out ${scrolled ? 'bg-white/90 shadow-[0_4px_20px_rgba(0,0,0,0.06)]' : 'bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.03)]'}`}>
+      <div className={`flex items-center justify-between w-full max-w-5xl px-6 py-3 backdrop-blur-xl border border-white/40 rounded-full transition-[background-color,box-shadow] duration-500 ease-out ${scrolled ? 'bg-white/90 shadow-[0_6px_24px_rgba(0,0,0,0.10)]' : 'bg-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.04)]'}`}>
         <div className="flex items-center gap-2">
           <svg role="img" viewBox="0 0 32 32" className="w-7 h-7 group/logo" fill="none">
             <title>Foundry</title>
