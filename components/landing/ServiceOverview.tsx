@@ -1,83 +1,14 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import type { Messages } from '@/messages'
 import { ServicePlayer } from './ServicePlayer'
+import { AnimatedCard } from './AnimatedCard'
 
 interface Props {
   slug: string
   locale: 'en' | 'es'
   messages: Messages
-}
-
-function OverviewCard({ section, index }: { section: { heading: string; description: string }; index: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-  const [nearCenter, setNearCenter] = useState(false)
-
-  // Entrance animation
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced) {
-      setVisible(true)
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.unobserve(el)
-        }
-      },
-      { threshold: 0.15 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  // Mobile: detect card closest to viewport center for border-top
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setNearCenter(entry.isIntersecting)
-      },
-      { rootMargin: '-40% 0px -40% 0px', threshold: 0 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <div
-      ref={ref}
-      className="group relative rounded-xl backdrop-blur-[10px] border border-gray-200/80 bg-white/80 p-8 overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-300 ease-out"
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? undefined : 'translateY(16px)',
-        transitionDelay: visible ? `${index * 100}ms` : '0ms',
-      }}
-    >
-      <div
-        className={`absolute top-0 left-0 right-0 h-[2px] transition-opacity duration-300 ease-out ${
-          nearCenter ? 'opacity-100' : 'opacity-0'
-        } md:opacity-100`}
-        style={{ backgroundImage: 'var(--gradient-accent)' }}
-      />
-      <span className="text-xs uppercase tracking-widest text-gray-400 mb-4 block">
-        {String(index + 1).padStart(2, '0')}
-      </span>
-      <h2 className="font-semibold mb-2 text-ink text-xl">{section.heading}</h2>
-      <p className="text-gray-500 leading-relaxed mt-4 text-sm">{section.description}</p>
-    </div>
-  )
 }
 
 export function ServiceOverview({ slug, locale, messages: m }: Props) {
@@ -121,7 +52,13 @@ export function ServiceOverview({ slug, locale, messages: m }: Props) {
         {/* Content grid: problem / solution / deliverable */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {sections.map((section, i) => (
-            <OverviewCard key={section.heading} section={section} index={i} />
+            <AnimatedCard key={section.heading} index={i}>
+              <span className="text-xs uppercase tracking-widest text-gray-400 mb-4 block">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h2 className="font-semibold mb-2 text-ink text-xl">{section.heading}</h2>
+              <p className="text-gray-500 leading-relaxed mt-4 text-sm">{section.description}</p>
+            </AnimatedCard>
           ))}
         </div>
       </div>
