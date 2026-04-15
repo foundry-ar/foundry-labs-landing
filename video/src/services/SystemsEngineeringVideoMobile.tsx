@@ -1,144 +1,96 @@
 import React from 'react';
 import { AbsoluteFill, Sequence, spring, useCurrentFrame } from 'remotion';
-import { COLORS, EXCEL, FONT, FPS, GRADIENTS, SHADOWS } from '../theme';
+import { COLORS, EXCEL, FONT, FPS, GRADIENTS } from '../theme';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
 
-/* ── Mobile: scattered spreadsheets converging into a normalized table ── */
+/* ── Mobile: stacked "Sin Foundry" vs "Con Foundry".
+ *
+ * Top half: 3 Excel sheets edited manually with a floating cursor.
+ * Bottom half: a Foundry panel that syncs on one click.
+ */
 
-type SourceSheet = {
+export const SYSTEMS_MOBILE_DURATION = 370;
+
+// ─── Types ──────────────────────────────────────────────────────
+
+type EditableCell = {
+  text: string;
+  before?: string;
+  typedAt?: number;
+  typingDuration?: number;
+};
+type Cell = string | EditableCell;
+
+// ─── Cursor ─────────────────────────────────────────────────────
+
+const Cursor: React.FC<{ x: number; y: number; visible: boolean }> = ({
+  x,
+  y,
+  visible,
+}) => (
+  <svg
+    width={34}
+    height={40}
+    viewBox="0 0 22 26"
+    style={{
+      position: 'absolute',
+      left: x,
+      top: y,
+      opacity: visible ? 1 : 0,
+      filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.3))',
+      pointerEvents: 'none',
+      zIndex: 50,
+    }}
+  >
+    <path
+      d="M2 2 L18 13 L10.5 14.5 L15 22.5 L11.5 24 L7 16 L2 20 Z"
+      fill="#111"
+      stroke="#fff"
+      strokeWidth={1.4}
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+// ─── Excel sheet ────────────────────────────────────────────────
+
+const ExcelSheet: React.FC<{
   filename: string;
   headers: string[];
-  rows: string[][];
-  x: number;
-  y: number;
-  rotation: number;
-};
-
-const SOURCES: SourceSheet[] = [
-  {
-    filename: 'cotizaciones_marzo.xlsx',
-    headers: ['Cliente', 'Monto', 'Estado'],
-    rows: [
-      ['Acme SA', '$45.000', 'Pendiente'],
-      ['Globex', '$12.500', 'Aprobado'],
-      ['Initech', '$87.300', 'Enviado'],
-    ],
-    x: -120,
-    y: -540,
-    rotation: -3,
-  },
-  {
-    filename: 'produccion_planta.xlsx',
-    headers: ['Lote', 'Cliente', 'Operario'],
-    rows: [
-      ['L-114', 'Globex', 'A. Ruiz'],
-      ['L-115', 'Initech', 'M. Diaz'],
-      ['L-116', 'Acme SA', 'L. Soto'],
-    ],
-    x: 120,
-    y: -180,
-    rotation: 2.5,
-  },
-  {
-    filename: 'entregas_logistica.xlsx',
-    headers: ['ID', 'Carrier', 'ETA'],
-    rows: [
-      ['DH-901288', 'DHL', '12/04'],
-      ['FX-447', 'FedEx', '14/04'],
-      ['ML-220', 'Mercado E.', '15/04'],
-    ],
-    x: -100,
-    y: 180,
-    rotation: -2,
-  },
-];
-
-const UNIFIED_HEADERS = ['ID', 'Cliente', 'Estado', 'Total'];
-const UNIFIED_ROWS: string[][] = [
-  ['ACM-001', 'Acme SA', 'En cotización', '$45.000'],
-  ['GLO-014', 'Globex Corp', 'En producción', '$12.500'],
-  ['INI-022', 'Initech', 'Entregado', '$87.300'],
-  ['UMB-007', 'Umbrella', 'En cotización', '$32.100'],
-];
-
-const EXPANDED_ROW_INDEX = 1;
-const EXPANDED_DETAILS = [
-  {
-    label: 'Cotización',
-    items: [
-      ['Monto', '$12.500'],
-      ['Aprobado por', 'M. López'],
-      ['Fecha', '03/04/2026'],
-    ] as const,
-  },
-  {
-    label: 'Producción',
-    items: [
-      ['Lote', 'L-114'],
-      ['Operario', 'A. Ruiz'],
-      ['Status', 'En curso'],
-    ] as const,
-  },
-  {
-    label: 'Entrega',
-    items: [
-      ['ETA', '12/04/2026'],
-      ['Carrier', 'DHL'],
-      ['Tracking', 'DH-901288'],
-    ] as const,
-  },
-];
-
-const SourceSheetCard: React.FC<{
-  sheet: SourceSheet;
+  rows: Cell[][];
+  width: number;
   enterFrame: number;
-  convergeFrame: number;
-}> = ({ sheet, enterFrame, convergeFrame }) => {
+}> = ({ filename, headers, rows, width, enterFrame }) => {
   const frame = useCurrentFrame();
   const enter = spring({
     frame: frame - enterFrame,
     fps: FPS,
     config: { damping: 22, stiffness: 110, mass: 0.8 },
   });
-  const converge = spring({
-    frame: frame - convergeFrame,
-    fps: FPS,
-    config: { damping: 26, stiffness: 80, mass: 0.9 },
-  });
 
-  const x = sheet.x * (1 - converge);
-  const y = sheet.y * (1 - converge);
-  const rotation = sheet.rotation * (1 - converge);
-  const scale = (0.92 + enter * 0.08) * (1 - converge * 0.55);
-  const opacity = enter * (1 - converge);
-
-  const cols = `58px repeat(${sheet.headers.length}, 1fr)`;
+  const cols = `52px repeat(${headers.length}, 1fr)`;
 
   return (
     <div
       style={{
-        position: 'absolute',
-        left: '50%',
-        top: '50%',
-        width: 740,
-        marginLeft: -370,
-        transform: `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`,
-        transformOrigin: 'center',
-        opacity,
+        width,
         background: COLORS.white,
-        borderRadius: 10,
-        boxShadow: '0 22px 48px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05)',
+        borderRadius: 12,
         border: `1px solid ${EXCEL.gridlineStrong}`,
+        boxShadow:
+          '0 16px 36px rgba(0,0,0,0.09), 0 3px 8px rgba(0,0,0,0.05)',
         overflow: 'hidden',
+        opacity: enter,
+        transform: `translateY(${(1 - enter) * 16}px)`,
         fontFamily: FONT.sans,
       }}
     >
-      {/* Excel title bar */}
+      {/* Title bar */}
       <div
         style={{
           background: EXCEL.green,
-          padding: '14px 20px',
+          padding: '12px 20px',
           display: 'flex',
           alignItems: 'center',
           gap: 14,
@@ -147,8 +99,8 @@ const SourceSheetCard: React.FC<{
       >
         <div
           style={{
-            width: 34,
-            height: 34,
+            width: 32,
+            height: 32,
             borderRadius: 5,
             background: COLORS.white,
             color: EXCEL.green,
@@ -164,7 +116,7 @@ const SourceSheetCard: React.FC<{
           X
         </div>
         <span style={{ fontSize: 22, fontWeight: 600, letterSpacing: 0.2 }}>
-          {sheet.filename}
+          {filename}
         </span>
       </div>
 
@@ -175,7 +127,7 @@ const SourceSheetCard: React.FC<{
           gridTemplateColumns: cols,
           background: EXCEL.greenRibbon,
           borderBottom: `1px solid ${EXCEL.greenRibbonBorder}`,
-          fontSize: 16,
+          fontSize: 15,
           fontWeight: 600,
           color: EXCEL.rowHeaderText,
         }}
@@ -186,14 +138,14 @@ const SourceSheetCard: React.FC<{
             borderRight: `1px solid ${EXCEL.greenRibbonBorder}`,
           }}
         />
-        {sheet.headers.map((_, i) => (
+        {headers.map((_, i) => (
           <div
             key={i}
             style={{
               padding: '6px 0',
               textAlign: 'center',
               borderRight:
-                i < sheet.headers.length - 1
+                i < headers.length - 1
                   ? `1px solid ${EXCEL.greenRibbonBorder}`
                   : 'none',
             }}
@@ -203,7 +155,7 @@ const SourceSheetCard: React.FC<{
         ))}
       </div>
 
-      {/* Column-name row */}
+      {/* Header row */}
       <div
         style={{
           display: 'grid',
@@ -214,9 +166,9 @@ const SourceSheetCard: React.FC<{
       >
         <div
           style={{
-            padding: '14px 0',
+            padding: '11px 0',
             textAlign: 'center',
-            fontSize: 16,
+            fontSize: 15,
             fontWeight: 600,
             color: EXCEL.rowHeaderText,
             background: EXCEL.greenRibbon,
@@ -225,16 +177,16 @@ const SourceSheetCard: React.FC<{
         >
           1
         </div>
-        {sheet.headers.map((h, i) => (
+        {headers.map((h, i) => (
           <div
             key={i}
             style={{
-              padding: '14px 18px',
-              fontSize: 22,
+              padding: '11px 16px',
+              fontSize: 19,
               fontWeight: 700,
               color: COLORS.text,
               borderRight:
-                i < sheet.headers.length - 1 ? `1px solid ${EXCEL.gridline}` : 'none',
+                i < headers.length - 1 ? `1px solid ${EXCEL.gridline}` : 'none',
             }}
           >
             {h}
@@ -243,21 +195,21 @@ const SourceSheetCard: React.FC<{
       </div>
 
       {/* Data rows */}
-      {sheet.rows.map((row, ri) => (
+      {rows.map((row, ri) => (
         <div
           key={ri}
           style={{
             display: 'grid',
             gridTemplateColumns: cols,
             borderBottom:
-              ri < sheet.rows.length - 1 ? `1px solid ${EXCEL.gridline}` : 'none',
+              ri < rows.length - 1 ? `1px solid ${EXCEL.gridline}` : 'none',
           }}
         >
           <div
             style={{
-              padding: '14px 0',
+              padding: '11px 0',
               textAlign: 'center',
-              fontSize: 16,
+              fontSize: 15,
               fontWeight: 600,
               color: EXCEL.rowHeaderText,
               background: EXCEL.greenRibbon,
@@ -266,253 +218,428 @@ const SourceSheetCard: React.FC<{
           >
             {ri + 2}
           </div>
-          {row.map((cell, ci) => (
-            <div
-              key={ci}
-              style={{
-                padding: '14px 18px',
-                fontSize: 22,
-                color: COLORS.text,
-                borderRight:
-                  ci < row.length - 1 ? `1px solid ${EXCEL.gridline}` : 'none',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {cell}
-            </div>
-          ))}
+          {row.map((cell, ci) => {
+            const cellObj: EditableCell =
+              typeof cell === 'string' ? { text: cell } : cell;
+
+            let visible = cellObj.text;
+            let typingActive = false;
+            let highlighted = false;
+
+            if (cellObj.typedAt !== undefined) {
+              const start = cellObj.typedAt;
+              const dur = cellObj.typingDuration ?? 20;
+              const before = cellObj.before ?? '';
+              const eraseDur = before ? Math.round(dur * 0.4) : 0;
+              const typeDur = dur - eraseDur;
+
+              if (frame < start) {
+                visible = before;
+              } else if (frame < start + eraseDur) {
+                const t = (frame - start) / eraseDur;
+                const chars = Math.ceil(before.length * (1 - t));
+                visible = before.slice(0, chars);
+                typingActive = true;
+                highlighted = true;
+              } else if (frame < start + dur) {
+                const t = (frame - start - eraseDur) / typeDur;
+                const chars = Math.floor(t * cellObj.text.length);
+                visible = cellObj.text.slice(0, chars);
+                typingActive = true;
+                highlighted = true;
+              } else if (frame < start + dur + 10) {
+                highlighted = true;
+              }
+            }
+
+            return (
+              <div
+                key={ci}
+                style={{
+                  padding: '11px 16px',
+                  fontSize: 19,
+                  color: COLORS.text,
+                  borderRight:
+                    ci < row.length - 1 ? `1px solid ${EXCEL.gridline}` : 'none',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  position: 'relative',
+                  outline: highlighted ? `3px solid ${COLORS.accentBlue}` : 'none',
+                  outlineOffset: -3,
+                  background: highlighted
+                    ? 'rgba(61, 106, 150, 0.08)'
+                    : 'transparent',
+                }}
+              >
+                {visible}
+                {typingActive && (
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      width: 2,
+                      height: 19,
+                      background: COLORS.text,
+                      marginLeft: 2,
+                      verticalAlign: 'middle',
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
       ))}
     </div>
   );
 };
 
-const UnifiedTable: React.FC<{
-  rowsStartFrame: number;
-  expandFrame: number;
+// ─── Foundry panel ──────────────────────────────────────────────
+
+const FormField: React.FC<{
+  label: string;
+  value: string;
+  fillAt: number;
+  fillDuration?: number;
+  accent?: boolean;
+}> = ({ label, value, fillAt, fillDuration = 18, accent = false }) => {
+  const frame = useCurrentFrame();
+  const raw = Math.max(0, Math.min(1, (frame - fillAt) / fillDuration));
+  const chars = frame < fillAt ? 0 : Math.floor(raw * value.length);
+  const visible = value.slice(0, chars);
+  const active = frame >= fillAt && frame < fillAt + fillDuration;
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <label
+        style={{
+          fontSize: 16,
+          color: COLORS.muted,
+          textTransform: 'uppercase',
+          letterSpacing: 1,
+          fontWeight: 600,
+        }}
+      >
+        {label}
+      </label>
+      <div
+        style={{
+          padding: '18px 22px',
+          background: chars > 0 ? '#F8F9FC' : COLORS.white,
+          border: `2px solid ${active ? COLORS.accentBorder : '#E5E7EB'}`,
+          borderRadius: 12,
+          fontSize: 24,
+          fontWeight: accent ? 700 : 500,
+          color: accent ? COLORS.accent : COLORS.text,
+          minHeight: 32,
+          boxShadow: active ? `0 0 0 5px ${COLORS.accentMuted}` : 'none',
+        }}
+      >
+        {visible}
+        {active && (
+          <span
+            style={{
+              display: 'inline-block',
+              width: 2,
+              height: 24,
+              background: COLORS.text,
+              marginLeft: 2,
+              verticalAlign: 'middle',
+            }}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+const FoundryPanel: React.FC<{
+  enterFrame: number;
+  width: number;
   title: string;
-  liveLabel: string;
-  detailLabel: string;
-}> = ({ rowsStartFrame, expandFrame, title, liveLabel, detailLabel }) => {
+  fieldLabels: [string, string, string];
+  fieldValues: [string, string, string];
+  submitLabel: string;
+  submitAt: number;
+}> = ({
+  enterFrame,
+  width,
+  title,
+  fieldLabels,
+  fieldValues,
+  submitLabel,
+  submitAt,
+}) => {
   const frame = useCurrentFrame();
   const enter = spring({
-    frame,
+    frame: frame - enterFrame,
     fps: FPS,
-    config: { damping: 26, stiffness: 90, mass: 0.9 },
+    config: { damping: 24, stiffness: 100, mass: 0.9 },
   });
-  const expand = spring({
-    frame: frame - expandFrame,
-    fps: FPS,
-    config: { damping: 28, stiffness: 90, mass: 1 },
-  });
+  const pressed = frame >= submitAt && frame < submitAt + 8;
 
   return (
     <div
       style={{
-        width: 980,
+        width,
         background: COLORS.white,
         borderRadius: 20,
-        boxShadow: SHADOWS.cardHover,
+        boxShadow: '0 32px 64px rgba(0,0,0,0.10), 0 6px 16px rgba(0,0,0,0.05)',
         border: `1px solid ${COLORS.accentBorder}`,
         overflow: 'hidden',
         opacity: enter,
-        transform: `translateY(${(1 - enter) * 32}px)`,
+        transform: `translateY(${(1 - enter) * 28}px)`,
         fontFamily: FONT.sans,
       }}
     >
+      {/* Header */}
       <div
         style={{
           background: GRADIENTS.ctaBg,
-          padding: '24px 30px',
+          padding: '22px 30px',
           display: 'flex',
           alignItems: 'center',
           gap: 18,
           color: COLORS.white,
         }}
       >
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-          <rect x="3" y="4" width="18" height="16" rx="2" stroke="white" strokeWidth="1.6" />
-          <path d="M3 9h18M9 4v16" stroke="white" strokeWidth="1.6" />
-        </svg>
-        <div style={{ fontSize: 26, fontWeight: 600 }}>{title}</div>
-        <div
+        <span
           style={{
-            marginLeft: 'auto',
             fontSize: 16,
-            padding: '6px 14px',
-            borderRadius: 18,
-            background: 'rgba(255,255,255,0.18)',
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: 0.8,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
+            fontWeight: 800,
+            letterSpacing: 2,
+            padding: '5px 12px',
+            background: 'rgba(255,255,255,0.16)',
+            borderRadius: 6,
           }}
         >
-          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#34d399' }} />
-          {liveLabel}
-        </div>
+          FOUNDRY
+        </span>
+        <div style={{ fontSize: 26, fontWeight: 600 }}>{title}</div>
       </div>
 
       <div
         style={{
-          display: 'grid',
-          gridTemplateColumns: '160px 1fr 220px 180px',
-          background: '#F8F9FC',
-          borderBottom: '1px solid #E5E7EB',
+          padding: '28px 32px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 18,
         }}
       >
-        {UNIFIED_HEADERS.map((h, i) => (
+        <FormField label={fieldLabels[0]} value={fieldValues[0]} fillAt={enterFrame + 12} />
+        <FormField label={fieldLabels[1]} value={fieldValues[1]} fillAt={enterFrame + 32} />
+        <FormField
+          label={fieldLabels[2]}
+          value={fieldValues[2]}
+          fillAt={enterFrame + 52}
+          fillDuration={12}
+          accent
+        />
+
+        <div
+          style={{
+            marginTop: 12,
+            padding: '22px 28px',
+            background: GRADIENTS.ctaBg,
+            borderRadius: 14,
+            color: COLORS.white,
+            fontSize: 22,
+            fontWeight: 600,
+            textAlign: 'center',
+            letterSpacing: 0.5,
+            transform: `scale(${pressed ? 0.96 : 1})`,
+            boxShadow: pressed
+              ? '0 3px 8px rgba(0,0,0,0.15)'
+              : '0 14px 30px rgba(184, 99, 46, 0.22)',
+          }}
+        >
+          {submitLabel}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─── Sync checklist ─────────────────────────────────────────────
+
+const SyncChecklist: React.FC<{
+  startFrame: number;
+  items: string[];
+  width: number;
+}> = ({ startFrame, items, width }) => {
+  const frame = useCurrentFrame();
+  return (
+    <div
+      style={{
+        width,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 14,
+        marginTop: 26,
+        padding: '22px 26px',
+        background: 'rgba(184, 99, 46, 0.04)',
+        border: `1px dashed ${COLORS.accentBorder}`,
+        borderRadius: 16,
+      }}
+    >
+      {items.map((item, i) => {
+        const p = spring({
+          frame: frame - (startFrame + i * 10),
+          fps: FPS,
+          config: { damping: 22, stiffness: 140 },
+        });
+        return (
           <div
             key={i}
             style={{
-              padding: '16px 22px',
-              fontSize: 16,
-              fontWeight: 700,
-              color: COLORS.muted,
-              textTransform: 'uppercase',
-              letterSpacing: 0.8,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 16,
+              opacity: p,
+              transform: `translateX(${(1 - p) * -20}px)`,
             }}
           >
-            {h}
-          </div>
-        ))}
-      </div>
-
-      {UNIFIED_ROWS.map((row, rowIdx) => {
-        const rowEnter = spring({
-          frame: frame - (rowsStartFrame + rowIdx * 8),
-          fps: FPS,
-          config: { damping: 26, stiffness: 130, mass: 0.7 },
-        });
-        const isExpanded = rowIdx === EXPANDED_ROW_INDEX;
-        const expandedBg = isExpanded ? Math.min(1, expand * 1.5) : 0;
-        return (
-          <React.Fragment key={rowIdx}>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '160px 1fr 220px 180px',
-                borderBottom: '1px solid #F3F4F6',
-                background:
-                  expandedBg > 0
-                    ? `rgba(184,99,46,${0.06 * expandedBg})`
-                    : COLORS.white,
-                opacity: rowEnter,
-                transform: `translateX(${(1 - rowEnter) * -10}px)`,
-                position: 'relative',
+                width: 32,
+                height: 32,
+                borderRadius: '50%',
+                background: COLORS.success,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: COLORS.white,
+                fontSize: 17,
+                fontWeight: 900,
+                flexShrink: 0,
               }}
             >
-              {isExpanded && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    top: 0,
-                    bottom: 0,
-                    width: 4,
-                    background: GRADIENTS.accentLine,
-                    opacity: expandedBg,
-                  }}
-                />
-              )}
-              {row.map((cell, ci) => (
-                <div
-                  key={ci}
-                  style={{
-                    padding: '20px 22px',
-                    fontSize: 22,
-                    color: ci === 0 ? COLORS.accent : COLORS.text,
-                    fontWeight: ci === 0 ? 600 : 400,
-                    fontFamily: ci === 0 ? 'ui-monospace, monospace' : FONT.sans,
-                  }}
-                >
-                  {cell}
-                </div>
-              ))}
+              ✓
             </div>
-            {isExpanded && (
-              <div
-                style={{
-                  overflow: 'hidden',
-                  maxHeight: expand * 540,
-                  opacity: expand,
-                  background:
-                    'linear-gradient(180deg, rgba(184,99,46,0.04) 0%, rgba(184,99,46,0.08) 100%)',
-                  borderBottom: '1px solid #F3F4F6',
-                }}
-              >
-                <div style={{ padding: '24px 32px' }}>
-                  <div
-                    style={{
-                      fontSize: 16,
-                      color: COLORS.muted,
-                      textTransform: 'uppercase',
-                      letterSpacing: 1,
-                      marginBottom: 18,
-                      fontWeight: 600,
-                    }}
-                  >
-                    {detailLabel}
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 12,
-                    }}
-                  >
-                    {EXPANDED_DETAILS.map((src, i) => (
-                      <div
-                        key={i}
-                        style={{
-                          background: COLORS.white,
-                          borderRadius: 12,
-                          padding: '16px 20px',
-                          border: `1px solid ${COLORS.panelBorderSubtle}`,
-                        }}
-                      >
-                        <div
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 700,
-                            color: COLORS.accent,
-                            textTransform: 'uppercase',
-                            letterSpacing: 1,
-                            marginBottom: 10,
-                          }}
-                        >
-                          {src.label}
-                        </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
-                          {src.items.map(([k, v], j) => (
-                            <div key={j} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                              <span style={{ color: COLORS.muted, fontSize: 14 }}>{k}</span>
-                              <span style={{ color: COLORS.text, fontSize: 18, fontWeight: 500 }}>
-                                {v}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </React.Fragment>
+            <span style={{ fontSize: 22, color: COLORS.text, fontWeight: 500 }}>
+              {item}
+            </span>
+          </div>
         );
       })}
     </div>
   );
 };
 
-export const SYSTEMS_MOBILE_DURATION = 370;
+// ─── Column label + meta badge ──────────────────────────────────
+
+const ColumnLabel: React.FC<{
+  label: string;
+  variant: 'manual' | 'foundry';
+}> = ({ label, variant }) => (
+  <div
+    style={{
+      fontSize: 18,
+      fontWeight: 700,
+      textTransform: 'uppercase',
+      letterSpacing: 2,
+      color: variant === 'manual' ? '#B91C1C' : COLORS.accent,
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12,
+    }}
+  >
+    <div
+      style={{
+        width: 12,
+        height: 12,
+        borderRadius: '50%',
+        background: variant === 'manual' ? '#DC2626' : COLORS.accent,
+      }}
+    />
+    {label}
+  </div>
+);
+
+const MetaBadge: React.FC<{
+  icon: string;
+  text: string;
+  variant: 'warn' | 'good';
+  enterFrame: number;
+}> = ({ icon, text, variant, enterFrame }) => {
+  const frame = useCurrentFrame();
+  const p = spring({
+    frame: frame - enterFrame,
+    fps: FPS,
+    config: { damping: 22, stiffness: 120 },
+  });
+  const isWarn = variant === 'warn';
+  return (
+    <div
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 10,
+        padding: '12px 20px',
+        background: isWarn ? 'rgba(220, 38, 38, 0.06)' : COLORS.accentMuted,
+        border: `1px solid ${
+          isWarn ? 'rgba(220, 38, 38, 0.2)' : COLORS.accentBorder
+        }`,
+        borderRadius: 28,
+        fontSize: 19,
+        fontWeight: 600,
+        color: isWarn ? '#B91C1C' : COLORS.accent,
+        opacity: p,
+        transform: `translateY(${(1 - p) * 10}px)`,
+      }}
+    >
+      <span>{icon}</span>
+      {text}
+    </div>
+  );
+};
+
+// ─── Main composition ──────────────────────────────────────────
 
 export const SystemsEngineeringVideoMobile: React.FC = () => {
+  const frame = useCurrentFrame();
+
+  // Mobile cursor path — sheets stacked vertically, wider columns.
+  // Sheet 1 y ~ 200-390, row 4 center ≈ 370
+  // Sheet 2 y ~ 410-600, row 4 center ≈ 580
+  // Sheet 3 y ~ 620-810, row 4 center ≈ 790
+  // Col centers (width 960, 52px row-number gutter + 3 equal cols):
+  //   A: 60 + 52 + (960-52)/6  = 60 + 52 + 151 = 263
+  //   B: 263 + (960-52)/3      = 263 + 302 = 565
+  //   C: 565 + 302             = 867
+  const path: { at: number; x: number; y: number }[] = [
+    { at: 34, x: 140, y: 270 },
+    { at: 46, x: 263, y: 370 },
+    { at: 66, x: 565, y: 370 },
+    { at: 86, x: 867, y: 370 },
+    { at: 102, x: 263, y: 580 },
+    { at: 122, x: 565, y: 580 },
+    { at: 140, x: 867, y: 580 },
+    { at: 165, x: 565, y: 790 },
+    { at: 250, x: 565, y: 790 },
+    { at: 290, x: 680, y: 790 },
+  ];
+
+  let cx = path[0].x;
+  let cy = path[0].y;
+  if (frame >= path[0].at) {
+    for (let i = 0; i < path.length - 1; i++) {
+      const a = path[i];
+      const b = path[i + 1];
+      if (frame >= a.at && frame <= b.at) {
+        const t = (frame - a.at) / (b.at - a.at);
+        const ease = t * t * (3 - 2 * t);
+        cx = a.x + (b.x - a.x) * ease;
+        cy = a.y + (b.y - a.y) * ease;
+        break;
+      } else if (frame > b.at && i === path.length - 2) {
+        cx = b.x;
+        cy = b.y;
+      }
+    }
+  }
+  const cursorVisible = frame >= 30 && frame < 295;
+
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
       {/* Top label */}
@@ -520,7 +647,7 @@ export const SystemsEngineeringVideoMobile: React.FC = () => {
         style={{
           alignItems: 'center',
           justifyContent: 'flex-start',
-          paddingTop: 90,
+          paddingTop: 70,
         }}
       >
         <Sequence from={6} layout="none">
@@ -532,63 +659,182 @@ export const SystemsEngineeringVideoMobile: React.FC = () => {
                 textTransform: 'uppercase',
                 letterSpacing: 2,
                 color: COLORS.accent,
-                fontFamily: FONT.sans,
                 textAlign: 'center',
                 padding: '0 40px',
               }}
             >
-              De sistemas dispersos a un sistema único
+              La misma venta. Dos realidades.
             </div>
           </FadeIn>
         </Sequence>
       </AbsoluteFill>
 
-      {/* Source spreadsheets */}
-      <AbsoluteFill>
-        <SourceSheetCard sheet={SOURCES[0]} enterFrame={20} convergeFrame={150} />
-        <SourceSheetCard sheet={SOURCES[1]} enterFrame={36} convergeFrame={150} />
-        <SourceSheetCard sheet={SOURCES[2]} enterFrame={52} convergeFrame={150} />
-      </AbsoluteFill>
-
-      {/* Unified table */}
-      <AbsoluteFill
+      {/* TOP half — Sin Foundry */}
+      <div
         style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          paddingTop: 80,
+          position: 'absolute',
+          left: 60,
+          top: 150,
+          width: 960,
         }}
       >
-        <Sequence from={175} layout="none">
-          <UnifiedTable
-            rowsStartFrame={20}
-            expandFrame={70}
-            title="Sistema unificado"
-            liveLabel="en vivo"
-            detailLabel="Datos normalizados • 3 fuentes"
-          />
+        <Sequence from={10} layout="none">
+          <FadeIn enterFrame={0}>
+            <ColumnLabel label="Sin Foundry" variant="manual" />
+          </FadeIn>
         </Sequence>
-      </AbsoluteFill>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 20,
+            marginTop: 20,
+          }}
+        >
+          <ExcelSheet
+            filename="clientes.xlsx"
+            headers={['Cliente', 'Teléfono', 'Email']}
+            width={960}
+            enterFrame={18}
+            rows={[
+              ['Globex', '+54 11 4123', 'ventas@globex.com'],
+              ['Initech', '+54 11 5892', 'contacto@initech.com'],
+              [
+                { text: 'Acme SA', typedAt: 46, typingDuration: 16 },
+                { text: '+54 11 2891', typedAt: 64, typingDuration: 18 },
+                { text: 'acme@acme.com', typedAt: 84, typingDuration: 20 },
+              ],
+            ]}
+          />
+
+          <ExcelSheet
+            filename="ventas.xlsx"
+            headers={['Factura', 'Cliente', 'Total']}
+            width={960}
+            enterFrame={20}
+            rows={[
+              ['F-2043', 'Globex', '$8.300'],
+              ['F-2044', 'Initech', '$24.100'],
+              [
+                { text: 'F-2045', typedAt: 102, typingDuration: 14 },
+                { text: 'Acme SA', typedAt: 120, typingDuration: 14 },
+                { text: '$12.500', typedAt: 138, typingDuration: 14 },
+              ],
+            ]}
+          />
+
+          <ExcelSheet
+            filename="stock.xlsx"
+            headers={['Producto', 'Disponible', 'Mínimo']}
+            width={960}
+            enterFrame={22}
+            rows={[
+              ['Widget-B', '27', '10'],
+              ['Widget-C', '55', '20'],
+              [
+                'Widget-A',
+                { text: '38', before: '42', typedAt: 165, typingDuration: 20 },
+                '15',
+              ],
+            ]}
+          />
+        </div>
+
+        <div style={{ marginTop: 26, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+          <MetaBadge icon="⏱" text="≈ 3 minutos" variant="warn" enterFrame={280} />
+          <MetaBadge
+            icon="⚠"
+            text="fácil errar"
+            variant="warn"
+            enterFrame={288}
+          />
+        </div>
+      </div>
+
+      <Cursor x={cx} y={cy} visible={cursorVisible} />
+
+      {/* Horizontal divider between halves */}
+      <div
+        style={{
+          position: 'absolute',
+          left: 60,
+          right: 60,
+          top: 930,
+          height: 1,
+          background: `linear-gradient(90deg, transparent, ${EXCEL.gridlineStrong} 15%, ${EXCEL.gridlineStrong} 85%, transparent)`,
+        }}
+      />
+
+      {/* BOTTOM half — Con Foundry */}
+      <div
+        style={{
+          position: 'absolute',
+          left: 60,
+          top: 970,
+          width: 960,
+        }}
+      >
+        <Sequence from={10} layout="none">
+          <FadeIn enterFrame={0}>
+            <ColumnLabel label="Con Foundry" variant="foundry" />
+          </FadeIn>
+        </Sequence>
+
+        <div style={{ marginTop: 22 }}>
+          <FoundryPanel
+            enterFrame={25}
+            width={960}
+            title="Nueva venta"
+            fieldLabels={['Cliente', 'Producto', 'Total']}
+            fieldValues={['Acme SA', 'Widget-A × 4', '$12.500']}
+            submitLabel="Confirmar venta"
+            submitAt={98}
+          />
+        </div>
+
+        <SyncChecklist
+          startFrame={115}
+          width={960}
+          items={[
+            'Cliente sincronizado',
+            'Venta registrada',
+            'Stock ajustado (−4 u.)',
+            'Factura emitida',
+          ]}
+        />
+
+        <div style={{ marginTop: 22, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+          <MetaBadge icon="⚡" text="≈ 2 segundos" variant="good" enterFrame={180} />
+          <MetaBadge
+            icon="✓"
+            text="1 acción · sin errores"
+            variant="good"
+            enterFrame={188}
+          />
+        </div>
+      </div>
 
       {/* Tagline */}
       <AbsoluteFill
         style={{
           alignItems: 'center',
           justifyContent: 'flex-end',
-          paddingBottom: 90,
+          paddingBottom: 70,
         }}
       >
         <Sequence from={300} layout="none">
           <FadeIn enterFrame={0}>
             <div
               style={{
-                padding: '24px 36px',
+                padding: '22px 32px',
                 borderRadius: 18,
-                background: 'rgba(184,99,46,0.06)',
-                border: '1px solid rgba(184,99,46,0.15)',
+                background: 'rgba(184, 99, 46, 0.06)',
+                border: '1px solid rgba(184, 99, 46, 0.18)',
                 margin: '0 40px',
               }}
             >
-              <GradientText fontSize={36} fontWeight={600}>
+              <GradientText fontSize={32} fontWeight={600}>
                 Tu empresa opera sin depender de vos.
               </GradientText>
             </div>
