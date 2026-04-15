@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, Sequence, spring, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame } from 'remotion';
 import { COLORS, EXCEL, FONT, FPS, GRADIENTS } from '../theme';
 import { DotGrid } from '../components/DotGrid';
 import { FadeIn } from '../components/FadeIn';
@@ -586,17 +586,29 @@ const MetaBadge: React.FC<{
 export const SystemsEngineeringVideoEn: React.FC = () => {
   const frame = useCurrentFrame();
 
+  const phase1Opacity = interpolate(
+    frame,
+    [0, 18, 175, 195],
+    [0, 1, 1, 0],
+    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+  );
+  const phase2Opacity = interpolate(
+    frame,
+    [175, 195, 370],
+    [0, 1, 1],
+    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+  );
+
   const path: { at: number; x: number; y: number }[] = [
-    { at: 34, x: 180, y: 250 },
-    { at: 46, x: 262, y: 325 },
-    { at: 66, x: 528, y: 325 },
-    { at: 86, x: 790, y: 325 },
-    { at: 102, x: 262, y: 498 },
-    { at: 122, x: 528, y: 498 },
-    { at: 140, x: 790, y: 498 },
-    { at: 165, x: 528, y: 670 },
-    { at: 250, x: 528, y: 670 },
-    { at: 290, x: 620, y: 670 },
+    { at: 34, x: 510, y: 260 },
+    { at: 46, x: 653, y: 343 },
+    { at: 66, x: 960, y: 343 },
+    { at: 86, x: 1267, y: 343 },
+    { at: 102, x: 653, y: 523 },
+    { at: 122, x: 960, y: 523 },
+    { at: 140, x: 1267, y: 523 },
+    { at: 160, x: 960, y: 703 },
+    { at: 178, x: 960, y: 703 },
   ];
 
   let cx = path[0].x;
@@ -617,17 +629,18 @@ export const SystemsEngineeringVideoEn: React.FC = () => {
       }
     }
   }
-  const cursorVisible = frame >= 30 && frame < 295;
+  const cursorVisible = frame >= 30 && frame < 180;
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
       <DotGrid opacity={0.08} />
 
+      {/* Persistent top title */}
       <AbsoluteFill
         style={{
           alignItems: 'center',
           justifyContent: 'flex-start',
-          paddingTop: 70,
+          paddingTop: 60,
         }}
       >
         <Sequence from={6} layout="none">
@@ -647,43 +660,47 @@ export const SystemsEngineeringVideoEn: React.FC = () => {
         </Sequence>
       </AbsoluteFill>
 
-      <div
+      {/* Sub-label: Without Foundry (phase 1) */}
+      <AbsoluteFill
         style={{
-          position: 'absolute',
-          left: 960,
-          top: 140,
-          width: 1,
-          height: 780,
-          background: `linear-gradient(180deg, transparent, ${EXCEL.gridlineStrong} 15%, ${EXCEL.gridlineStrong} 85%, transparent)`,
-        }}
-      />
-
-      <div
-        style={{
-          position: 'absolute',
-          left: 100,
-          top: 150,
-          width: 820,
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          paddingTop: 100,
+          opacity: phase1Opacity,
         }}
       >
-        <Sequence from={10} layout="none">
-          <FadeIn enterFrame={0}>
-            <ColumnLabel label="Without Foundry" variant="manual" />
-          </FadeIn>
-        </Sequence>
+        <ColumnLabel label="Without Foundry" variant="manual" />
+      </AbsoluteFill>
 
+      {/* Sub-label: With Foundry (phase 2) */}
+      <AbsoluteFill
+        style={{
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          paddingTop: 100,
+          opacity: phase2Opacity,
+        }}
+      >
+        <ColumnLabel label="With Foundry" variant="foundry" />
+      </AbsoluteFill>
+
+      {/* Phase 1 — Without Foundry */}
+      <AbsoluteFill style={{ opacity: phase1Opacity }}>
         <div
           style={{
+            position: 'absolute',
+            left: 460,
+            top: 200,
+            width: 1000,
             display: 'flex',
             flexDirection: 'column',
-            gap: 16,
-            marginTop: 18,
+            gap: 20,
           }}
         >
           <ExcelSheet
             filename="customers.xlsx"
             headers={['Client', 'Phone', 'Email']}
-            width={820}
+            width={1000}
             enterFrame={18}
             rows={[
               ['Globex', '+1 415 4123', 'sales@globex.com'],
@@ -699,7 +716,7 @@ export const SystemsEngineeringVideoEn: React.FC = () => {
           <ExcelSheet
             filename="sales.xlsx"
             headers={['Invoice', 'Client', 'Total']}
-            width={820}
+            width={1000}
             enterFrame={20}
             rows={[
               ['INV-2043', 'Globex', '$8,300'],
@@ -715,94 +732,92 @@ export const SystemsEngineeringVideoEn: React.FC = () => {
           <ExcelSheet
             filename="stock.xlsx"
             headers={['Product', 'On-hand', 'Min.']}
-            width={820}
+            width={1000}
             enterFrame={22}
             rows={[
               ['Widget-B', '27', '10'],
               ['Widget-C', '55', '20'],
               [
                 'Widget-A',
-                {
-                  text: '38',
-                  before: '42',
-                  typedAt: 165,
-                  typingDuration: 20,
-                },
+                { text: '38', before: '42', typedAt: 158, typingDuration: 16 },
                 '15',
               ],
             ]}
           />
         </div>
 
-        <div style={{ marginTop: 22, display: 'flex', gap: 10 }}>
-          <MetaBadge icon="⏱" text="≈ 3 minutes" variant="warn" enterFrame={280} />
+        <div
+          style={{
+            position: 'absolute',
+            left: 460,
+            top: 760,
+            display: 'flex',
+            gap: 12,
+          }}
+        >
+          <MetaBadge icon="⏱" text="≈ 3 minutes" variant="warn" enterFrame={150} />
           <MetaBadge
             icon="⚠"
             text="3 files · easy to miss"
             variant="warn"
-            enterFrame={288}
+            enterFrame={158}
           />
         </div>
-      </div>
 
-      <Cursor x={cx} y={cy} visible={cursorVisible} />
+        <Cursor x={cx} y={cy} visible={cursorVisible} />
+      </AbsoluteFill>
 
-      <div
-        style={{
-          position: 'absolute',
-          left: 1000,
-          top: 150,
-          width: 820,
-        }}
-      >
-        <Sequence from={10} layout="none">
-          <FadeIn enterFrame={0}>
-            <ColumnLabel label="With Foundry" variant="foundry" />
-          </FadeIn>
-        </Sequence>
-
-        <div style={{ marginTop: 18 }}>
+      {/* Phase 2 — With Foundry */}
+      <AbsoluteFill style={{ opacity: phase2Opacity }}>
+        <div
+          style={{
+            position: 'absolute',
+            left: 460,
+            top: 190,
+            width: 1000,
+          }}
+        >
           <FoundryPanel
-            enterFrame={25}
-            width={820}
+            enterFrame={180}
+            width={1000}
             title="New sale"
             fieldLabels={['Client', 'Product', 'Total']}
             fieldValues={['Acme Inc', 'Widget-A × 4', '$12,500']}
             submitLabel="Confirm sale"
-            submitAt={98}
+            submitAt={252}
           />
-        </div>
 
-        <SyncChecklist
-          startFrame={115}
-          width={820}
-          items={[
-            'Client synced',
-            'Sale recorded',
-            'Stock updated (−4 units)',
-            'Invoice issued',
-          ]}
-        />
-
-        <div style={{ marginTop: 18, display: 'flex', gap: 10 }}>
-          <MetaBadge icon="⚡" text="≈ 2 seconds" variant="good" enterFrame={180} />
-          <MetaBadge
-            icon="✓"
-            text="1 action · no errors"
-            variant="good"
-            enterFrame={188}
+          <SyncChecklist
+            startFrame={265}
+            width={1000}
+            items={[
+              'Client synced',
+              'Sale recorded',
+              'Stock updated (−4 units)',
+              'Invoice issued',
+            ]}
           />
+
+          <div style={{ marginTop: 18, display: 'flex', gap: 12 }}>
+            <MetaBadge icon="⚡" text="≈ 2 seconds" variant="good" enterFrame={305} />
+            <MetaBadge
+              icon="✓"
+              text="1 action · no errors"
+              variant="good"
+              enterFrame={313}
+            />
+          </div>
         </div>
-      </div>
+      </AbsoluteFill>
 
       <AbsoluteFill
         style={{
           alignItems: 'center',
           justifyContent: 'flex-end',
-          paddingBottom: 56,
+          paddingBottom: 50,
         }}
       >
-        <Sequence from={300} layout="none">
+        <Sequence from={320} layout="none">
           <FadeIn enterFrame={0}>
             <div
               style={{
