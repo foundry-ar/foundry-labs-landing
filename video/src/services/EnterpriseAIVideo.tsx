@@ -107,8 +107,8 @@ export const EnterpriseAIVideo: React.FC = () => {
                     marginTop: 12,
                     padding: '14px 20px',
                     borderRadius: 12,
-                    background: 'rgba(118, 75, 162, 0.06)',
-                    border: `1px solid rgba(118, 75, 162, 0.15)`,
+                    background: 'rgba(184, 99, 46, 0.06)',
+                    border: `1px solid rgba(184, 99, 46, 0.15)`,
                   }}
                 >
                   <GradientText fontSize={24} fontWeight={600}>

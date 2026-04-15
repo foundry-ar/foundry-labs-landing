@@ -1,3 +1,5 @@
+// Foundry brand palette — mirrors app/globals.css design tokens.
+// Navy + warm orange/bronze/tan. No purple.
 export const COLORS = {
   bg: '#FAFBFC',
   panel: 'rgba(255, 255, 255, 0.65)',
@@ -7,11 +9,19 @@ export const COLORS = {
   text: '#111111',
   secondary: '#6B7280',
   muted: '#9CA3AF',
-  accent: '#764ba2',
-  accentBlue: '#667eea',
-  accentPink: '#ff9a9e',
-  accentMuted: 'rgba(118, 75, 162, 0.08)',
-  accentBorder: 'rgba(118, 75, 162, 0.2)',
+  // Brand accents
+  accent: '#B8632E',            // primary bronze
+  accentDark: '#9A4F1E',        // hover/darker bronze
+  accentLight: '#D4956A',       // warm tan
+  accentBlue: '#3D6A96',        // brand mid-navy
+  accentNavy: '#1B3A5C',        // brand navy
+  accentNavyDark: '#0F2440',    // deep navy
+  accentCream: '#E8D8C8',
+  accentMuted: 'rgba(184, 99, 46, 0.08)',
+  accentBorder: 'rgba(184, 99, 46, 0.22)',
+  // Legacy alias (kept so older scenes compile — maps to warm tan in new palette)
+  accentPink: '#D4956A',
+  // Semantic
   success: '#059669',
   successMuted: 'rgba(5, 150, 105, 0.08)',
   white: '#FFFFFF',
@@ -20,11 +30,14 @@ export const COLORS = {
 } as const;
 
 export const GRADIENTS = {
-  accentText: 'linear-gradient(90deg, #667eea 0%, #764ba2 50%, #ff9a9e 100%)',
-  accentLine: 'linear-gradient(to right, #a78bfa, #c084fc, #f9a8d4)',
-  cardTopAccent: 'linear-gradient(to right, #a78bfa, #8b5cf6, #ec4899)',
-  ctaBg: 'linear-gradient(to right, #764ba2, #2563eb)',
-  divider: 'linear-gradient(to right, transparent, rgba(168, 139, 250, 0.4), transparent)',
+  // --gradient-brand: blue → navy → bronze
+  accentText: 'linear-gradient(90deg, #3D6A96 0%, #1B3A5C 50%, #B8632E 100%)',
+  // --gradient-accent: warm tan → bronze → dark navy
+  accentLine: 'linear-gradient(to right, #D4956A, #B8632E, #0F2440)',
+  cardTopAccent: 'linear-gradient(to right, #D4956A, #B8632E, #0F2440)',
+  // CTA: navy → bronze
+  ctaBg: 'linear-gradient(to right, #1B3A5C, #B8632E)',
+  divider: 'linear-gradient(to right, transparent, rgba(184, 99, 46, 0.4), transparent)',
 } as const;
 
 export const SHADOWS = {
@@ -32,6 +45,18 @@ export const SHADOWS = {
   card: '0 15px 30px rgba(0, 0, 0, 0.05)',
   cardHover: '0 20px 40px rgba(0, 0, 0, 0.08)',
   button: '0 4px 12px rgba(0, 0, 0, 0.15)',
+} as const;
+
+// Microsoft Excel visual tokens — only used by the systems engineering
+// animation to dress up the "source spreadsheet" cards.
+export const EXCEL = {
+  green: '#107C41',
+  greenDark: '#0E6B37',
+  greenRibbon: '#F3F8F4',
+  greenRibbonBorder: '#C8D5CE',
+  gridline: '#E5E7EB',
+  gridlineStrong: '#D0D7DE',
+  rowHeaderText: '#5A6B5F',
 } as const;
 
 export const FPS = 30;

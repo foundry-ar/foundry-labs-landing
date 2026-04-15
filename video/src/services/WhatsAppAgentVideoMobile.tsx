@@ -149,7 +149,7 @@ export const WhatsAppAgentVideoMobile: React.FC = () => {
 
         <Sequence from={340} layout="none">
           <FadeIn enterFrame={0}>
-            <div style={{ marginTop: 10, padding: '16px 20px', borderRadius: 16, background: 'rgba(118,75,162,0.06)', border: '1px solid rgba(118,75,162,0.15)' }}>
+            <div style={{ marginTop: 10, padding: '16px 20px', borderRadius: 16, background: 'rgba(184,99,46,0.06)', border: '1px solid rgba(184,99,46,0.15)' }}>
               <GradientText fontSize={30} fontWeight={600}>
                 Soporte 24/7, sin equipo extra.
               </GradientText>

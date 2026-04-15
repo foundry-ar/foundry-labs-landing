@@ -1,6 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, Sequence, spring, useCurrentFrame } from 'remotion';
-import { COLORS, FONT, FPS, GRADIENTS, SHADOWS } from '../theme';
+import { COLORS, EXCEL, FONT, FPS, GRADIENTS, SHADOWS } from '../theme';
 import { DotGrid } from '../components/DotGrid';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
@@ -115,46 +115,60 @@ const SourceSheetCard: React.FC<{
   const scale = (0.92 + enter * 0.08) * (1 - converge * 0.55);
   const opacity = enter * (1 - converge);
 
+  const cols = `34px repeat(${sheet.headers.length}, 1fr)`;
+
   return (
     <div
       style={{
         position: 'absolute',
         left: '50%',
         top: '42%',
-        width: 360,
-        marginLeft: -180,
+        width: 380,
+        marginLeft: -190,
         transform: `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`,
         transformOrigin: 'center',
         opacity,
         background: COLORS.white,
-        borderRadius: 10,
-        boxShadow: SHADOWS.card,
-        border: `1px solid ${COLORS.panelBorderSubtle}`,
+        borderRadius: 6,
+        boxShadow: '0 12px 32px rgba(0,0,0,0.09), 0 2px 6px rgba(0,0,0,0.05)',
+        border: `1px solid ${EXCEL.gridlineStrong}`,
         overflow: 'hidden',
         fontFamily: FONT.sans,
       }}
     >
+      {/* Excel title bar */}
       <div
         style={{
-          background: '#1F2937',
-          padding: '10px 14px',
+          background: EXCEL.green,
+          padding: '8px 12px',
           display: 'flex',
           alignItems: 'center',
           gap: 10,
+          color: COLORS.white,
         }}
       >
         <div
           style={{
-            width: 14,
-            height: 14,
+            width: 20,
+            height: 20,
             borderRadius: 3,
-            background: GRADIENTS.cardTopAccent,
+            background: COLORS.white,
+            color: EXCEL.green,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 14,
+            fontWeight: 900,
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            lineHeight: 1,
           }}
-        />
-        <span style={{ color: '#E5E7EB', fontSize: 14, fontWeight: 500 }}>
+        >
+          X
+        </div>
+        <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: 0.1 }}>
           {sheet.filename}
         </span>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 5 }}>
           {[0, 1, 2].map((i) => (
             <div
               key={i}
@@ -162,53 +176,120 @@ const SourceSheetCard: React.FC<{
                 width: 6,
                 height: 6,
                 borderRadius: '50%',
-                background: 'rgba(255,255,255,0.25)',
+                background: 'rgba(255,255,255,0.4)',
               }}
             />
           ))}
         </div>
       </div>
+
+      {/* Column-letter strip */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: `repeat(${sheet.headers.length}, 1fr)`,
-          background: '#F3F4F6',
-          borderBottom: '1px solid #E5E7EB',
+          gridTemplateColumns: cols,
+          background: EXCEL.greenRibbon,
+          borderBottom: `1px solid ${EXCEL.greenRibbonBorder}`,
+          fontSize: 10,
+          fontWeight: 600,
+          color: EXCEL.rowHeaderText,
         }}
       >
+        <div
+          style={{
+            padding: '3px 0',
+            borderRight: `1px solid ${EXCEL.greenRibbonBorder}`,
+          }}
+        />
+        {sheet.headers.map((_, i) => (
+          <div
+            key={i}
+            style={{
+              padding: '3px 0',
+              textAlign: 'center',
+              borderRight:
+                i < sheet.headers.length - 1
+                  ? `1px solid ${EXCEL.greenRibbonBorder}`
+                  : 'none',
+            }}
+          >
+            {String.fromCharCode(65 + i)}
+          </div>
+        ))}
+      </div>
+
+      {/* Column-name row */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: cols,
+          background: COLORS.white,
+          borderBottom: `1px solid ${EXCEL.gridlineStrong}`,
+        }}
+      >
+        <div
+          style={{
+            padding: '8px 0',
+            textAlign: 'center',
+            fontSize: 10,
+            fontWeight: 600,
+            color: EXCEL.rowHeaderText,
+            background: EXCEL.greenRibbon,
+            borderRight: `1px solid ${EXCEL.greenRibbonBorder}`,
+          }}
+        >
+          1
+        </div>
         {sheet.headers.map((h, i) => (
           <div
             key={i}
             style={{
-              padding: '10px 12px',
+              padding: '8px 12px',
               fontSize: 13,
-              fontWeight: 600,
+              fontWeight: 700,
               color: COLORS.text,
-              borderRight: i < sheet.headers.length - 1 ? '1px solid #E5E7EB' : 'none',
+              borderRight:
+                i < sheet.headers.length - 1 ? `1px solid ${EXCEL.gridline}` : 'none',
             }}
           >
             {h}
           </div>
         ))}
       </div>
+
+      {/* Data rows */}
       {sheet.rows.map((row, ri) => (
         <div
           key={ri}
           style={{
             display: 'grid',
-            gridTemplateColumns: `repeat(${sheet.headers.length}, 1fr)`,
-            borderBottom: ri < sheet.rows.length - 1 ? '1px solid #F3F4F6' : 'none',
-            background: ri % 2 === 0 ? COLORS.white : '#FAFBFC',
+            gridTemplateColumns: cols,
+            borderBottom:
+              ri < sheet.rows.length - 1 ? `1px solid ${EXCEL.gridline}` : 'none',
           }}
         >
+          <div
+            style={{
+              padding: '8px 0',
+              textAlign: 'center',
+              fontSize: 10,
+              fontWeight: 600,
+              color: EXCEL.rowHeaderText,
+              background: EXCEL.greenRibbon,
+              borderRight: `1px solid ${EXCEL.greenRibbonBorder}`,
+            }}
+          >
+            {ri + 2}
+          </div>
           {row.map((cell, ci) => (
             <div
               key={ci}
               style={{
-                padding: '9px 12px',
+                padding: '8px 12px',
                 fontSize: 13,
-                color: COLORS.secondary,
-                borderRight: ci < row.length - 1 ? '1px solid #F3F4F6' : 'none',
+                color: COLORS.text,
+                borderRight:
+                  ci < row.length - 1 ? `1px solid ${EXCEL.gridline}` : 'none',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -332,7 +413,7 @@ const UnifiedTable: React.FC<{
                 borderBottom: '1px solid #F3F4F6',
                 background:
                   expandedBg > 0
-                    ? `rgba(118,75,162,${0.06 * expandedBg})`
+                    ? `rgba(184,99,46,${0.06 * expandedBg})`
                     : COLORS.white,
                 opacity: rowEnter,
                 transform: `translateX(${(1 - rowEnter) * -8}px)`,
@@ -396,7 +477,7 @@ const UnifiedTable: React.FC<{
                   maxHeight: expand * 220,
                   opacity: expand,
                   background:
-                    'linear-gradient(180deg, rgba(118,75,162,0.04) 0%, rgba(118,75,162,0.08) 100%)',
+                    'linear-gradient(180deg, rgba(184,99,46,0.04) 0%, rgba(184,99,46,0.08) 100%)',
                   borderBottom: '1px solid #F3F4F6',
                 }}
               >
@@ -540,8 +621,8 @@ export const SystemsEngineeringVideoEn: React.FC = () => {
               style={{
                 padding: '18px 28px',
                 borderRadius: 14,
-                background: 'rgba(118,75,162,0.06)',
-                border: '1px solid rgba(118,75,162,0.15)',
+                background: 'rgba(184,99,46,0.06)',
+                border: '1px solid rgba(184,99,46,0.15)',
               }}
             >
               <GradientText fontSize={28} fontWeight={600}>
