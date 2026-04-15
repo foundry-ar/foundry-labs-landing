@@ -344,11 +344,11 @@ export const Scene2ConversationEs: React.FC = () => {
                         gap: 6,
                         background:
                           chipGlow > 0
-                            ? `rgba(118, 75, 162, ${0.08 + chipGlow * 0.15})`
+                            ? `rgba(184, 99, 46, ${0.08 + chipGlow * 0.15})`
                             : COLORS.accentMuted,
                         border: `1px solid ${
                           chipGlow > 0
-                            ? `rgba(118, 75, 162, ${0.2 + chipGlow * 0.4})`
+                            ? `rgba(184, 99, 46, ${0.2 + chipGlow * 0.4})`
                             : COLORS.accentBorder
                         }`,
                         borderRadius: 20,
@@ -356,7 +356,7 @@ export const Scene2ConversationEs: React.FC = () => {
                         transform: chipGlow > 0 ? `scale(${1 + chipGlow * 0.05})` : undefined,
                         boxShadow:
                           chipGlow > 0
-                            ? `0 0 ${chipGlow * 12}px rgba(118, 75, 162, ${chipGlow * 0.25})`
+                            ? `0 0 ${chipGlow * 12}px rgba(184, 99, 46, ${chipGlow * 0.25})`
                             : 'none',
                         fontFamily: FONT.sans,
                       }}

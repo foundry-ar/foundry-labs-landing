@@ -347,8 +347,8 @@ export const EnterpriseAIVideoMobileEn: React.FC = () => {
               style={{
                 padding: '22px 28px',
                 borderRadius: 16,
-                background: 'rgba(118, 75, 162, 0.06)',
-                border: `1px solid rgba(118, 75, 162, 0.15)`,
+                background: 'rgba(184, 99, 46, 0.06)',
+                border: `1px solid rgba(184, 99, 46, 0.15)`,
               }}
             >
               <GradientText fontSize={36} fontWeight={600}>

@@ -4,7 +4,7 @@ import { COLORS, FONT, FPS } from '../theme';
 import { DotGrid } from '../components/DotGrid';
 
 const SHIMMER_GRADIENT =
-  'linear-gradient(90deg, #667eea 0%, #764ba2 50%, #ff9a9e 100%)';
+  'linear-gradient(90deg, #3D6A96 0%, #B8632E 50%, #D4956A 100%)';
 const SHIMMER_CYCLE_FRAMES = 5 * FPS;
 
 export const Scene4Close: React.FC = () => {

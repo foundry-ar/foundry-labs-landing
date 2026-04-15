@@ -35,7 +35,7 @@ const ITEMS: Array<
 ];
 
 const EXT_COLORS: Record<string, string> = {
-  par: '#667eea',
+  par: '#3D6A96',
   xlsx: '#059669',
   step: '#d97706',
   docx: '#818cf8',
@@ -50,7 +50,7 @@ const START_ANGLE = -Math.PI / 2;
 
 const FileIcon: React.FC<{ size?: number; color?: string }> = ({
   size = 18,
-  color = '#667eea',
+  color = '#3D6A96',
 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
     <path d="M4 4a2 2 0 012-2h8l6 6v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" fill={color} opacity={0.12} />
