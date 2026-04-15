@@ -1,56 +1,430 @@
 import React from 'react';
 import { AbsoluteFill, Sequence, spring, useCurrentFrame } from 'remotion';
-import { COLORS, FONT, FPS, SHADOWS } from '../theme';
+import { COLORS, FONT, FPS, GRADIENTS, SHADOWS } from '../theme';
 import { FadeIn } from '../components/FadeIn';
 import { GradientText } from '../components/GradientText';
 
-const StatusBadge: React.FC<{ label: string; color: string; bg: string }> = ({ label, color, bg }) => (
-  <span style={{ fontSize: 20, fontWeight: 600, color, background: bg, borderRadius: 20, padding: '4px 14px', textTransform: 'uppercase', letterSpacing: 0.8 }}>{label}</span>
-);
+/* ── Mobile EN: scattered spreadsheets converging into a normalized table ── */
 
-const ProcessCard: React.FC<{
-  title: string;
-  items: string[];
-  status: { label: string; color: string; bg: string };
-  enterFrame?: number;
-  highlight?: boolean;
-}> = ({ title, items, status, enterFrame = 0, highlight = false }) => {
+type SourceSheet = {
+  filename: string;
+  headers: string[];
+  rows: string[][];
+  x: number;
+  y: number;
+  rotation: number;
+};
+
+const SOURCES: SourceSheet[] = [
+  {
+    filename: 'quotes_march.xlsx',
+    headers: ['Client', 'Amount', 'Status'],
+    rows: [
+      ['Acme Inc', '$45,000', 'Pending'],
+      ['Globex', '$12,500', 'Approved'],
+      ['Initech', '$87,300', 'Sent'],
+    ],
+    x: -120,
+    y: -540,
+    rotation: -3,
+  },
+  {
+    filename: 'production_floor.xlsx',
+    headers: ['Batch', 'Client', 'Operator'],
+    rows: [
+      ['L-114', 'Globex', 'A. Ruiz'],
+      ['L-115', 'Initech', 'M. Diaz'],
+      ['L-116', 'Acme Inc', 'L. Soto'],
+    ],
+    x: 120,
+    y: -180,
+    rotation: 2.5,
+  },
+  {
+    filename: 'shipping_logistics.xlsx',
+    headers: ['ID', 'Carrier', 'ETA'],
+    rows: [
+      ['DH-901288', 'DHL', '04/12'],
+      ['FX-447', 'FedEx', '04/14'],
+      ['ML-220', 'UPS', '04/15'],
+    ],
+    x: -100,
+    y: 180,
+    rotation: -2,
+  },
+];
+
+const UNIFIED_HEADERS = ['ID', 'Client', 'Status', 'Total'];
+const UNIFIED_ROWS: string[][] = [
+  ['ACM-001', 'Acme Inc', 'Quoting', '$45,000'],
+  ['GLO-014', 'Globex Corp', 'In production', '$12,500'],
+  ['INI-022', 'Initech', 'Delivered', '$87,300'],
+  ['UMB-007', 'Umbrella', 'Quoting', '$32,100'],
+];
+
+const EXPANDED_ROW_INDEX = 1;
+const EXPANDED_DETAILS = [
+  {
+    label: 'Quoting',
+    items: [
+      ['Amount', '$12,500'],
+      ['Approved by', 'M. Lopez'],
+      ['Date', '04/03/2026'],
+    ] as const,
+  },
+  {
+    label: 'Production',
+    items: [
+      ['Batch', 'L-114'],
+      ['Operator', 'A. Ruiz'],
+      ['Status', 'In progress'],
+    ] as const,
+  },
+  {
+    label: 'Delivery',
+    items: [
+      ['ETA', '04/12/2026'],
+      ['Carrier', 'DHL'],
+      ['Tracking', 'DH-901288'],
+    ] as const,
+  },
+];
+
+const SourceSheetCard: React.FC<{
+  sheet: SourceSheet;
+  enterFrame: number;
+  convergeFrame: number;
+}> = ({ sheet, enterFrame, convergeFrame }) => {
   const frame = useCurrentFrame();
-  const progress = spring({ frame: frame - enterFrame, fps: FPS, config: { damping: 24, stiffness: 120, mass: 0.7 } });
+  const enter = spring({
+    frame: frame - enterFrame,
+    fps: FPS,
+    config: { damping: 22, stiffness: 110, mass: 0.8 },
+  });
+  const converge = spring({
+    frame: frame - convergeFrame,
+    fps: FPS,
+    config: { damping: 26, stiffness: 80, mass: 0.9 },
+  });
+
+  const x = sheet.x * (1 - converge);
+  const y = sheet.y * (1 - converge);
+  const rotation = sheet.rotation * (1 - converge);
+  const scale = (0.92 + enter * 0.08) * (1 - converge * 0.55);
+  const opacity = enter * (1 - converge);
+
   return (
     <div
       style={{
-        background: highlight ? COLORS.white : 'rgba(255,255,255,0.7)',
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        width: 720,
+        marginLeft: -360,
+        transform: `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`,
+        transformOrigin: 'center',
+        opacity,
+        background: COLORS.white,
         borderRadius: 16,
-        border: highlight ? `1px solid ${COLORS.accentBorder}` : `1px solid ${COLORS.panelBorderSubtle}`,
-        padding: '20px 24px',
-        opacity: progress,
-        transform: `translateY(${(1 - progress) * 4}px)`,
-        boxShadow: highlight ? SHADOWS.card : SHADOWS.panel,
+        boxShadow: SHADOWS.card,
+        border: `1px solid ${COLORS.panelBorderSubtle}`,
+        overflow: 'hidden',
         fontFamily: FONT.sans,
-        marginBottom: 12,
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-        <span style={{ fontSize: 26, fontWeight: 600, color: COLORS.text }}>{title}</span>
-        <StatusBadge {...status} />
+      <div
+        style={{
+          background: '#1F2937',
+          padding: '16px 22px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 14,
+        }}
+      >
+        <div
+          style={{
+            width: 20,
+            height: 20,
+            borderRadius: 4,
+            background: GRADIENTS.cardTopAccent,
+          }}
+        />
+        <span style={{ color: '#E5E7EB', fontSize: 22, fontWeight: 500 }}>
+          {sheet.filename}
+        </span>
       </div>
-      {items.map((item, i) => (
-        <div key={i} style={{ fontSize: 24, color: COLORS.secondary, lineHeight: 1.6, display: 'flex', gap: 10, alignItems: 'baseline' }}>
-          <span style={{ color: COLORS.muted }}>•</span>
-          {item}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${sheet.headers.length}, 1fr)`,
+          background: '#F3F4F6',
+          borderBottom: '1px solid #E5E7EB',
+        }}
+      >
+        {sheet.headers.map((h, i) => (
+          <div
+            key={i}
+            style={{
+              padding: '14px 18px',
+              fontSize: 22,
+              fontWeight: 600,
+              color: COLORS.text,
+              borderRight: i < sheet.headers.length - 1 ? '1px solid #E5E7EB' : 'none',
+            }}
+          >
+            {h}
+          </div>
+        ))}
+      </div>
+      {sheet.rows.map((row, ri) => (
+        <div
+          key={ri}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${sheet.headers.length}, 1fr)`,
+            borderBottom: ri < sheet.rows.length - 1 ? '1px solid #F3F4F6' : 'none',
+            background: ri % 2 === 0 ? COLORS.white : '#FAFBFC',
+          }}
+        >
+          {row.map((cell, ci) => (
+            <div
+              key={ci}
+              style={{
+                padding: '14px 18px',
+                fontSize: 22,
+                color: COLORS.secondary,
+                borderRight: ci < row.length - 1 ? '1px solid #F3F4F6' : 'none',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {cell}
+            </div>
+          ))}
         </div>
       ))}
     </div>
   );
 };
 
-const PhaseLabel: React.FC<{ label: string; variant: 'before' | 'after'; enterFrame?: number }> = ({ label, variant, enterFrame = 0 }) => {
+const UnifiedTable: React.FC<{
+  rowsStartFrame: number;
+  expandFrame: number;
+  title: string;
+  liveLabel: string;
+  detailLabel: string;
+}> = ({ rowsStartFrame, expandFrame, title, liveLabel, detailLabel }) => {
   const frame = useCurrentFrame();
-  const progress = spring({ frame: frame - enterFrame, fps: FPS, config: { damping: 26, stiffness: 120, mass: 0.6 } });
+  const enter = spring({
+    frame,
+    fps: FPS,
+    config: { damping: 26, stiffness: 90, mass: 0.9 },
+  });
+  const expand = spring({
+    frame: frame - expandFrame,
+    fps: FPS,
+    config: { damping: 28, stiffness: 90, mass: 1 },
+  });
+
   return (
-    <div style={{ fontSize: 20, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, color: variant === 'before' ? '#dc2626' : COLORS.accent, marginBottom: 16, opacity: progress, fontFamily: FONT.sans }}>
-      {label}
+    <div
+      style={{
+        width: 980,
+        background: COLORS.white,
+        borderRadius: 20,
+        boxShadow: SHADOWS.cardHover,
+        border: `1px solid ${COLORS.accentBorder}`,
+        overflow: 'hidden',
+        opacity: enter,
+        transform: `translateY(${(1 - enter) * 32}px)`,
+        fontFamily: FONT.sans,
+      }}
+    >
+      <div
+        style={{
+          background: GRADIENTS.ctaBg,
+          padding: '24px 30px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 18,
+          color: COLORS.white,
+        }}
+      >
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="4" width="18" height="16" rx="2" stroke="white" strokeWidth="1.6" />
+          <path d="M3 9h18M9 4v16" stroke="white" strokeWidth="1.6" />
+        </svg>
+        <div style={{ fontSize: 26, fontWeight: 600 }}>{title}</div>
+        <div
+          style={{
+            marginLeft: 'auto',
+            fontSize: 16,
+            padding: '6px 14px',
+            borderRadius: 18,
+            background: 'rgba(255,255,255,0.18)',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: 0.8,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+          }}
+        >
+          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#34d399' }} />
+          {liveLabel}
+        </div>
+      </div>
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '160px 1fr 220px 180px',
+          background: '#F8F9FC',
+          borderBottom: '1px solid #E5E7EB',
+        }}
+      >
+        {UNIFIED_HEADERS.map((h, i) => (
+          <div
+            key={i}
+            style={{
+              padding: '16px 22px',
+              fontSize: 16,
+              fontWeight: 700,
+              color: COLORS.muted,
+              textTransform: 'uppercase',
+              letterSpacing: 0.8,
+            }}
+          >
+            {h}
+          </div>
+        ))}
+      </div>
+
+      {UNIFIED_ROWS.map((row, rowIdx) => {
+        const rowEnter = spring({
+          frame: frame - (rowsStartFrame + rowIdx * 8),
+          fps: FPS,
+          config: { damping: 26, stiffness: 130, mass: 0.7 },
+        });
+        const isExpanded = rowIdx === EXPANDED_ROW_INDEX;
+        const expandedBg = isExpanded ? Math.min(1, expand * 1.5) : 0;
+        return (
+          <React.Fragment key={rowIdx}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '160px 1fr 220px 180px',
+                borderBottom: '1px solid #F3F4F6',
+                background:
+                  expandedBg > 0
+                    ? `rgba(118,75,162,${0.06 * expandedBg})`
+                    : COLORS.white,
+                opacity: rowEnter,
+                transform: `translateX(${(1 - rowEnter) * -10}px)`,
+                position: 'relative',
+              }}
+            >
+              {isExpanded && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    width: 4,
+                    background: GRADIENTS.accentLine,
+                    opacity: expandedBg,
+                  }}
+                />
+              )}
+              {row.map((cell, ci) => (
+                <div
+                  key={ci}
+                  style={{
+                    padding: '20px 22px',
+                    fontSize: 22,
+                    color: ci === 0 ? COLORS.accent : COLORS.text,
+                    fontWeight: ci === 0 ? 600 : 400,
+                    fontFamily: ci === 0 ? 'ui-monospace, monospace' : FONT.sans,
+                  }}
+                >
+                  {cell}
+                </div>
+              ))}
+            </div>
+            {isExpanded && (
+              <div
+                style={{
+                  overflow: 'hidden',
+                  maxHeight: expand * 540,
+                  opacity: expand,
+                  background:
+                    'linear-gradient(180deg, rgba(118,75,162,0.04) 0%, rgba(118,75,162,0.08) 100%)',
+                  borderBottom: '1px solid #F3F4F6',
+                }}
+              >
+                <div style={{ padding: '24px 32px' }}>
+                  <div
+                    style={{
+                      fontSize: 16,
+                      color: COLORS.muted,
+                      textTransform: 'uppercase',
+                      letterSpacing: 1,
+                      marginBottom: 18,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {detailLabel}
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                  >
+                    {EXPANDED_DETAILS.map((src, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          background: COLORS.white,
+                          borderRadius: 12,
+                          padding: '16px 20px',
+                          border: `1px solid ${COLORS.panelBorderSubtle}`,
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 700,
+                            color: COLORS.accent,
+                            textTransform: 'uppercase',
+                            letterSpacing: 1,
+                            marginBottom: 10,
+                          }}
+                        >
+                          {src.label}
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+                          {src.items.map(([k, v], j) => (
+                            <div key={j} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                              <span style={{ color: COLORS.muted, fontSize: 14 }}>{k}</span>
+                              <span style={{ color: COLORS.text, fontSize: 18, fontWeight: 500 }}>
+                                {v}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </React.Fragment>
+        );
+      })}
     </div>
   );
 };
@@ -60,84 +434,82 @@ export const SYSTEMS_MOBILE_EN_DURATION = 370;
 export const SystemsEngineeringVideoMobileEn: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bg, fontFamily: FONT.sans }}>
-      <div style={{ padding: '60px 32px 32px', display: 'flex', flexDirection: 'column' }}>
-        <Sequence from={8} layout="none">
-          <PhaseLabel label="Before" variant="before" enterFrame={0} />
-        </Sequence>
-
-        <Sequence from={22} layout="none">
-          <ProcessCard
-            title="Quoting"
-            items={['Spreadsheet via email', 'Manager approves on WhatsApp', '3-5 days']}
-            status={{ label: 'Manual', color: '#dc2626', bg: 'rgba(220,38,38,0.08)' }}
-            enterFrame={0}
-          />
-        </Sequence>
-
-        <Sequence from={42} layout="none">
-          <ProcessCard
-            title="Production"
-            items={['Verbal order', 'No traceability', 'Depends on 1 person']}
-            status={{ label: 'Fragile', color: '#d97706', bg: 'rgba(217,119,6,0.08)' }}
-            enterFrame={0}
-          />
-        </Sequence>
-
-        <Sequence from={62} layout="none">
-          <ProcessCard
-            title="Delivery"
-            items={['No post-sale tracking', 'Complaints by phone', 'No data']}
-            status={{ label: 'Opaque', color: '#dc2626', bg: 'rgba(220,38,38,0.08)' }}
-            enterFrame={0}
-          />
-        </Sequence>
-
-        <Sequence from={120} layout="none">
-          <div style={{ marginTop: 20 }}>
-            <PhaseLabel label="After" variant="after" enterFrame={0} />
-          </div>
-        </Sequence>
-
-        <Sequence from={135} layout="none">
-          <ProcessCard
-            title="Quoting"
-            items={['Web form → auto quote', 'Digital approval', 'Closed in hours']}
-            status={{ label: 'Automated', color: COLORS.accent, bg: COLORS.accentMuted }}
-            enterFrame={0}
-            highlight
-          />
-        </Sequence>
-
-        <Sequence from={160} layout="none">
-          <ProcessCard
-            title="Production"
-            items={['Order in the system', 'Full traceability', 'Anyone can operate']}
-            status={{ label: 'Delegable', color: COLORS.accent, bg: COLORS.accentMuted }}
-            enterFrame={0}
-            highlight
-          />
-        </Sequence>
-
-        <Sequence from={185} layout="none">
-          <ProcessCard
-            title="Delivery"
-            items={['Automatic client tracking', 'Post-delivery survey', 'Real-time dashboard']}
-            status={{ label: 'Measurable', color: COLORS.accent, bg: COLORS.accentMuted }}
-            enterFrame={0}
-            highlight
-          />
-        </Sequence>
-
-        <Sequence from={280} layout="none">
+      <AbsoluteFill
+        style={{
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          paddingTop: 90,
+        }}
+      >
+        <Sequence from={6} layout="none">
           <FadeIn enterFrame={0}>
-            <div style={{ marginTop: 16, padding: '18px 24px', borderRadius: 16, background: 'rgba(118,75,162,0.06)', border: '1px solid rgba(118,75,162,0.15)' }}>
-              <GradientText fontSize={26} fontWeight={600}>
+            <div
+              style={{
+                fontSize: 22,
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: 2,
+                color: COLORS.accent,
+                fontFamily: FONT.sans,
+                textAlign: 'center',
+                padding: '0 40px',
+              }}
+            >
+              From scattered systems to a single source of truth
+            </div>
+          </FadeIn>
+        </Sequence>
+      </AbsoluteFill>
+
+      <AbsoluteFill>
+        <SourceSheetCard sheet={SOURCES[0]} enterFrame={20} convergeFrame={150} />
+        <SourceSheetCard sheet={SOURCES[1]} enterFrame={36} convergeFrame={150} />
+        <SourceSheetCard sheet={SOURCES[2]} enterFrame={52} convergeFrame={150} />
+      </AbsoluteFill>
+
+      <AbsoluteFill
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 80,
+        }}
+      >
+        <Sequence from={175} layout="none">
+          <UnifiedTable
+            rowsStartFrame={20}
+            expandFrame={70}
+            title="Unified system"
+            liveLabel="live"
+            detailLabel="Normalized data • 3 sources"
+          />
+        </Sequence>
+      </AbsoluteFill>
+
+      <AbsoluteFill
+        style={{
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          paddingBottom: 90,
+        }}
+      >
+        <Sequence from={300} layout="none">
+          <FadeIn enterFrame={0}>
+            <div
+              style={{
+                padding: '24px 36px',
+                borderRadius: 18,
+                background: 'rgba(118,75,162,0.06)',
+                border: '1px solid rgba(118,75,162,0.15)',
+                margin: '0 40px',
+              }}
+            >
+              <GradientText fontSize={36} fontWeight={600}>
                 Your company runs without depending on you.
               </GradientText>
             </div>
           </FadeIn>
         </Sequence>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
