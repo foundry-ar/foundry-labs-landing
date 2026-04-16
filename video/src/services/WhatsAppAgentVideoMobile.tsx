@@ -16,10 +16,10 @@ const WaMessage: React.FC<{
   const progress = spring({ frame: frame - enterFrame, fps: FPS, config: { damping: 28, stiffness: 140, mass: 0.6 } });
   const isCustomer = from === 'customer';
   return (
-    <div style={{ display: 'flex', justifyContent: isCustomer ? 'flex-start' : 'flex-end', marginBottom: 8, opacity: progress, transform: `translateY(${(1 - progress) * 4}px)` }}>
-      <div style={{ maxWidth: '82%', background: isCustomer ? '#ffffff' : '#dcf8c6', borderRadius: 12, padding: '10px 14px 6px', boxShadow: '0 1px 2px rgba(0,0,0,0.08)', fontFamily: FONT.sans }}>
-        <span style={{ fontSize: 22, color: '#111', lineHeight: 1.4, display: 'block' }}>{text}</span>
-        <span style={{ fontSize: 16, color: '#999', display: 'block', textAlign: 'right', marginTop: 2 }}>{time}</span>
+    <div style={{ display: 'flex', justifyContent: isCustomer ? 'flex-start' : 'flex-end', marginBottom: 12, opacity: progress, transform: `translateY(${(1 - progress) * 4}px)` }}>
+      <div style={{ maxWidth: '82%', background: isCustomer ? '#ffffff' : '#dcf8c6', borderRadius: 16, padding: '14px 18px 8px', boxShadow: '0 1px 2px rgba(0,0,0,0.08)', fontFamily: FONT.sans }}>
+        <span style={{ fontSize: 30, color: '#111', lineHeight: 1.4, display: 'block' }}>{text}</span>
+        <span style={{ fontSize: 20, color: '#999', display: 'block', textAlign: 'right', marginTop: 4 }}>{time}</span>
       </div>
     </div>
   );
@@ -35,22 +35,51 @@ const TypingBubble: React.FC<{ enterFrame?: number; exitFrame?: number }> = ({ e
     return interpolate(cycle, [i * 5, i * 5 + 6, i * 5 + 12], [0.3, 1, 0.3], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   };
   return (
-    <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8, opacity: appear * fadeOut }}>
-      <div style={{ background: '#dcf8c6', borderRadius: 12, padding: '12px 16px', display: 'flex', gap: 5 }}>
+    <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12, opacity: appear * fadeOut }}>
+      <div style={{ background: '#dcf8c6', borderRadius: 16, padding: '16px 22px', display: 'flex', gap: 7 }}>
         {[0, 1, 2].map((i) => (
-          <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: '#6b7280', opacity: dotOpacity(i) }} />
+          <div key={i} style={{ width: 11, height: 11, borderRadius: '50%', background: '#6b7280', opacity: dotOpacity(i) }} />
         ))}
       </div>
     </div>
   );
 };
 
+const WaInputBar: React.FC<{ placeholder: string }> = ({ placeholder }) => (
+  <div style={{ background: '#f0f0f0', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
+    <div style={{ flex: 1, background: '#ffffff', borderRadius: 999, padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8696a0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+        <line x1="9" y1="9" x2="9.01" y2="9" />
+        <line x1="15" y1="9" x2="15.01" y2="9" />
+      </svg>
+      <span style={{ flex: 1, color: '#8696a0', fontSize: 24, fontFamily: FONT.sans }}>{placeholder}</span>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8696a0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+      </svg>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8696a0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+        <circle cx="12" cy="13" r="4" />
+      </svg>
+    </div>
+    <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#075e54', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="#ffffff" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+        <line x1="12" y1="19" x2="12" y2="23" />
+        <line x1="8" y1="23" x2="16" y2="23" />
+      </svg>
+    </div>
+  </div>
+);
+
 const AgentStep: React.FC<{ number: string; label: string; detail: string }> = ({ number, label, detail }) => (
-  <div style={{ display: 'flex', gap: 14, marginBottom: 18 }}>
-    <span style={{ fontSize: 28, fontWeight: 700, color: COLORS.accent, fontFamily: FONT.sans, minWidth: 36 }}>{number}</span>
+  <div style={{ display: 'flex', gap: 22, marginBottom: 28 }}>
+    <span style={{ fontSize: 44, fontWeight: 700, color: COLORS.accent, fontFamily: FONT.sans, minWidth: 60 }}>{number}</span>
     <div>
-      <div style={{ fontSize: 32, fontWeight: 600, color: COLORS.text, marginBottom: 4 }}>{label}</div>
-      <div style={{ fontSize: 26, color: COLORS.secondary, lineHeight: 1.4 }}>{detail}</div>
+      <div style={{ fontSize: 46, fontWeight: 600, color: COLORS.text, marginBottom: 8 }}>{label}</div>
+      <div style={{ fontSize: 36, color: COLORS.secondary, lineHeight: 1.4 }}>{detail}</div>
     </div>
   </div>
 );
@@ -64,25 +93,25 @@ export const WhatsAppAgentVideoMobile: React.FC = () => {
       <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 40 }}>
         <div
           style={{
-            width: 620,
-            height: 920,
-            borderRadius: 40,
+            width: 840,
+            height: 1200,
+            borderRadius: 48,
             overflow: 'hidden',
             background: '#e5ddd5',
-            border: '6px solid #1a1a1a',
+            border: '8px solid #1a1a1a',
             display: 'flex',
             flexDirection: 'column',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.08)',
+            boxShadow: '0 24px 48px rgba(0,0,0,0.1)',
           }}
         >
           {/* WhatsApp header */}
-          <div style={{ background: '#075e54', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 32, height: 32, borderRadius: '50%', background: COLORS.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ color: '#fff', fontSize: 16, fontWeight: 700 }}>F</span>
+          <div style={{ background: '#075e54', padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ width: 48, height: 48, borderRadius: '50%', background: COLORS.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ color: '#fff', fontSize: 24, fontWeight: 700 }}>F</span>
             </div>
             <div>
-              <div style={{ color: '#fff', fontSize: 20, fontWeight: 600 }}>TechStore Soporte</div>
-              <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16 }}>en línea</div>
+              <div style={{ color: '#fff', fontSize: 28, fontWeight: 600 }}>TechStore Soporte</div>
+              <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 22 }}>en línea</div>
             </div>
           </div>
 
@@ -90,7 +119,7 @@ export const WhatsAppAgentVideoMobile: React.FC = () => {
           <div
             style={{
               flex: 1,
-              padding: '14px 12px',
+              padding: '20px 18px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'flex-end',
@@ -116,14 +145,16 @@ export const WhatsAppAgentVideoMobile: React.FC = () => {
               <WaMessage from="agent" text="Según el tracking, la entrega estimada es el jueves 12 entre las 9 y 14 hs. ¿Necesitás algo más?" time="10:24" enterFrame={0} />
             </Sequence>
           </div>
+
+          <WaInputBar placeholder="Mensaje" />
         </div>
       </div>
 
       {/* Agent steps below the phone */}
-      <div style={{ padding: '30px 48px 0' }}>
+      <div style={{ padding: '40px 56px 0' }}>
         <Sequence from={110} layout="none">
           <FadeIn enterFrame={0}>
-            <div style={{ fontSize: 24, fontWeight: 600, color: COLORS.muted, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 18 }}>
+            <div style={{ fontSize: 32, fontWeight: 600, color: COLORS.muted, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 26 }}>
               Lo que hace el agente
             </div>
           </FadeIn>
@@ -149,8 +180,8 @@ export const WhatsAppAgentVideoMobile: React.FC = () => {
 
         <Sequence from={340} layout="none">
           <FadeIn enterFrame={0}>
-            <div style={{ marginTop: 10, padding: '16px 20px', borderRadius: 16, background: 'rgba(184,99,46,0.06)', border: '1px solid rgba(184,99,46,0.15)' }}>
-              <GradientText fontSize={30} fontWeight={600}>
+            <div style={{ marginTop: 20, padding: '24px 30px', borderRadius: 22, background: 'rgba(184,99,46,0.06)', border: '1px solid rgba(184,99,46,0.15)' }}>
+              <GradientText fontSize={42} fontWeight={600}>
                 Soporte 24/7, sin equipo extra.
               </GradientText>
             </div>
