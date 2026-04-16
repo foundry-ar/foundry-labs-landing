@@ -93,12 +93,12 @@ export const WhatsAppAgentVideoMobile: React.FC = () => {
       <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 40 }}>
         <div
           style={{
-            width: 840,
-            height: 1200,
-            borderRadius: 48,
+            width: 760,
+            height: 1560,
+            borderRadius: 60,
             overflow: 'hidden',
             background: '#e5ddd5',
-            border: '8px solid #1a1a1a',
+            border: '10px solid #1a1a1a',
             display: 'flex',
             flexDirection: 'column',
             boxShadow: '0 24px 48px rgba(0,0,0,0.1)',
@@ -151,7 +151,7 @@ export const WhatsAppAgentVideoMobile: React.FC = () => {
       </div>
 
       {/* Agent steps below the phone */}
-      <div style={{ padding: '40px 56px 0' }}>
+      <div style={{ padding: '50px 56px 0' }}>
         <Sequence from={110} layout="none">
           <FadeIn enterFrame={0}>
             <div style={{ fontSize: 32, fontWeight: 600, color: COLORS.muted, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 26 }}>

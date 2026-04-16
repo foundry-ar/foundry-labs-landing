@@ -92,9 +92,11 @@ export function ServicePlayer({ slug }: { slug: string }) {
 
   const durationInFrames = durations[slug] ?? 370
   const isEnterpriseAI = slug === 'enterprise-ai' || slug === 'ia-empresarial'
+  const isWhatsApp = slug === 'whatsapp-agents' || slug === 'agentes-whatsapp'
 
   const compositionWidth = isMobile ? 1080 : 1920
-  const compositionHeight = isMobile ? 1920 : 1080
+  const compositionHeight = isMobile ? (isWhatsApp ? 2400 : 1920) : 1080
+  const mobileAspect = isWhatsApp ? '1080 / 2400' : '3 / 5'
 
   useEffect(() => {
     setComponent(null) // Reset while loading correct composition
@@ -150,14 +152,18 @@ export function ServicePlayer({ slug }: { slug: string }) {
 
   if (!Component) {
     return (
-      <div className={`w-full rounded-xl bg-white/60 backdrop-blur-[10px] border border-white/80 animate-pulse ${isMobile ? 'aspect-[3/5] mx-auto' : 'aspect-video'}`} />
+      <div
+        className={`w-full rounded-xl bg-white/60 backdrop-blur-[10px] border border-white/80 animate-pulse ${isMobile ? 'mx-auto' : 'aspect-video'}`}
+        style={isMobile ? { aspectRatio: mobileAspect } : undefined}
+      />
     )
   }
 
   return (
     <div
       ref={containerRef}
-      className={`w-full rounded-xl overflow-hidden ${isMobile ? `aspect-[3/5] mx-auto ${isEnterpriseAI ? '' : '-mb-[15%]'}` : 'aspect-video'}`}
+      className={`w-full rounded-xl overflow-hidden ${isMobile ? `mx-auto ${isEnterpriseAI || isWhatsApp ? '' : '-mb-[15%]'}` : 'aspect-video'}`}
+      style={isMobile ? { aspectRatio: mobileAspect } : undefined}
     >
       <Player
         ref={playerRef}
