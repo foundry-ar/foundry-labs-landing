@@ -2,11 +2,11 @@ import Image from 'next/image'
 import type { Messages } from '@/messages'
 
 const logos = [
-  { src: '/rgg.svg', alt: 'RGG', width: 120, height: 40 },
-  { src: '/lb-finanzas.png', alt: 'LB Finanzas', width: 120, height: 40 },
-  { src: '/paytient.svg', alt: 'Paytient', width: 120, height: 40 },
-  { src: '/homevision.svg', alt: 'HomeVision', width: 120, height: 40 },
-  { src: '/eve.png', alt: 'Eve', width: 120, height: 40 },
+  { src: '/rgg.svg', alt: 'RGG', width: 120, height: 40, className: 'max-h-10' },
+  { src: '/lb-finanzas.png', alt: 'LB Finanzas', width: 120, height: 40, className: 'max-h-10' },
+  { src: '/paytient.svg', alt: 'Paytient', width: 120, height: 40, className: 'max-h-10' },
+  { src: '/homevision.svg', alt: 'HomeVision', width: 120, height: 40, className: 'max-h-10' },
+  { src: '/eve.png', alt: 'Eve', width: 200, height: 80, className: 'max-h-16' },
 ]
 
 export function LogoBar({ messages: m }: { messages: Messages }) {
@@ -28,7 +28,7 @@ export function LogoBar({ messages: m }: { messages: Messages }) {
                 width={logo.width}
                 height={logo.height}
                 loading="lazy"
-                className="object-contain max-h-10"
+                className={`object-contain ${logo.className}`}
               />
             </div>
           ))}
