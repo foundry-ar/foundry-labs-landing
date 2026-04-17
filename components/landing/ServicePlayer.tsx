@@ -95,8 +95,8 @@ export function ServicePlayer({ slug }: { slug: string }) {
   const isWhatsApp = slug === 'whatsapp-agents' || slug === 'agentes-whatsapp'
 
   const compositionWidth = isMobile ? 1080 : 1920
-  const compositionHeight = isMobile ? (isWhatsApp ? 2400 : 1920) : 1080
-  const mobileAspect = isWhatsApp ? '1080 / 2400' : '3 / 5'
+  const compositionHeight = isMobile ? (isWhatsApp ? 2700 : 1920) : 1080
+  const mobileAspect = isWhatsApp ? '1080 / 2700' : '3 / 5'
 
   useEffect(() => {
     setComponent(null) // Reset while loading correct composition
