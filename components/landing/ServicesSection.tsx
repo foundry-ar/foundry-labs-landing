@@ -22,9 +22,10 @@ export function ServicesSection({ messages: m, locale = 'es' }: Props) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {m.services.cards.map((service, i) => {
-            const href = locale === 'es'
-              ? `/servicios/${service.slug}`
-              : `/en/services/${service.slug}`
+            const isAgents = service.slug === 'agentes-whatsapp' || service.slug === 'whatsapp-agents'
+            const href = isAgents
+              ? (locale === 'es' ? '/agents' : '/en/agents')
+              : (locale === 'es' ? `/servicios/${service.slug}` : `/en/services/${service.slug}`)
             return (
               <ServiceCard
                 key={service.title}
