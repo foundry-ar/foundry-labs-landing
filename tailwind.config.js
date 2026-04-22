@@ -43,6 +43,18 @@ module.exports = {
           '0%, 100%': { transform: 'translateX(0)' },
           '50%': { transform: 'translateX(3px)' },
         },
+        'fade-in': {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'typing-dot': {
+          '0%, 60%, 100%': { opacity: '0.3', transform: 'scale(0.8)' },
+          '30%': { opacity: '1', transform: 'scale(1)' },
+        },
+        'tab-progress': {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' },
+        },
       },
     },
   },
